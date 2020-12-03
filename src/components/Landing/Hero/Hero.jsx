@@ -84,7 +84,7 @@ export default function Hero() {
           </Grid>
         </div>
         {/* ----------------------------------- Section 3 ------------------------------------------------ */}
-        <div className="section3 container">
+<!--         <div className="section3 container">
           <Typography variant="h3" direction="row" justify="center">
             What makes our our collection one of a kind
           </Typography>
@@ -99,7 +99,7 @@ export default function Hero() {
               <AcUnit />
             </Grid>
           </Grid>
-        </div>
+        </div> -->
       </Container>
     </div>
   );
