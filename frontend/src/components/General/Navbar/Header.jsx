@@ -11,9 +11,11 @@ import {
 } from "@material-ui/core";
 import { KeyboardArrowUp } from "@material-ui/icons";
 import * as React from "react";
-// import HideOnScroll from "./HideOnScroll";
 import SideDrawer from "./SideDrawer";
 import BackToTop from "./BackToTop";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Login from "../Login/Login";
+import Signup from "../Signup/Signup";
 
 const useStyles = makeStyles({
   navbarDisplayFlex: {
@@ -35,13 +37,13 @@ const useStyles = makeStyles({
   },
 });
 
-const navLinks = [
-  { title: `home`, path: `/` },
-  { title: `question`, path: `/question` },
-  { title: `my class`, path: `/my-class` },
-  { title: `login`, path: `/login` },
-  { title: `sign up`, path: `/sign-up` },
-];
+// const navLinks = [
+//   { title: `home`, path: `/` },
+//   { title: `question`, path: `/question` },
+//   { title: `my class`, path: `/my-class` },
+//   { title: `login`, path: `/login` },
+//   { title: `sign up`, path: `/sign-up` },
+// ];
 
 const Header = () => {
   const classes = useStyles();
@@ -64,18 +66,28 @@ const Header = () => {
                 aria-labelledby="main navigation"
                 className={classes.navListDisplayFlex}
               >
-                {navLinks.map(({ title, path }) => (
-                  <a href={path} key={title} className={classes.linkText}>
-                    <ListItem button>
-                      <ListItemText primary={title} />
-                    </ListItem>
-                  </a>
-                ))}
+                <Router>
+                  {/* {navLinks.map(({ title, path }) => ( */}
+                  {/* <a href={path} key={title} className={classes.linkText}> */}
+                  {/* <ListItem button> */}
+                  {/* <ListItemText primary={title} /> */}
+                  {/* </ListItem> */}
+                  {/* </a> */}
+                  {/* ))} */}
+                  <Route
+                    path="/login"
+                    component={Login}
+                    className={classes.linkText}
+                  />
+                  <Route
+                    path="/signup"
+                    component={Signup}
+                    className={classes.linkText}
+                  />
+                </Router>
               </List>
             </Hidden>
-            <Hidden mdUp>
-              <SideDrawer navLinks={navLinks} />
-            </Hidden>
+            <Hidden mdUp>{/* <SideDrawer navLinks={navLinks} /> */}</Hidden>
           </Container>
         </Toolbar>
       </AppBar>

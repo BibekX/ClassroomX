@@ -18,10 +18,14 @@ body {
 }
 
 .hero2_title {
-  padding: 7% 15%;
+  padding: 7% 10%;
 }
 
 .hero2_body {
   padding: 1rem 10% 1rem;
+}
+
+.feature_icon {
+  text-align: center;
 }
 /*# sourceMappingURL=Style.css.map */
