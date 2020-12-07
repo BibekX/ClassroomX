@@ -1,0 +1,23 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.hero1_body {
+  padding: 1rem 10% 0 0;
+}
+
+.hero2_title {
+  padding: 5% 10%;
+}
+
+.hero2_body {
+  padding: 1rem 10% 1rem;
+}
+
+.feature_icon {
+  text-align: center;
+}
+/*# sourceMappingURL=Landing.css.map */

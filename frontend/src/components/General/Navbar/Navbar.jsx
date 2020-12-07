@@ -1,126 +1,130 @@
-// import React, { useState } from "react";
-// import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-// import { makeStyles } from "@material-ui/core/styles";
-// import AppBar from "@material-ui/core/AppBar";
-// import Toolbar from "@material-ui/core/Toolbar";
-// import Typography from "@material-ui/core/Typography";
-// import Button from "@material-ui/core/Button";
-// import IconButton from "@material-ui/core/IconButton";
-// import CloseIcon from "@material-ui/icons/Close";
-// import MenuIcon from "@material-ui/icons/Menu";
+import React, { useState } from "react";
+import { Close, KeyboardArrowUp, AccountCircle } from "@material-ui/icons";
+import MenuIcon from "@material-ui/icons/Menu";
+import {
+  Switch,
+  FormControlLabel,
+  FormGroup,
+  MenuItem,
+  Menu,
+  IconButton,
+  Fab,
+  Toolbar,
+} from "@material-ui/core";
+import MenuItems from "./MenuItems";
+import Popup from "../Popup/Popup";
+import Login from "../Login/Login";
+import Signup from "../Signup/Signup";
+import BackToTop from "./BackToTop";
+import "./Navbar.css";
+import { Link } from "react-router-dom";
 
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     flexGrow: 1,
-//   },
-//   menuButton: {
-//     marginRight: theme.spacing(2),
-//   },
-//   title: {
-//     flexGrow: 1,
-//   },
-// }));
+export default function Navbar() {
+  const [clicked, setClicked] = useState(false);
+  const [auth, setAuth] = React.useState(true);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
 
-// export default function Navbar() {
-//   const [click, setClick] = useState(false);
-//   const handleClick = () => setClick(!click);
-//   const closeMenu = () => setClick(false);
+  const handleChange = (event) => {
+    setAuth(event.target.checked);
+  };
 
-//   const classes = useStyles();
-//   return (
-//     <div className={classes.root}>
-//       <AppBar position="static">
-//         <Toolbar>
-//           <Router>
-//             {/* <Link to="/" className="navbar-brand">
-//               ClassroomX
-//             </Link> */}
-//             <IconButton
-//               edge="start"
-//               className={classes.menuButton}
-//               onClick={handleClick}
-//               color="inherit"
-//               aria-label="menu"
-//             >
-//               {click ? <CloseIcon /> : <MenuIcon />}
-//             </IconButton>
-//             <Typography variant="h6" className={classes.title}>
-//               ClassroomX
-//             </Typography>
-//             {/* <ul className={click ? "nav-menu active" : "nav-menu"}>
-//               <li className="nav-item">
-//                 <Link to="/" className="nav-links" onClick={closeMenu}>
-//                   Home
-//                 </Link>
-//               </li>
-//               <li className="nav-item">
-//                 <Link to="/question" className="nav-links" onClick={closeMenu}>
-//                   Question
-//                 </Link>
-//               </li>
-//               <li className="nav-item">
-//                 <Link to="/my-class" className="nav-links" onClick={closeMenu}>
-//                   My Class
-//                 </Link>
-//               </li>
-//             </ul> */}
-//             <Menu></Menu>
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-//             <Button
-//               variant="outlined"
-//               color="inherit"
-//               className={classes.menuButton}
-//             >
-//               Login
-//             </Button>
-//             <Button
-//               variant="contained"
-//               style={{ backgroundColor: "purple", color: "white" }}
-//               className={classes.menuButton}
-//             >
-//               Sign up
-//             </Button>
-//           </Router>
-//         </Toolbar>
-//       </AppBar>
-//     </div>
-//   );
-// }
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-// // export default function ButtonAppBar() {
-// //   const classes = useStyles();
+  const handleClick = () => setClicked(!clicked);
 
-// //   return (
-// //     <div className={classes.root}>
-// //       <AppBar position="static">
-// //         <Toolbar>
-// //           {/* <IconButton
-// //             edge="start"
-// //             className={classes.menuButton}
-// //             color="inherit"
-// //             aria-label="menu"
-// //           >
-// //             <MenuIcon />
-// //           </IconButton> */}
-// //           <Typography variant="h6" className={classes.title}>
-// //             ClassroomX
-// //           </Typography>
-// //           <Button
-// //             variant="outlined"
-// //             color="inherit"
-// //             className={classes.menuButton}
-// //           >
-// //             Login
-// //           </Button>
-// //           <Button
-// //             variant="contained"
-// //             style={{ backgroundColor: "white", color: "black" }}
-// //             className={classes.menuButton}
-// //           >
-// //             Sign up
-// //           </Button>
-// //         </Toolbar>
-// //       </AppBar>
-// //     </div>
-// //   );
-// // }
+  return (
+    <div>
+      <nav className="NavbarItems">
+        <Link to="/">
+          <img className="navbar-logo" src="./img/logo/final.png" alt="logo" />
+        </Link>
+        <div className="user-profile">
+          {auth ? (
+            <div>
+              <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+              >
+                <AccountCircle fontSize="large" />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={open}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>Log out</MenuItem>
+              </Menu>
+            </div>
+          ) : (
+            <div>
+              <div className="inner">
+                <Popup buttonName="Login" display={<Login />} />
+              </div>
+              <div className="inner">
+                <Popup buttonName="Sign up" display={<Signup />} />
+              </div>
+            </div>
+          )}
+        </div>
+        <div className="menu-icon" onClick={handleClick}>
+          {clicked ? (
+            <Close className="close-icon" />
+          ) : (
+            <MenuIcon className="bar-icon" />
+          )}
+        </div>
+
+        <ul className={clicked ? "nav-menu active" : "nav-menu"}>
+          {MenuItems.map((item, index) => {
+            return (
+              <li key={index}>
+                <Link className={item.cName} to={item.link}>
+                  {item.title}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+
+      <Toolbar id="back-to-top-anchor" />
+      <FormGroup>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={auth}
+              onChange={handleChange}
+              aria-label="login switch"
+            />
+          }
+        />
+      </FormGroup>
+      <BackToTop>
+        <Fab color="secondary" size="large" aria-label="scroll back to top">
+          <KeyboardArrowUp />
+        </Fab>
+      </BackToTop>
+    </div>
+  );
+}

@@ -1,34 +1,27 @@
-import React from "react";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
+import React, { useState } from "react";
+import {
+  Avatar,
+  Button,
+  CssBaseline,
+  TextField,
+  Link,
+  Grid,
+  Box,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  FormHelperText,
+} from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        ClassroomX
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import Copyright from "../Copyright/Copyright";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(5),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -44,10 +37,22 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  margin: {
+    margin: theme.spacing(1),
+  },
+  formControl: {
+    margin: theme.spacing(2, 0, 0),
+    minWidth: 170,
+  },
 }));
 
 export default function SignUp() {
   const classes = useStyles();
+
+  const [institute, setInstitute] = useState("");
+  const handleChange = (event) => {
+    setInstitute(event.target.value);
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -59,29 +64,34 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
+        <FormControl variant="outlined" className={classes.formControl}>
+          <InputLabel id="select-label">Institute</InputLabel>
+          <Select
+            labelId="select-label"
+            id="select"
+            value={institute}
+            required
+            onChange={handleChange}
+            // input={<BootstrapInput />}
+            label="Institute"
+          >
+            <MenuItem value="Xccelerate">Xccelerate</MenuItem>
+            <MenuItem value="HackerRank">HackerRank</MenuItem>
+            <MenuItem value="Brainstation">Brainstation</MenuItem>
+          </Select>
+          <FormHelperText>Required</FormHelperText>
+        </FormControl>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete="uname"
               />
             </Grid>
             <Grid item xs={12}>
