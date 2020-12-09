@@ -16,6 +16,8 @@ function CreateQuestion(props) {
     content: "",
   });
 
+  const [files, setFiles] = useState([]);
+
   function handleTextChange(event) {
     const { name, value } = event.target;
     setText((prevValue) => {
@@ -26,14 +28,17 @@ function CreateQuestion(props) {
     });
   }
 
+  function onFilesChange(files) {
+    setFiles(files);
+  }
+
   function submitPost(event) {
     props.onAdd(text);
     setText({
       title: "",
       content: "",
     });
-    // setFiles(files);
-    event.preventDefault();
+    // event.preventDefault();
   }
 
   return (
@@ -74,9 +79,9 @@ function CreateQuestion(props) {
                   />
                   <Typography variant="body1">Body</Typography>
                   <ReactQuill
+                    onEditorChange={handleTextChange}
                     name="content"
-                    // onEditorChange={handleTextChange}
-                    // onFilesChange={submitPost}
+                    onFilesChange={onFilesChange}
                     value={text.content}
                     placeholder={
                       "Explain your question in detail like you're explaining it to someone"
@@ -89,7 +94,7 @@ function CreateQuestion(props) {
                   />
 
                   <div style={{ textAlign: "right" }}>
-                    <Link to="/postquestion">
+                    <Link to="/postquestion" style={{ textDecoration: "none" }}>
                       <Button
                         variant="contained"
                         color="primary"
