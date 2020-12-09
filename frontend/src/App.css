@@ -1,4 +1,10 @@
+html {
+  scroll-behavior: smooth;
+}
 
+body {
+  font-family: 'Lato', 'Arial', sans-serif;
+}
 
 .App-logo {
   height: 40vmin;

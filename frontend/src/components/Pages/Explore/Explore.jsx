@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Container, Grid, Typography } from "@material-ui/core";
 import "./Style.scss";
 import information from "./Institute_Info/Info";
-import Cards from "./Cards/Cards";
+import Cards from "../../General/Cards/Cards";
 
 const useStyles = makeStyles({
   root: {
@@ -22,7 +22,7 @@ export default function Explore() {
           <Grid container spacing={5} justify="center">
             {/* ------------------------ Card -------------------------- */}
             {information.map((info) => (
-              <Grid item md={3}>
+              <Grid item md={4}>
                 <Cards
                   key={info.id}
                   title={info.title}

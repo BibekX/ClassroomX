@@ -5,8 +5,18 @@ const MenuItems = [
     cName: "nav-links",
   },
   {
+    title: "Institute",
+    link: "/institute",
+    cName: "nav-links",
+  },
+  {
+    title: "Course",
+    link: "/course",
+    cName: "nav-links",
+  },
+  {
     title: "Question",
-    link: "/",
+    link: "/questionflow",
     cName: "nav-links",
   },
   {

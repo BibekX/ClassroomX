@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container, Grid, Typography } from "@material-ui/core";
 import "./Institute.scss";
-import Cards from "./Cards/Cards";
+import Cards from "../../General/Cards/Cards";
 import Hero from "../../Hero/Hero";
 import information from "./Course_Info/Info";
 
@@ -36,7 +36,7 @@ export default function Institute() {
             link="https://xccelerate.co/"
             buttonTitle="Get Started"
             image="./img/card/Institute/Xccelerate/xccelerate.png"
-            cardSection="#card-container"
+            scroll="#card-container"
           />
         </div>
         {/* -------------------------------------------------- Section 2 -------------------------------------------------- */}

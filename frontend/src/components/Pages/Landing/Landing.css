@@ -9,6 +9,10 @@
   padding: 1rem 10% 0 0;
 }
 
+body {
+  font-family: 'Lato', 'Arial', sans-serif;
+}
+
 .hero2_title {
   padding: 5% 10%;
 }

@@ -13,23 +13,30 @@ const useStyles = makeStyles({
     fontWeight: 700,
     paddingTop: "6rem",
   },
+  hero1_body: {
+    paddingRight: "2rem",
+  },
 });
 
 export default function Hero(props) {
   const classes = useStyles();
   return (
-    <Grid container>
-      <Grid item md={4} sm={12}>
+    <Grid container justify="center">
+      <Grid item md={6} sm={12}>
         <Typography variant="h2" className={classes.heading_hero}>
           {props.title}
         </Typography>
-        <Typography variant="body1" className="hero1_body" align="justify">
+        <Typography
+          variant="body1"
+          className={classes.hero1_body}
+          align="justify"
+        >
           {props.body}
         </Typography>
         <Link className="instituteLink" href={props.link}>
           {props.link}
         </Link>
-        <Button variant="contained" color="primary" href={props.cardSection}>
+        <Button variant="contained" color="primary" href={props.scroll}>
           {props.buttonTitle}
         </Button>
       </Grid>

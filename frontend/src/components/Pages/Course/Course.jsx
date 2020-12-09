@@ -1,9 +1,9 @@
 import React from "react";
-import { makeStyles, fade } from "@material-ui/core/styles";
-import { Container, Grid, Typography, TextField } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { Container, Typography } from "@material-ui/core";
 import "./Style.scss";
 import Hero from "../../Hero/Hero";
-import SearchIcon from "@material-ui/icons/Search";
+import Table from "./Table/Table";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,21 +18,6 @@ const useStyles = makeStyles((theme) => ({
   heading_hero: {
     fontWeight: 700,
     paddingTop: "6rem",
-  },
-  searchContainer: {
-    display: "flex",
-    justifyContent: "center",
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    padding: "0 20px",
-    margin: "5px 0",
-  },
-  searchIcon: {
-    alignSelf: "flex-end",
-    marginBottom: "5px",
-  },
-  searchInput: {
-    width: "200px",
-    margin: "5px",
   },
 }));
 
@@ -50,22 +35,20 @@ export default function Institute() {
             link="https://xccelerate.co/course-detail/HK/FTSE"
             buttonTitle="Learn More"
             image="./img/card/Institute/Xccelerate/Course/Software Engineering/1.png"
+            scroll="#classroom-table"
           />
         </div>
         {/* -------------------------------------------------- Section 1 -------------------------------------------------- */}
         <div className="section-2 container">
-          <Typography className="heading_hero2" variant="h3">
+          <Typography
+            className="heading_hero2"
+            variant="h3"
+            id="classroom-table"
+          >
             Classrooms
           </Typography>
 
-          <div className={classes.searchContainer}>
-            <SearchIcon className={classes.searchIcon} />
-            <TextField
-              className={classes.searchInput}
-              label="Search"
-              variant="standard"
-            />
-          </div>
+          <Table />
         </div>
       </Container>
     </div>

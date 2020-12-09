@@ -3,13 +3,9 @@ import { Link } from "react-router-dom";
 import { Container, Grid, Typography, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Favorite, EmojiEmotions, Edit } from "@material-ui/icons";
-import Copyright from "../../General/Copyright/Copyright";
 import "./Landing.scss";
 
 const useStyles = makeStyles({
-  heading: {
-    paddingLeft: "10rem",
-  },
   heading_hero: {
     fontWeight: 700,
     paddingTop: "6rem",
@@ -49,7 +45,8 @@ export default function Landing() {
         {/* ----------------------------------- Section 1 ------------------------------------------------ */}
         <div className="section1 container">
           <Grid container direction="row" justify="center" spacing={5}>
-            <Grid item md={4} sm={12}>
+            <Grid item md={1}></Grid>
+            <Grid item md={4}>
               <Typography variant="h2" className={classes.heading_hero}>
                 Good Class Will Make Learning Fun
               </Typography>
@@ -62,42 +59,52 @@ export default function Landing() {
                 eiusmod tempor incididunt ut labore et dolore magna aliqua ipsum
                 dolor sit amet, consectetur adipiscing elit
               </Typography>
+              <div>
+                <Link to="/explore" style={{ textDecoration: "none" }}>
+                  <Button color="primary" variant="contained">
+                    Explore
+                  </Button>
+                </Link>
+              </div>
             </Grid>
-            <Grid item md={6} sm={12}>
+            <Grid item md={6}>
               <img
                 src="./img/background/hero.png"
                 alt="background"
                 className={classes.hero_image}
               />
             </Grid>
+            <Grid item md={1}></Grid>
           </Grid>
         </div>
         {/* ----------------------------------- Section 2 ------------------------------------------------ */}
         <div className="section2 container">
           <Grid container justify="center" className="hero2_title">
-            <Typography
-              container
-              variant="h3"
-              align="center"
-              className={classes.heading_hero2}
-            >
-              Collaborate with Students from Top Institutions
-            </Typography>
-            <Typography variant="body1" align="justify" className="hero2_body">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-              consequat enim orci, ut finibus mauris venenatis ut. Vivamus in
-              diam est. Proin varius lectus felis, sed tempor dolor faucibus at.
-              Duis facilisis pretium est sit amet ornare. Duis lorem risus,
-              varius a blandit quis, venenatis at ipsum. Cras a metus dignissim,
-              gravida enim a, convallis urna. Phasellus ante felis, tristique
-              nec felis et, faucibus convallis nunc.
-            </Typography>
-
-            <Link to="/explore" style={{ textDecoration: "none" }}>
-              <Button color="primary" variant="contained">
-                Explore
-              </Button>
-            </Link>
+            <Grid item md={1} sm={0}></Grid>
+            <Grid item md={10}>
+              <Typography
+                container
+                variant="h3"
+                align="center"
+                className={classes.heading_hero2}
+              >
+                Collaborate with Students from Top Institutions
+              </Typography>
+              <Typography
+                variant="body1"
+                align="justify"
+                className="hero2_body"
+              >
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
+                consequat enim orci, ut finibus mauris venenatis ut. Vivamus in
+                diam est. Proin varius lectus felis, sed tempor dolor faucibus
+                at. Duis facilisis pretium est sit amet ornare. Duis lorem
+                risus, varius a blandit quis, venenatis at ipsum. Cras a metus
+                dignissim, gravida enim a, convallis urna. Phasellus ante felis,
+                tristique nec felis et, faucibus convallis nunc.
+              </Typography>
+            </Grid>
+            <Grid item md={1} sm={0}></Grid>
           </Grid>
         </div>
         {/* ----------------------------------- Section 3 ------------------------------------------------ */}
@@ -112,7 +119,8 @@ export default function Landing() {
             <Typography variant="h3" className={classes.feature_title}>
               What makes our our collection one of a kind
             </Typography>
-            <Grid item lg={4} md={6} sm={12} alignItems="center">
+            <Grid item md={1}></Grid>
+            <Grid item lg={3} md={6} sm={12} alignItems="center">
               <div className="feature_icon">
                 <EmojiEmotions color="primary" className={classes.icon} />
               </div>
@@ -181,6 +189,7 @@ export default function Landing() {
                 at. Duis facilisis pretium est sit amet ornare.
               </Typography>
             </Grid>
+            <Grid item md={1}></Grid>
           </Grid>
         </div>
 
@@ -193,9 +202,6 @@ export default function Landing() {
             </Typography>
           </Grid>
         </div>
-        <footer>
-          <Copyright />
-        </footer>
       </Container>
     </div>
   );

@@ -6,7 +6,7 @@ import {
   FormControlLabel,
   FormGroup,
   MenuItem,
-  Menu,
+  Popover,
   IconButton,
   Fab,
   Toolbar,
@@ -57,24 +57,24 @@ export default function Navbar() {
               >
                 <AccountCircle fontSize="large" />
               </IconButton>
-              <Menu
+              <Popover
                 id="menu-appbar"
                 anchorEl={anchorEl}
                 anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
+                  vertical: "bottom",
+                  horizontal: "left",
                 }}
                 keepMounted
                 transformOrigin={{
                   vertical: "top",
-                  horizontal: "right",
+                  horizontal: "left",
                 }}
                 open={open}
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>Log out</MenuItem>
-              </Menu>
+              </Popover>
             </div>
           ) : (
             <div>

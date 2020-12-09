@@ -12,11 +12,11 @@ import {
   FormControl,
   InputLabel,
   FormHelperText,
+  Typography,
+  Container,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
 import Copyright from "../Copyright/Copyright";
 
 const useStyles = makeStyles((theme) => ({
@@ -67,17 +67,18 @@ export default function SignUp() {
         <FormControl variant="outlined" className={classes.formControl}>
           <InputLabel id="select-label">Institute</InputLabel>
           <Select
+            native
             labelId="select-label"
             id="select"
             value={institute}
             required
             onChange={handleChange}
-            // input={<BootstrapInput />}
             label="Institute"
           >
-            <MenuItem value="Xccelerate">Xccelerate</MenuItem>
-            <MenuItem value="HackerRank">HackerRank</MenuItem>
-            <MenuItem value="Brainstation">Brainstation</MenuItem>
+            <option aria-label="None" value="" />
+            <option value="Xccelerate">Xccelerate</option>
+            <option value="HackerRank">HackerRank</option>
+            <option value="Brainstation">Brainstation</option>
           </Select>
           <FormHelperText>Required</FormHelperText>
         </FormControl>
