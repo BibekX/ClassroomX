@@ -17,10 +17,17 @@ export default function QuestionFlow() {
     <div>
       <Container maxWidth="xl">
         <Grid container justify="center">
-          <Typography variant="h2">QuestionFlow</Typography>
+          <Typography variant="h2" style={{ fontWeight: 500, fontSize: "5em" }}>
+            QuestionFlow
+          </Typography>
           <InputBase
             classes={styles}
-            style={{ width: "80%", margin: "2rem 0" }}
+            style={{
+              width: "80%",
+              margin: "2rem 0",
+              // color: "#fff",
+              backgroundColor: "#121212",
+            }}
             placeholder={"Search Questions"}
             startAdornment={<SearchIcon />}
           />

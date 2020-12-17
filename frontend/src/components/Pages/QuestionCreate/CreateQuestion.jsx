@@ -7,7 +7,7 @@ import {
   Button,
 } from "@material-ui/core";
 import ReactQuill from "react-quill";
-import "./AskQuestion.scss";
+import "./CreateQuestion.css";
 import { Link } from "react-router-dom";
 
 function CreateQuestion(props) {
