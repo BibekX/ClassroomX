@@ -26,19 +26,11 @@ app.get("/", (req, res) => {
     })
 })
 
-//Institution Portal - Login Page/Register Page - for now only list of institutions and their details
-app.get("/login", (req, res) => {
-    let institutions = landingservice.getInstitutions();
-    res.render("login", {
-        institutions: institutions
-    })
-})
-
 //Institution Mainpage - in this case :institution is the specific institution's name in the database
 const InstitutionService = require("./services/InstitutionService");
 const institutionService = new InstitutionService(knex);
 
-app.get('/institutions/:institution', (req, res) => {
+app.get('/institution/:institution', (req, res) => {
     let institutionDetails = institutionService.getInstitutionDetails(req.params.institution);
     res.render("institution", {
         institutionDetails: institutionDetails
@@ -52,7 +44,7 @@ const courseService = new CourseService(knex);
 app.get('/course/:course', (req, res) => {
     let courseDetails = courseService.getCourseDetails(req.params.course);
     res.render("course", {
-        courseDetails : courseDetails
+        courseDetails: courseDetails
     })
 })
 
@@ -64,7 +56,7 @@ const classService = new ClassService(knex);
 app.get('/class/:class', (req, res) => {
     let classDetails = classService.getClassDetails(req.params.class);
     res.render("class", {
-        classDetails : classDetails
+        classDetails: classDetails
     })
 })
 
@@ -76,7 +68,7 @@ const accountService = new AccountService(knex);
 app.get('/account/:name', (req, res) => {
     let accountDetails = accountService.getAccountDetails(req.params.name);
     res.render("account", {
-        accountDetails : accountDetails
+        accountDetails: accountDetails
     })
 })
 
@@ -88,13 +80,287 @@ const questionService = new QuestionService(knex);
 app.get('/question/:question', (req, res) => {
     let questionDetails = questionService.getQuestionDetails(req.params.question);
     res.render("question", {
-        questionDetails : questionDetails
+        questionDetails: questionDetails
     })
 })
 
 
-//Search Page - 
+//Search Page
 
+const SearchService = require("./services/SearchService");
+const searchService = new SearchService(knex);
+
+app.get('/search', (req, res) => {
+    res.render("search")
+})
+
+app.post('/search', (req, res) => {
+    let searchDetails = searchService.getSearchDetails(req.query.search)
+    res.json(searchDetails)
+})
+
+
+
+//POST routes:
+
+
+// Post - Need JWT details to figure out how to make the login and register work properly, skip over this for now.
+const NewUsers = require("./services/PostRoutes/NewUsers");
+const newUsers = new NewUsers(knex);
+
+app.post("/register", (req, res) => {
+    console.log("Post = ", req.body)
+    return newUsers
+        .register(req.body)
+        .then("Login")
+        .catch((err) => res.status(500).json(err));
+})
+app.post("/login")
+
+
+//Route for changing user details - Not sure how auth would happen, need to figure that out later for all POST routes
+const PostAccounts = require("./services/PostRoutes/PostAccounts");
+const postAccounts = new PostAccounts(knex);
+
+app.post("/modifyuser/:user", (req, res) => {
+    console.log("Post = ", req.body)
+    return postAccounts
+        .modifyUser(req.body)
+        .then(() => {
+            res.redirect('back');
+            res.end()
+        })
+        .catch((err) => res.status(500).json(err));
+})
+
+//Routes for adding new users to specific pages
+app.post("/instNewUser", (req, res) => {
+    console.log("Post =", req.body)
+    return postAccounts
+        .addInstUser(req.body)
+        .then(() => {
+            res.redirect('back');
+            res.end()
+        })
+})
+
+app.post("/courseNewUser", (req, res) => {
+    console.log("Post =", req.body)
+    return postAccounts
+        .addCourseUser(req.body)
+        .then(() => {
+            res.redirect('back');
+            res.end()
+        })
+})
+
+app.post("/classNewUser", (req, res) => {
+    console.log("Post =", req.body)
+    return postAccounts
+        .addClassUser(req.body)
+        .then(() => {
+            res.redirect('back');
+            res.end()
+        })
+})
+
+
+
+//New Institution, Class, Course
+const PostPages = require("./services/PostRoutes/PostPages");
+const postPages = new PostPages(knex);
+
+app.post("/newInst", async (req, res) => {
+    console.log("New Institution:", req.body.newName)
+    return postPages
+        .newInst(req.body)
+        .then(() => {
+            res.redirect('back');
+            res.end()
+        })
+})
+
+app.post("/newCourse", async (req, res) => {
+    console.log("New Course:", req.body.newName)
+    return postPages
+        .newCourse(req.body)
+        .then(() => {
+            res.redirect('back');
+            res.end()
+        })
+})
+
+app.post("/newClass", async (req, res) => {
+    console.log("New Class:", req.body.newName)
+    return postPages
+        .newClass(req.body)
+        .then(() => {
+            res.redirect('back');
+            res.end();
+        })
+})
+
+
+
+app.post("/modifyInst/:institution", async (req, res) => {
+    console.log(`Modifying This Institution`)
+    return postPages
+        .modifyInst({
+            name: req.params.institution,
+            body: req.body
+        })
+        .then(() => {
+            res.redirect('back');
+            res.end();
+        })
+})
+
+app.post("/modifyCourse/:course", async (req, res) => {
+    console.log(`Modifying This Course`)
+    return postPages
+        .modifyCourse({
+            name: req.params.course,
+            body: req.body
+        })
+        .then(() => {
+            res.redirect('back');
+            res.end();
+        })
+})
+
+app.post("/modifyClass/:class", async (req, res) => {
+    console.log(`Modifying This Class`)
+    return postPages
+        .modifyClass({
+            name: req.params.class,
+            body: req.body
+        })
+        .then(() => {
+            res.redirect('back');
+            res.end();
+        })
+})
+
+
+
+
+//New Note
+const PostNotes = require("./services/PostRoutes/PostNotes");
+const postNotes = new PostNotes(knex);
+
+app.post("/newNote", async (req, res) => {
+    console.log("New Note:", req.body.details.title)
+    return postNotes
+        .newNote(req.body)
+        .then(() => {
+            res.end()
+        })
+})
+
+app.post("/modifyNote/:note", async (req, res) => {
+    console.log("Modifying this Note")
+    return postNotes
+    .modifyNote({
+        name : req.params.note,
+        body : req.body
+    })
+    .then(()=>{
+        res.redirect("back");
+        res.end()
+    })
+})
+
+
+
+
+
+//Question
+const PostQuestions = require("./services/PostRoutes/PostQuestions");
+const postQuestions = new PostQuestions(knex);
+
+app.post("/newQuestion", async (req, res) => {
+    console.log("New Question:", req.body.details.title)
+    return postQuestions
+        .newQuestion(req.body)
+        .then(() => {
+            res.end()
+        })
+})
+
+app.post("/modifyQuestion/:question", async (req, res) => {
+    console.log(`Modifying This Question`)
+    return postPages
+        .modifyQuestion({
+            name: req.params.question,
+            body: req.body
+        })
+        .then(() => {
+            res.redirect('back');
+            res.end();
+        })
+})
+
+app.post("/upvoteQuestion/:question")
+
+
+
+//Answer
+const PostAnswers = require("./services/PostRoutes/PostAnswers");
+const postAnswers = new PostAnswers(knex);
+
+app.post("/newAnswer", async (req, res) => {
+    console.log("New Answer:", req.body.details.title)
+    return postAnswers
+        .newAnswer(req.body)
+        .then(() => {
+            res.end()
+        })
+})
+
+app.post("/modifyAnswer/:answer", async (req, res) => {
+    console.log(`Modifying This Answer`)
+    return postAnswers
+        .modifyAnswer({
+            name: req.params.answer,
+            body: req.body
+        })
+        .then(() => {
+            res.redirect('back');
+            res.end();
+        })
+})
+
+app.post("answerQuestion/:question", async (req, res) => {
+    console.log("This answer is now correct:", req.body)
+    return postAnswers
+        .answerQuestion(req.body)
+        .then(() => {
+            res.end()
+        })
+})
+
+//Answer to answer
+app.post("/newAtoa", async (req, res) => {
+    console.log("New answer to answer:", req.body)
+    return postAnswers
+        .newAtoA(req.body)
+        .then(() => {
+            res.end()
+        })
+})
+
+app.post("modifyAtoa/:atoa", async (req, res) => {
+    console.log(`Modifying This Atoa`)
+    return postAnswers
+        .modifyAtoa({
+            name: req.params.atoa,
+            body: req.body
+        })
+        .then(() => {
+            res.redirect('back');
+            res.end();
+        })
+})
 
 
 
@@ -102,147 +368,4 @@ app.get('/question/:question', (req, res) => {
 
 app.listen(8080, () => {
     console.log("Application listening to port 8080");
-  });
-  
-
-/*
-
-Still require:
-- JWT stuff for logging in, logging out
-- Checking for whether an account is logged in for access to specific pages, and account type for specific page functionalities
-
-
-POST routes:
-
-- New User
-    - Only from Register Page
-
-- Modify User
-    - Institution Mainpage - Add specific user to this institution
-    - Course Mainpage - Add specific user to this course
-    - Class Mainpage - Add specific user to this class
-    - User Mainpage - Change this user's details
-
-
-
-- New Institution??
-    - Not sure, maybe these should just be added manually to the database
-
-
-- New Course
-    - Institution Mainpage
-
-- Modify Course
-    - Course Mainpage - Change this course's details
-
-
-- New Class
-    - Course Mainpage
-
-- Modify Class
-    - Class Mainpage - Change this class's details
-
-
-
-- New Note
-    - Class Mainpage
-
-- Modify Note
-    - Class Mainpage - Teacher/Admin tool to remove this note
-    - Class Mainpage - Save changes made to Note to database
-
-
-
-- New Question
-    - Class Mainpage
-
-- Modify Question
-    - Class Mainpage - Teacher/Admin tool to remove this question
-    - Question Mainpage - Change this note's details
-    - Question Mainpage - Denote specific answer as correct
-
-
-
-- New Answer
-    - Question Mainpage
-
-- Modify Answer
-    - Question Mainpage - Change this answer's details
-    - Question Mainpage - denote specific answer to answer as correct
-
-
-
-- New Answer to Answer
-    - Question Mainpage
-
-- Modify A to A
-    - Question Mainpage
-
-
-
-
-Routes to be set up:
-
-
-Landing: 
-- GET - Actual Landing page 
-- GET - All institutions and details for the institution finder 
-
-
-Institution Portal/ Login:
-- GET - List of all institutions for drop-down menu
-- POST - Login details + LINK to institution page, make sure this user is a valid user for this institution
-- POST?? - Logout button
-- After user is logged in, should redirect to institution mainpage of selected institution
-
-
-Institution Mainpage:
-- GET - Picture, about details, announcements, other information
-- GET - Lists of admins, students, courses, classes, questions etc.
-- All of these should involve links etc. Teachers and Admins should be checked for extra functionality for this and all other pages going forwards
-- This page is publicly available - all links should redirect to the login page if the student is not logged in/ is not valid for this institution
-
-
-Course Mainpage:
-- GET - About/ pictures etc.
-- GET - list of students, teachers, classes, questions
-- As with the above, all these should be links
-
-
-Class Mainpage:
-- GET - Informational, class title, other details from db
-- GET - List of teachers and students
-        - These would be links into their individual account pages
-- GET - List of notes under this class, list of questions under this class
-- GET - List of Notes and Questions under this Class
-        - Each of these would be a further GET request, which stays on the same page but sends more data inwards into the React Page, which would then populate the middle of the page depending on the module being loaded
-- GET - Class Chatroom - Socket.io
-
-
-Course/ Class Search Page:
-- POST - Search Bar post request, searching the Class, Course and Notes in the db for the searched parameters
-
-
-Question Search Page:
-- POST - As above, but with Questions, and with different filtering options available.
-
-
-Single Question Page:
-- GET - All DB details on that specific question, the answers applicable to that question, the atoa for those answers, and all user details
-
-
-Account Page:
-- GET - All user info from DB
-- GET - Classes, Notes, Questions for that student from the Database
-
-*/
-
-
-
-
-
-
-
-
-
-
+});

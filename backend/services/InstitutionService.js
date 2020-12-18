@@ -1,3 +1,7 @@
+// Need to redo the Lists of Classes and Questions, to properly map them to the Courses/Classes that are their parent - ie. need to add logic if the Course contains no Class, and the Class contains no questions
+
+//Need a checker for services on all pages with editable content - to send back the type of user to the frontend so that we can check the editing priviliges of the specific user
+
 class InstitutionService {
     constructor(knex) {
         this.knex = knex;
@@ -25,7 +29,7 @@ class InstitutionService {
         let listOfQuestions = listOfClasses.map(x => this.getListOfQuestions(x))
 
         let resultObject = {
-            baseDetails: baseDetails,
+            baseDetails: baseDetails[0],
             listOfAdmins: listOfAdmins,
             listOfTeachers: listOfTeachers,
             listOfStudents: listOfStudents,
