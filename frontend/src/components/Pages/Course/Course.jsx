@@ -3,7 +3,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Container, Typography } from "@material-ui/core";
 import Hero from "../../General/Hero/Hero";
 import Table from "./ClassTable/Table";
-import courseHeroInfo from "../../Data/Course/Xccelerate/Course";
+import xccelerateCourse from "../../Data/Course/Xccelerate/Course";
+import brainStationCourse from "../../Data/Course/BrainStation/Course";
+import flatironCourse from "../../Data/Course/Flatiron School/Course";
 import { withRouter } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -40,12 +42,44 @@ const useStyles = makeStyles((theme) => ({
 
 function Course(props) {
   const data =
-    props.location.pathname === "/datascience"
+    props.location.pathname === "/xccelerate-datascience" ||
+    props.location.pathname === "/brainstation-data-science" ||
+    props.location.pathname === "/flatiron-cybersecurity-analytics"
       ? 0
-      : props.location.pathname === "/webdevelopment"
+      : props.location.pathname === "/xccelerate-webdevelopment" ||
+        props.location.pathname === "/brainstation-digital-leadership" ||
+        props.location.pathname === "/flatiron-cybersecurity-engineering"
       ? 1
-      : props.location.pathname === "/uxdesign"
+      : props.location.pathname === "/xccelerate-uxdesign" ||
+        props.location.pathname === "/brainstation-digital-marketing" ||
+        props.location.pathname === "/flatiron-datascience"
       ? 2
+      : props.location.pathname === "/brainstation-product-management" ||
+        props.location.pathname === "/flatiron-software-engineering"
+      ? 3
+      : props.location.pathname === "/brainstation-use-experience-design"
+      ? 4
+      : props.location.pathname === "/brainstation-web-development"
+      ? 5
+      : null;
+
+  const courseParent =
+    props.location.pathname === "/xccelerate-datascience" ||
+    props.location.pathname === "/xccelerate-webdevelopment" ||
+    props.location.pathname === "/xccelerate-uxdesign"
+      ? xccelerateCourse
+      : props.location.pathname === "/brainstation-data-science" ||
+        props.location.pathname === "/brainstation-digital-leadership" ||
+        props.location.pathname === "/brainstation-digital-marketing" ||
+        props.location.pathname === "/brainstation-product-management" ||
+        props.location.pathname === "/brainstation-use-experience-design" ||
+        props.location.pathname === "/brainstation-web-development"
+      ? brainStationCourse
+      : props.location.pathname === "/flatiron-cybersecurity-analytics" ||
+        props.location.pathname === "/flatiron-datascience" ||
+        props.location.pathname === "/flatiron-cybersecurity-engineering" ||
+        props.location.pathname === "/flatiron-software-engineering"
+      ? flatironCourse
       : null;
   // const [courseHero, setCourseHero] = useState({
   //   title: { courseHeroInfo },
@@ -55,19 +89,23 @@ function Course(props) {
   return (
     <div className={classes.root}>
       <Container maxWidth="xl">
-        {/* -------------------------------------------------- Section 1 -------------------------------------------------- */}
+        {/* -------------------------------------------------- Section 1 ---------------------------------------------- */}
         <div className="section-1 container">
           <Hero
-            title={courseHeroInfo[data].title}
-            content={courseHeroInfo[data].content}
-            url={courseHeroInfo[data].url}
+            title={courseParent[data].title}
+            content={courseParent[data].content}
+            url={courseParent[data].url}
             buttonTitle="Get Started"
-            image={courseHeroInfo[data].image}
-            scroll="#card-container"
+            image={courseParent[data].image}
+            scroll="#classroom-table"
           />
         </div>
         {/* -------------------------------------------------- Section 2 -------------------------------------------------- */}
-        <div className="section-2 container" id="classroom-table">
+        <div
+          className="section-2 container"
+          id="classroom-table"
+          style={{ paddingTop: "5em" }}
+        >
           <Typography
             variant="h3"
             style={{ textAlign: "center", fontWeight: 500, fontSize: "4rem" }}

@@ -125,7 +125,7 @@ export default function MembersList(props) {
           {Information.map(
             (info) =>
               info.username.toLowerCase().includes(filter) && (
-                <Grid container>
+                <Grid container key={info.id}>
                   <Grid item xs={10}>
                     <UserCard
                       image={info.image}

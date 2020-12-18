@@ -3,7 +3,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Container, Grid, Typography } from "@material-ui/core";
 import Cards from "../../General/Cards/Cards";
 import Hero from "../../General/Hero/Hero";
-import courseInfo from "../../Data/Course/Xccelerate/Course";
+import xccelerateCourse from "../../Data/Course/Xccelerate/Course";
+import brainStationCourse from "../../Data/Course/BrainStation/Course";
+import flatironCourse from "../../Data/Course/Flatiron School/Course";
 import MembersList from "./MembersList/MembersList";
 import instituteInfo from "../../Data/Institute/Institute";
 import { withRouter } from "react-router-dom";
@@ -45,14 +47,14 @@ const useStyles = makeStyles((theme) => ({
 
 function Institute(props) {
   const classes = useStyles();
-  const [edit, setEdit] = useState({
-    title: "",
-    content: "",
-    url: "",
-    image: "",
-  });
+  // const [edit, setEdit] = useState({
+  //   title: "",
+  //   content: "",
+  //   url: "",
+  //   image: "",
+  // });
   // const styles = useRowGutterStyles({ size: "1rem" });
-  const [component, setComponent] = useState({});
+  // const [component, setComponent] = useState({});
 
   const iData =
     props.location.pathname === "/xccelerate"
@@ -61,6 +63,15 @@ function Institute(props) {
       ? 1
       : props.location.pathname === "/flatiron"
       ? 2
+      : null;
+
+  const courseData =
+    props.location.pathname === "/xccelerate"
+      ? xccelerateCourse
+      : props.location.pathname === "/brainstation"
+      ? brainStationCourse
+      : props.location.pathname === "/flatiron"
+      ? flatironCourse
       : null;
 
   return (
@@ -79,7 +90,11 @@ function Institute(props) {
         </div>
 
         {/* -------------------------------------------------- Section 2 -------------------------------------------------- */}
-        <div className="section-2" id="card-container">
+        <div
+          className="section-2"
+          id="card-container"
+          style={{ paddingTop: "2em" }}
+        >
           <Grid container justify="center">
             <Grid item>
               <Typography variant="h3" className={classes.hero2_title}>
@@ -88,11 +103,10 @@ function Institute(props) {
             </Grid>
           </Grid>
           {/* ------------------------ Card -------------------------- */}
-          <Grid container spacing={5} justify="center">
-            {courseInfo.map((info) => (
-              <Grid item md={4} sm={6}>
+          <Grid container padding={5} spacing={5} justify="center">
+            {courseData.map((info) => (
+              <Grid item md={4} sm={6} key={info.id}>
                 <Cards
-                  key={info.id}
                   id={info.id}
                   title={info.title}
                   content={info.content}

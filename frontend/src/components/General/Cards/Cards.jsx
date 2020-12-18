@@ -1,14 +1,7 @@
 import React from "react";
-import {
-  Typography,
-  Card,
-  CardActionArea,
-  CardContent,
-  CardMedia,
-} from "@material-ui/core";
+import { Typography, Card, CardContent, CardMedia } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
-import "./Cards.css";
 
 const useStyles = makeStyles({
   root: {
@@ -34,7 +27,6 @@ export default function Cards(props) {
         to={props.link}
         style={{ textDecoration: "none", color: "inherit" }}
       >
-        {/* <CardActionArea> */}
         <CardMedia component="img" height="210" image={props.image} />
         <CardContent>
           <Typography
@@ -49,7 +41,6 @@ export default function Cards(props) {
             {props.content}
           </Typography>
         </CardContent>
-        {/* </CardActionArea> */}
       </Link>
     </Card>
   );

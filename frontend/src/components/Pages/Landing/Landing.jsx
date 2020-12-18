@@ -24,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "16px",
     },
   },
+  image: {
+    [theme.breakpoints.down("sm")]: {},
+  },
   container: {
     margin: "2em 0 7em",
   },
@@ -61,7 +64,7 @@ export default function Landing() {
       {/* ----------------------------------- Section 1 ------------------------------------------------ */}
       <div className={classes.container}>
         <Grid container>
-          <Grid item lg={6} md={5} sm={6}>
+          <Grid item lg={6} md={5} sm={12}>
             <Typography
               variant="h2"
               style={{
@@ -72,7 +75,7 @@ export default function Landing() {
               }}
               className={classes.mainTypo}
             >
-              Good class will make Learning fun
+              Every student can learn, just not the same way
             </Typography>
             <Hidden smDown>
               <Typography
@@ -94,12 +97,12 @@ export default function Landing() {
               </Link>
             </Hidden>
           </Grid>
-          <Grid item lg={6} md={7} sm={6}>
+          <Grid container lg={6} md={7} sm={12} justify="center">
             <img
               src="./img/background/hero.png"
               alt="background"
               style={{
-                paddingTop: "3em",
+                padding: "3em auto 0",
                 maxWidth: "50em",
                 width: "100%",
                 height: "auto",
@@ -109,29 +112,25 @@ export default function Landing() {
           </Grid>
         </Grid>
         <Hidden mdUp>
-          <Typography
-            variant="body1"
-            // align="justify"
-            style={{ width: "85%", margin: "2em 0" }}
-            align="center"
-            // className={classes.mainBody}
-          >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua ipsum
-            dolor sit amet, consectetur adipiscing elit
-          </Typography>
+          <Grid container justify="center">
+            <Typography
+              variant="body1"
+              style={{ width: "85%", margin: "2em 0" }}
+              align="center"
+              // className={classes.mainBody}
+            >
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua ipsum
+              dolor sit amet, consectetur adipiscing elit
+            </Typography>
+          </Grid>
         </Hidden>
       </div>
       {/* ----------------------------------- Section 2 ------------------------------------------------ */}
       <div className={classes.container}>
         <Grid container justify="center">
           <Grid item>
-            <Typography
-              container
-              variant="h3"
-              align="center"
-              className={classes.bigTypo}
-            >
+            <Typography variant="h3" align="center" className={classes.bigTypo}>
               Collaborate with Students from Top Institutions
             </Typography>
           </Grid>
@@ -174,12 +173,7 @@ export default function Landing() {
             <div style={{ textAlign: "center" }}>
               <EmojiEmotions color="primary" className={classes.icon} />
             </div>
-            <Typography
-              container
-              variant="h4"
-              align="center"
-              className={classes.midTypo}
-            >
+            <Typography variant="h4" align="center" className={classes.midTypo}>
               User Friendly
             </Typography>
             <Typography
@@ -193,16 +187,11 @@ export default function Landing() {
               Duis facilisis pretium est sit amet ornare.
             </Typography>
           </Grid>
-          <Grid item xl={3} md={4} sm={6} xs={10} alignItems="center">
+          <Grid item xl={3} md={4} sm={6} xs={10}>
             <div style={{ textAlign: "center" }}>
               <Favorite color="primary" className={classes.icon} />
             </div>
-            <Typography
-              container
-              variant="h4"
-              align="center"
-              className={classes.midTypo}
-            >
+            <Typography variant="h4" align="center" className={classes.midTypo}>
               Made With Love
             </Typography>
             <Typography
@@ -216,16 +205,11 @@ export default function Landing() {
               Duis facilisis pretium est sit amet ornare.
             </Typography>
           </Grid>
-          <Grid item xl={3} md={4} sm={6} xs={10} alignItems="center">
+          <Grid item xl={3} md={4} sm={6} xs={10}>
             <div style={{ textAlign: "center" }}>
               <Edit color="primary" className={classes.icon} />
             </div>
-            <Typography
-              container
-              variant="h4"
-              align="center"
-              className={classes.midTypo}
-            >
+            <Typography variant="h4" align="center" className={classes.midTypo}>
               User Friendly
             </Typography>
             <Typography

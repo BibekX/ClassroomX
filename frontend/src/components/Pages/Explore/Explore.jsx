@@ -54,9 +54,8 @@ export default function Explore() {
         <Grid container spacing={4} justify="center">
           {/* ------------------------ Card -------------------------- */}
           {information.map((info) => (
-            <Grid item md={4} sm={6}>
+            <Grid item md={4} sm={6} key={info.id}>
               <Cards
-                key={info.id}
                 title={info.title}
                 content={info.content}
                 image={info.image}

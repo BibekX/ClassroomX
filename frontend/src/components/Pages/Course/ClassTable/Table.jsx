@@ -26,7 +26,7 @@ import tableInfo from "../../../Data/Classroom/Xccelerate/FTSE/Classroom";
 const useStyles1 = makeStyles((theme) => ({
   root: {
     flexShrink: 0,
-    marginLeft: theme.spacing(2.5),
+    marginLeft: theme.spacing(2),
   },
 }));
 
@@ -167,7 +167,6 @@ export default function ClassroomTable() {
         />
       </Grid>
       <Grid container justify="center">
-        <Grid item md={1} sm={0}></Grid>
         <Grid item lg={8} md={10} sm={12}>
           <TableContainer component={Paper}>
             <Table
@@ -239,7 +238,6 @@ export default function ClassroomTable() {
             </Table>
           </TableContainer>
         </Grid>
-        <Grid item md={1} sm={0}></Grid>
       </Grid>
     </div>
   );
