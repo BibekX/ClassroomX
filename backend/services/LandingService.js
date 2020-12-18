@@ -11,7 +11,7 @@ class LandingService {
             .catch((err) => {
                 throw new Error(err);
             });
-            
+        
         console.log(query);
         return query;
     }

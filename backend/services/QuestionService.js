@@ -21,7 +21,7 @@ class QuestionService {
         let answersToAnswers = listOfAnswers.map(x => this.getListOfAtoa(x))
 
         let resultObject = {
-            baseDetails: baseDetails,
+            baseDetails: baseDetails[0],
             userDetails: userDetails,
             listOfAnswers: listOfAnswers,
             answersToAnswers: answersToAnswers

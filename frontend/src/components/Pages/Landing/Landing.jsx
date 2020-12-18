@@ -1,208 +1,240 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Container, Grid, Typography, Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Container, Grid, Typography, Button, Hidden } from "@material-ui/core";
 import { Favorite, EmojiEmotions, Edit } from "@material-ui/icons";
-import "./Landing.scss";
+import { makeStyles } from "@material-ui/styles";
 
-const useStyles = makeStyles({
-  heading_hero: {
-    fontWeight: 700,
-    paddingTop: "6rem",
+const useStyles = makeStyles((theme) => ({
+  root: {
+    fontSize: "16px",
+    [theme.breakpoints.up("xs")]: {
+      padding: "0 2rem",
+      fontSize: "11px",
+    },
+    [theme.breakpoints.up("sm")]: {
+      padding: "0 2rem",
+      fontSize: "12px",
+    },
+    [theme.breakpoints.up("md")]: {
+      padding: "0 3rem",
+      fontSize: "14px",
+    },
+    [theme.breakpoints.up("lg")]: {
+      padding: "0 4rem",
+      fontSize: "16px",
+    },
   },
-  heading_hero2: {
-    paddingTop: "4%",
-    fontWeight: 700,
+  image: {
+    [theme.breakpoints.down("sm")]: {},
   },
-  heading_hero3: {
-    fontWeight: 700,
+  container: {
+    margin: "2em 0 7em",
   },
-  hero_image: {
-    paddingTop: "3rem",
-    maxWidth: "45rem",
-    width: "100%",
-    height: "auto",
+  mainTypo: {
+    marginTop: "1em",
+    [theme.breakpoints.down("sm")]: {
+      textAlign: "center",
+    },
   },
-  feature_title: {
-    padding: "4%",
-    margin: "0 auto",
-    fontWeight: 700,
+  bigTypo: {
+    fontWeight: 500,
+    marginBottom: "0.5em",
+    fontSize: "4em",
+  },
+  midTypo: {
+    marginBottom: "1em",
+    fontWeight: 500,
+    fontSize: "2.2rem",
+  },
+  mainBody: {
+    [theme.breakpoints.down("sm")]: {
+      textAlign: "center",
+    },
   },
   icon: {
-    fontSize: "7rem",
-    margin: "2rem 10%",
+    fontSize: "7em",
+    margin: "2rem 0",
   },
-  feature_h4: {
-    fontWeight: 500,
-  },
-});
+}));
 
 export default function Landing() {
   const classes = useStyles();
   return (
-    <div className={classes.root}>
-      <Container maxWidth="xl">
-        {/* ----------------------------------- Section 1 ------------------------------------------------ */}
-        <div className="section1 container">
-          <Grid container direction="row" justify="center" spacing={5}>
-            <Grid item md={1}></Grid>
-            <Grid item md={4}>
-              <Typography variant="h2" className={classes.heading_hero}>
-                Good Class Will Make Learning Fun
-              </Typography>
+    <Container maxWidth="xl" className={classes.root}>
+      {/* ----------------------------------- Section 1 ------------------------------------------------ */}
+      <div className={classes.container}>
+        <Grid container>
+          <Grid item lg={6} md={5} sm={12}>
+            <Typography
+              variant="h2"
+              style={{
+                fontWeight: 700,
+                fontSize: "4.5em",
+                paddingTop: "0.5em",
+                letterSpacing: "2px",
+              }}
+              className={classes.mainTypo}
+            >
+              Every student can learn, just not the same way
+            </Typography>
+            <Hidden smDown>
               <Typography
                 variant="body1"
-                className="hero1_body"
-                align="justify"
+                // align="justify"
+                style={{ width: "85%", margin: "2em 0" }}
+                className={classes.mainBody}
               >
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua ipsum
                 dolor sit amet, consectetur adipiscing elit
               </Typography>
-              <div>
-                <Link to="/explore" style={{ textDecoration: "none" }}>
-                  <Button color="primary" variant="contained">
-                    Explore
-                  </Button>
-                </Link>
-              </div>
-            </Grid>
-            <Grid item md={6}>
-              <img
-                src="./img/background/hero.png"
-                alt="background"
-                className={classes.hero_image}
-              />
-            </Grid>
-            <Grid item md={1}></Grid>
+            </Hidden>
+            <Hidden mdDown>
+              <Link to="/explore" style={{ textDecoration: "none" }}>
+                <Button color="primary" variant="contained">
+                  Explore
+                </Button>
+              </Link>
+            </Hidden>
           </Grid>
-        </div>
-        {/* ----------------------------------- Section 2 ------------------------------------------------ */}
-        <div className="section2 container">
-          <Grid container justify="center" className="hero2_title">
-            <Grid item md={1} sm={0}></Grid>
-            <Grid item md={10}>
-              <Typography
-                container
-                variant="h3"
-                align="center"
-                className={classes.heading_hero2}
-              >
-                Collaborate with Students from Top Institutions
-              </Typography>
-              <Typography
-                variant="body1"
-                align="justify"
-                className="hero2_body"
-              >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-                consequat enim orci, ut finibus mauris venenatis ut. Vivamus in
-                diam est. Proin varius lectus felis, sed tempor dolor faucibus
-                at. Duis facilisis pretium est sit amet ornare. Duis lorem
-                risus, varius a blandit quis, venenatis at ipsum. Cras a metus
-                dignissim, gravida enim a, convallis urna. Phasellus ante felis,
-                tristique nec felis et, faucibus convallis nunc.
-              </Typography>
-            </Grid>
-            <Grid item md={1} sm={0}></Grid>
+          <Grid container lg={6} md={7} sm={12} justify="center">
+            <img
+              src="./img/background/hero.png"
+              alt="background"
+              style={{
+                padding: "3em auto 0",
+                maxWidth: "50em",
+                width: "100%",
+                height: "auto",
+              }}
+              className={classes.image}
+            />
           </Grid>
-        </div>
-        {/* ----------------------------------- Section 3 ------------------------------------------------ */}
-        <div className="section3 container">
-          <Grid
-            container
-            justify="center"
-            spacing={3}
-            className="feature_grid"
-            alignContent="center"
-          >
-            <Typography variant="h3" className={classes.feature_title}>
-              What makes our our collection one of a kind
+        </Grid>
+        <Hidden mdUp>
+          <Grid container justify="center">
+            <Typography
+              variant="body1"
+              style={{ width: "85%", margin: "2em 0" }}
+              align="center"
+              // className={classes.mainBody}
+            >
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua ipsum
+              dolor sit amet, consectetur adipiscing elit
             </Typography>
-            <Grid item md={1}></Grid>
-            <Grid item lg={3} md={6} sm={12} alignItems="center">
-              <div className="feature_icon">
-                <EmojiEmotions color="primary" className={classes.icon} />
-              </div>
-              <Typography
-                container
-                variant="h4"
-                align="center"
-                className={classes.feature_h4}
-              >
-                User Friendly
-              </Typography>
-              <Typography
-                variant="body1"
-                align="justify"
-                className="hero2_body"
-              >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-                consequat enim orci, ut finibus mauris venenatis ut. Vivamus in
-                diam est. Proin varius lectus felis, sed tempor dolor faucibus
-                at. Duis facilisis pretium est sit amet ornare.
-              </Typography>
-            </Grid>
-            <Grid item lg={4} md={6} sm={12} alignItems="center">
-              <div className="feature_icon">
-                <Favorite color="primary" className={classes.icon} />
-              </div>
-              <Typography
-                container
-                variant="h4"
-                align="center"
-                className={classes.feature_h4}
-              >
-                Made With Love
-              </Typography>
-              <Typography
-                variant="body1"
-                align="justify"
-                className="hero2_body"
-              >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-                consequat enim orci, ut finibus mauris venenatis ut. Vivamus in
-                diam est. Proin varius lectus felis, sed tempor dolor faucibus
-                at. Duis facilisis pretium est sit amet ornare.
-              </Typography>
-            </Grid>
-            <Grid item lg={4} md={6} sm={12} alignItems="center">
-              <div className="feature_icon">
-                <Edit color="primary" className={classes.icon} />
-              </div>
-              <Typography
-                container
-                variant="h4"
-                align="center"
-                className={classes.feature_h4}
-              >
-                User Friendly
-              </Typography>
-              <Typography
-                variant="body1"
-                align="justify"
-                className="hero2_body"
-              >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-                consequat enim orci, ut finibus mauris venenatis ut. Vivamus in
-                diam est. Proin varius lectus felis, sed tempor dolor faucibus
-                at. Duis facilisis pretium est sit amet ornare.
-              </Typography>
-            </Grid>
-            <Grid item md={1}></Grid>
           </Grid>
-        </div>
+        </Hidden>
+      </div>
+      {/* ----------------------------------- Section 2 ------------------------------------------------ */}
+      <div className={classes.container}>
+        <Grid container justify="center">
+          <Grid item>
+            <Typography variant="h3" align="center" className={classes.bigTypo}>
+              Collaborate with Students from Top Institutions
+            </Typography>
+          </Grid>
+          <Grid item lg={8} md={9} sm={10}>
+            <Typography
+              variant="body1"
+              align="justify"
+              className={classes.smallTypo}
+            >
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
+              consequat enim orci, ut finibus mauris venenatis ut. Vivamus in
+              diam est. Proin varius lectus felis, sed tempor dolor faucibus at.
+              Duis facilisis pretium est sit amet ornare. Duis lorem risus,
+              varius a blandit quis, venenatis at ipsum.
+            </Typography>
+          </Grid>
+        </Grid>
+        <Hidden lgUp>
+          <div style={{ textAlign: "center", paddingTop: "2em" }}>
+            <Link to="/explore" style={{ textDecoration: "none" }}>
+              <Button color="primary" variant="contained">
+                Explore
+              </Button>
+            </Link>
+          </div>
+        </Hidden>
+      </div>
+      {/* ----------------------------------- Section 3 ------------------------------------------------ */}
+      <div className={classes.container}>
+        <Typography variant="h3" align="center" className={classes.bigTypo}>
+          What makes our our collection one of a kind
+        </Typography>
+        <Grid
+          container
+          justify="space-around"
+          spacing={7}
+          alignContent="center"
+        >
+          <Grid item xl={3} md={4} sm={6} xs={10}>
+            <div style={{ textAlign: "center" }}>
+              <EmojiEmotions color="primary" className={classes.icon} />
+            </div>
+            <Typography variant="h4" align="center" className={classes.midTypo}>
+              User Friendly
+            </Typography>
+            <Typography
+              variant="body1"
+              align="justify"
+              className={classes.smallTypo}
+            >
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
+              consequat enim orci, ut finibus mauris venenatis ut. Vivamus in
+              diam est. Proin varius lectus felis, sed tempor dolor faucibus at.
+              Duis facilisis pretium est sit amet ornare.
+            </Typography>
+          </Grid>
+          <Grid item xl={3} md={4} sm={6} xs={10}>
+            <div style={{ textAlign: "center" }}>
+              <Favorite color="primary" className={classes.icon} />
+            </div>
+            <Typography variant="h4" align="center" className={classes.midTypo}>
+              Made With Love
+            </Typography>
+            <Typography
+              variant="body1"
+              align="justify"
+              className={classes.smallTypo}
+            >
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
+              consequat enim orci, ut finibus mauris venenatis ut. Vivamus in
+              diam est. Proin varius lectus felis, sed tempor dolor faucibus at.
+              Duis facilisis pretium est sit amet ornare.
+            </Typography>
+          </Grid>
+          <Grid item xl={3} md={4} sm={6} xs={10}>
+            <div style={{ textAlign: "center" }}>
+              <Edit color="primary" className={classes.icon} />
+            </div>
+            <Typography variant="h4" align="center" className={classes.midTypo}>
+              User Friendly
+            </Typography>
+            <Typography
+              variant="body1"
+              align="justify"
+              className={classes.smallTypo}
+            >
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
+              consequat enim orci, ut finibus mauris venenatis ut. Vivamus in
+              diam est. Proin varius lectus felis, sed tempor dolor faucibus at.
+              Duis facilisis pretium est sit amet ornare.
+            </Typography>
+          </Grid>
+        </Grid>
+      </div>
 
-        {/* ------------------------------------- */}
-        <div className="section 4 container">
-          <Grid container>
-            <Typography variant="h3" className={classes.heading_hero3}>
-              We’re your strategic learning partner to help move your skills
-              forward
-            </Typography>
-          </Grid>
-        </div>
-      </Container>
-    </div>
+      {/* ------------------------------------- */}
+      <div>
+        <Grid container>
+          <Typography variant="h3" className={classes.bigTypo} align="center">
+            We’re your strategic learning partner to help move your skills
+            forward
+          </Typography>
+        </Grid>
+      </div>
+    </Container>
   );
 }

@@ -1,13 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container, Typography } from "@material-ui/core";
-import "./Style.scss";
-import Hero from "../../Hero/Hero";
-import Table from "./Table/Table";
+import Hero from "../../General/Hero/Hero";
+import Table from "./ClassTable/Table";
+import xccelerateCourse from "../../Data/Course/Xccelerate/Course";
+import brainStationCourse from "../../Data/Course/BrainStation/Course";
+import flatironCourse from "../../Data/Course/Flatiron School/Course";
+import { withRouter } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: "0 auto",
+    [theme.breakpoints.up("xs")]: {
+      padding: "0 2rem",
+      fontSize: "11px",
+    },
+    [theme.breakpoints.up("sm")]: {
+      padding: "0 2rem",
+      fontSize: "12px",
+    },
+    [theme.breakpoints.up("md")]: {
+      padding: "0 3rem",
+      fontSize: "14px",
+    },
+    [theme.breakpoints.up("lg")]: {
+      padding: "0 4rem",
+      fontSize: "16px",
+    },
   },
   hero_image: {
     paddingTop: "3rem",
@@ -21,29 +40,75 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Institute() {
+function Course(props) {
+  const data =
+    props.location.pathname === "/xccelerate-datascience" ||
+    props.location.pathname === "/brainstation-data-science" ||
+    props.location.pathname === "/flatiron-cybersecurity-analytics"
+      ? 0
+      : props.location.pathname === "/xccelerate-webdevelopment" ||
+        props.location.pathname === "/brainstation-digital-leadership" ||
+        props.location.pathname === "/flatiron-cybersecurity-engineering"
+      ? 1
+      : props.location.pathname === "/xccelerate-uxdesign" ||
+        props.location.pathname === "/brainstation-digital-marketing" ||
+        props.location.pathname === "/flatiron-datascience"
+      ? 2
+      : props.location.pathname === "/brainstation-product-management" ||
+        props.location.pathname === "/flatiron-software-engineering"
+      ? 3
+      : props.location.pathname === "/brainstation-use-experience-design"
+      ? 4
+      : props.location.pathname === "/brainstation-web-development"
+      ? 5
+      : null;
+
+  const courseParent =
+    props.location.pathname === "/xccelerate-datascience" ||
+    props.location.pathname === "/xccelerate-webdevelopment" ||
+    props.location.pathname === "/xccelerate-uxdesign"
+      ? xccelerateCourse
+      : props.location.pathname === "/brainstation-data-science" ||
+        props.location.pathname === "/brainstation-digital-leadership" ||
+        props.location.pathname === "/brainstation-digital-marketing" ||
+        props.location.pathname === "/brainstation-product-management" ||
+        props.location.pathname === "/brainstation-use-experience-design" ||
+        props.location.pathname === "/brainstation-web-development"
+      ? brainStationCourse
+      : props.location.pathname === "/flatiron-cybersecurity-analytics" ||
+        props.location.pathname === "/flatiron-datascience" ||
+        props.location.pathname === "/flatiron-cybersecurity-engineering" ||
+        props.location.pathname === "/flatiron-software-engineering"
+      ? flatironCourse
+      : null;
+  // const [courseHero, setCourseHero] = useState({
+  //   title: { courseHeroInfo },
+  // });
+  console.log(props.location.pathname);
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <Container maxWidth="xl">
-        {/* -------------------------------------------------- Section 1 -------------------------------------------------- */}
+        {/* -------------------------------------------------- Section 1 ---------------------------------------------- */}
         <div className="section-1 container">
           <Hero
-            title="Full-Stack Software Engineering"
-            body="Our Full-Time Immersive Software Engineering Coding Bootcamp is designed for students with a burning desire to learn the most relevant coding languages and frameworks in the software development industry.
-"
-            link="https://xccelerate.co/course-detail/HK/FTSE"
-            buttonTitle="Learn More"
-            image="./img/card/Institute/Xccelerate/Course/Software Engineering/1.png"
+            title={courseParent[data].title}
+            content={courseParent[data].content}
+            url={courseParent[data].url}
+            buttonTitle="Get Started"
+            image={courseParent[data].image}
             scroll="#classroom-table"
           />
         </div>
-        {/* -------------------------------------------------- Section 1 -------------------------------------------------- */}
-        <div className="section-2 container">
+        {/* -------------------------------------------------- Section 2 -------------------------------------------------- */}
+        <div
+          className="section-2 container"
+          id="classroom-table"
+          style={{ paddingTop: "5em" }}
+        >
           <Typography
-            className="heading_hero2"
             variant="h3"
-            id="classroom-table"
+            style={{ textAlign: "center", fontWeight: 500, fontSize: "4rem" }}
           >
             Classrooms
           </Typography>
@@ -54,3 +119,5 @@ export default function Institute() {
     </div>
   );
 }
+
+export default withRouter(Course);

@@ -22,7 +22,7 @@ class ClassService {
     let listOfQuestions = getListOfQuestions(baseDetails[0].id);
 
     let resultObject = {
-        baseDetails: baseDetails,
+        baseDetails: baseDetails[0],
         listOfTeachers: listOfTeachers,
         listOfStudents: listOfStudents,
         listOfNotes: listOfNotes,

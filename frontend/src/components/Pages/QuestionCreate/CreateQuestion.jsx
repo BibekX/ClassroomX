@@ -6,16 +6,50 @@ import {
   Grid,
   Button,
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
 import ReactQuill from "react-quill";
-import "./AskQuestion.scss";
+import "quill/dist/quill.snow.css";
+import "./CreateQuestion.css";
 import { Link } from "react-router-dom";
+// -------------------------------------------------------
+import { WithContext as ReactTags } from "react-tag-input";
+
+const KeyCodes = {
+  comma: 188,
+  enter: 13,
+};
+const delimiters = [KeyCodes.comma, KeyCodes.enter];
+// --------------------------------------------------------
 
 function CreateQuestion(props) {
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      [theme.breakpoints.up("xs")]: {
+        padding: "0 2rem",
+        fontSize: "11px",
+      },
+      [theme.breakpoints.up("sm")]: {
+        padding: "0 2rem",
+        fontSize: "12px",
+      },
+      [theme.breakpoints.up("md")]: {
+        padding: "0 3rem",
+        fontSize: "14px",
+      },
+      [theme.breakpoints.up("lg")]: {
+        padding: "0 4rem",
+        fontSize: "16px",
+      },
+    },
+  }));
+
+  const classes = useStyles();
+
   const [text, setText] = useState({
     title: "",
     content: "",
   });
-  const [content, setContent] = useState("");
+
   const [files, setFiles] = useState([]);
 
   function handleTextChange(event) {
@@ -28,10 +62,6 @@ function CreateQuestion(props) {
     });
   }
 
-  function onEditorChange(value) {
-    setContent(value);
-  }
-
   function onFilesChange(files) {
     setFiles(files);
   }
@@ -42,30 +72,75 @@ function CreateQuestion(props) {
       title: "",
       content: "",
     });
-    // setFiles(files);
-    event.preventDefault();
+    // event.preventDefault();
   }
+
+  // -------------------------------------------- Tags ----------------------------------------------------------
+
+  const [tagsState, setTagsState] = useState({
+    tags: [
+      { id: 1, text: "javascript" },
+      { id: 2, text: "nodejs" },
+    ],
+    suggestions: [
+      { id: 1, text: "react" },
+      { id: 2, text: "adobe" },
+      { id: 3, text: "python" },
+    ],
+  });
+
+  const handleDelete = (i) => {
+    // const { tags } = tagsState;
+    setTagsState({
+      tags: tags.filter((tag, index) => index !== i),
+    });
+  };
+
+  const handleAddition = (tag) => {
+    let { tags } = tagsState;
+    setTagsState({ tags: [...tags, { id: tags.length + 1, text: tag }] });
+  };
+
+  const handleDrag = (tag, currPos, newPos) => {
+    const tags = [...tagsState.tags];
+
+    tags.splice(currPos, 1);
+    tags.splice(newPos, 0, tag);
+
+    setTagsState({ tags });
+  };
+
+  const { tags, suggestions } = tagsState;
+  // ----------------------------------------------------------------------------------------------------------------
 
   return (
     <div>
-      <Container maxWidth="xl">
-        <Grid container>
-          <Grid item md={1} sm={0}></Grid>
+      <Container maxWidth="xl" className={classes.root}>
+        <Grid container justify="center">
           <Grid item md={10} sm={12}>
             <Grid item>
-              <Typography variant="h2" style={{ marginBottom: "4rem" }}>
+              <Typography
+                variant="h2"
+                align="center"
+                style={{
+                  fontWeight: 500,
+                  fontSize: "5em",
+                  marginBottom: "4rem",
+                }}
+              >
                 Ask a new Question
               </Typography>
             </Grid>
             <Grid
-              item
+              container
               style={{
                 padding: "2rem",
                 border: "1px solid #457b9d",
                 borderRadius: "10px",
               }}
+              justify="center"
             >
-              <div class="question-container">
+              <div className="question-container">
                 <form>
                   <Typography variant="body1">Title</Typography>
                   <InputBase
@@ -74,7 +149,7 @@ function CreateQuestion(props) {
                     value={text.title}
                     style={{
                       width: "100%",
-                      marginBottom: "3rem",
+                      marginBottom: "2rem",
                       border: "1px solid #6d6875",
                       paddingLeft: "10px",
                     }}
@@ -84,8 +159,8 @@ function CreateQuestion(props) {
                   />
                   <Typography variant="body1">Body</Typography>
                   <ReactQuill
+                    onEditorChange={handleTextChange}
                     name="content"
-                    onEditorChange={onEditorChange}
                     onFilesChange={onFilesChange}
                     value={text.content}
                     placeholder={
@@ -97,9 +172,33 @@ function CreateQuestion(props) {
                       border: "1px solid #6d6875",
                     }}
                   />
+                  <Typography variant="body1" style={{ marginTop: "2rem" }}>
+                    Tags
+                  </Typography>
+                  <InputBase
+                    onChange={handleTextChange}
+                    name="tags"
+                    style={{
+                      width: "100%",
+                      marginBottom: "3rem",
+                      border: "1px solid #6d6875",
+                      paddingLeft: "10px",
+                    }}
+                    placeholder={"Example: javascript, nodejs, express"}
+                  />
 
+                  {/* ---------------------------------- */}
+                  <ReactTags
+                    tags={tags}
+                    suggestions={suggestions}
+                    handleDelete={handleDelete}
+                    handleAddition={handleAddition}
+                    handleDrag={handleDrag}
+                    delimiters={delimiters}
+                  />
+                  {/* ----------------------------------- */}
                   <div style={{ textAlign: "right" }}>
-                    <Link to="/postquestion">
+                    <Link to="/postquestion" style={{ textDecoration: "none" }}>
                       <Button
                         variant="contained"
                         color="primary"
@@ -115,7 +214,6 @@ function CreateQuestion(props) {
               </div>
             </Grid>
           </Grid>
-          <Grid item md={1} sm={0}></Grid>
         </Grid>
       </Container>
     </div>

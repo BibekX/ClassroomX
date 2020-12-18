@@ -6,7 +6,6 @@ exports.up = function (knex) {
         table.string("picture");
         table.string("backgroundpicture");
         table.text("overview");
-        table.text("announcements");
     });
 };
 

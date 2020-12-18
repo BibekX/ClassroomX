@@ -3,11 +3,22 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import theme from "./components/General/Theme/Theme";
-import { ThemeProvider } from "@material-ui/core/styles";
+import { MuiThemeProvider } from "@material-ui/core/styles";
+import { CssBaseline } from "@material-ui/core";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import rootReducer from "./reducers/rootReducer";
+
+const store = createStore(rootReducer);
 
 ReactDOM.render(
-  <ThemeProvider theme={theme}>
-    <App />
-  </ThemeProvider>,
+  <MuiThemeProvider theme={theme}>
+    <React.Fragment>
+      <CssBaseline />
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </React.Fragment>
+  </MuiThemeProvider>,
   document.getElementById("root")
 );

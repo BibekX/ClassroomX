@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Close, KeyboardArrowUp, AccountCircle } from "@material-ui/icons";
+import { Close, KeyboardArrowUp } from "@material-ui/icons";
 import MenuIcon from "@material-ui/icons/Menu";
 import {
   Switch,
@@ -10,18 +10,33 @@ import {
   IconButton,
   Fab,
   Toolbar,
+  Avatar,
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import MenuItems from "./MenuItems";
-import Popup from "../Popup/Popup";
-import Login from "../Login/Login";
-import Signup from "../Signup/Signup";
+// import Popup from "../Popup/Popup";
+import { AuthButton } from "./AuthButton/AuthButton";
+// import Login from "../Login/Login";
+// import Signup from "../Signup/Signup";
 import BackToTop from "./BackToTop";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    margin: "0 auto",
+    textAlign: "center",
+  },
+  large: {
+    width: theme.spacing(5),
+    height: theme.spacing(5),
+  },
+}));
+
 export default function Navbar() {
+  const classes = useStyles();
   const [clicked, setClicked] = useState(false);
-  const [auth, setAuth] = React.useState(true);
+  const [auth, setAuth] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -34,6 +49,11 @@ export default function Navbar() {
   };
 
   const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handlelogout = () => {
+    setAuth(false);
     setAnchorEl(null);
   };
 
@@ -55,7 +75,11 @@ export default function Navbar() {
                 onClick={handleMenu}
                 color="inherit"
               >
-                <AccountCircle fontSize="large" />
+                <Avatar
+                  src="./img/profile/1.jpg"
+                  alt="Profile"
+                  className={classes.large}
+                />
               </IconButton>
               <Popover
                 id="menu-appbar"
@@ -72,17 +96,33 @@ export default function Navbar() {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>Log out</MenuItem>
+                <Link
+                  to="/profile"
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <MenuItem onClick={handleClose}>Profile</MenuItem>
+                </Link>
+                <Link
+                  to="/"
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <MenuItem onClick={handlelogout}>Log out</MenuItem>
+                </Link>
               </Popover>
             </div>
           ) : (
             <div>
               <div className="inner">
-                <Popup buttonName="Login" display={<Login />} />
+                {/* <Popup buttonName="Login" display={<Login />} /> */}
+                <Link to="/login">
+                  <AuthButton>Login</AuthButton>
+                </Link>
               </div>
               <div className="inner">
-                <Popup buttonName="Sign up" display={<Signup />} />
+                {/* <Popup buttonName="Sign up" display={<Signup />} /> */}
+                <Link to="/signup">
+                  <AuthButton>Sign up</AuthButton>
+                </Link>
               </div>
             </div>
           )}

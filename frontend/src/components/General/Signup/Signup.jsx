@@ -4,11 +4,9 @@ import {
   Button,
   CssBaseline,
   TextField,
-  Link,
   Grid,
   Box,
   Select,
-  MenuItem,
   FormControl,
   InputLabel,
   FormHelperText,
@@ -17,7 +15,7 @@ import {
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { makeStyles } from "@material-ui/core/styles";
-import Copyright from "../Copyright/Copyright";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -62,7 +60,7 @@ export default function SignUp() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          Sign Up
         </Typography>
         <FormControl variant="outlined" className={classes.formControl}>
           <InputLabel id="select-label">Institute</InputLabel>
@@ -74,15 +72,15 @@ export default function SignUp() {
             required
             onChange={handleChange}
             label="Institute"
+            autoFocus
           >
-            <option aria-label="None" value="" />
-            <option value="Xccelerate">Xccelerate</option>
-            <option value="HackerRank">HackerRank</option>
-            <option value="Brainstation">Brainstation</option>
+            <option value="student">Student</option>
+            <option value="teacher">Teacher</option>
+            <option value="admin">Admin</option>
           </Select>
-          <FormHelperText>Required</FormHelperText>
+          {/* <FormHelperText>Required</FormHelperText> */}
         </FormControl>
-        <form className={classes.form} noValidate>
+        <form className={classes.form}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -92,6 +90,7 @@ export default function SignUp() {
                 id="username"
                 label="Username"
                 name="username"
+                type=""
                 autoComplete="uname"
               />
             </Grid>
@@ -103,6 +102,7 @@ export default function SignUp() {
                 id="email"
                 label="Email Address"
                 name="email"
+                type="email"
                 autoComplete="email"
               />
             </Grid>
@@ -131,16 +131,19 @@ export default function SignUp() {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link
+                to="/login"
+                variant="body2"
+                // style={{ textDecoration: "none", color: "#2196f3" }}
+                className="link"
+              >
                 Already have an account? Sign in
               </Link>
             </Grid>
           </Grid>
         </form>
       </div>
-      <Box mt={5}>
-        <Copyright />
-      </Box>
+      <Box mt={5}></Box>
     </Container>
   );
 }

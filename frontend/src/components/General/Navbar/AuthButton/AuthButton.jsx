@@ -20,7 +20,7 @@ export const AuthButton = ({
   return (
     <button
       className={`btn ${checkButtonStyle} ${checkButtonSize}`}
-      onClick={onClick}
+      // onClick={onClick}
       type={type}
     >
       {children}
