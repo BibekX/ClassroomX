@@ -18,16 +18,16 @@ class CourseService {
 
         let listOfTeachers = getListOfTeachers(baseDetails[0].id);
         let listOfStudents = getListOfStudents(baseDetails[0].id);
-        let listofClasses = getListOfClasses(baseDetails[0].id);
+        let listOfClasses = getListOfClasses(baseDetails[0].id);
 
-        let listofQuestions = listofClasses.map(x => this.getListofQuestions(x))
+        let listOfQuestions = listofClasses.map(x => this.getListofQuestions(x))
 
         let resultObject = {
-            baseDetails: baseDetails,
+            baseDetails: baseDetails[0],
             listOfTeachers: listOfTeachers,
             listOfStudents: listOfStudents,
             listOfClasses: listOfClasses,
-            listOfQuestions: listofQuestions
+            listOfQuestions: listOfQuestions
         }
 
         return resultObject;
