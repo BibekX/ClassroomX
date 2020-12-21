@@ -8,17 +8,18 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import ReactQuill from "react-quill";
+// import { useQuill } from "react-quilljs  ";
 import "quill/dist/quill.snow.css";
 import "./CreateQuestion.css";
 import { Link } from "react-router-dom";
 // -------------------------------------------------------
-import { WithContext as ReactTags } from "react-tag-input";
+// import { WithContext as ReactTags } from "react-tag-input";
 
-const KeyCodes = {
-  comma: 188,
-  enter: 13,
-};
-const delimiters = [KeyCodes.comma, KeyCodes.enter];
+// const KeyCodes = {
+//   comma: 188,
+//   enter: 13,
+// };
+// const delimiters = [KeyCodes.comma, KeyCodes.enter];
 // --------------------------------------------------------
 
 function CreateQuestion(props) {
@@ -45,74 +46,66 @@ function CreateQuestion(props) {
 
   const classes = useStyles();
 
-  const [text, setText] = useState({
-    title: "",
-    content: "",
-  });
+  const [state, setState] = useState({ title: "", content: "" });
 
-  const [files, setFiles] = useState([]);
-
-  function handleTextChange(event) {
+  function handleTitleChange(event) {
     const { name, value } = event.target;
-    setText((prevValue) => {
-      return {
-        ...prevValue,
-        [name]: value,
-      };
+    setState((prevValue) => {
+      return { ...prevValue, [name]: value };
     });
   }
 
-  function onFilesChange(files) {
-    setFiles(files);
+  function handleContentChange(value) {
+    setState((prevValue) => {
+      return { ...prevValue, content: value };
+    });
   }
 
-  function submitPost(event) {
-    props.onAdd(text);
-    setText({
+  function submitPost() {
+    props.onAdd(state);
+    setState({
       title: "",
       content: "",
     });
-    // event.preventDefault();
   }
 
   // -------------------------------------------- Tags ----------------------------------------------------------
 
-  const [tagsState, setTagsState] = useState({
-    tags: [
-      { id: 1, text: "javascript" },
-      { id: 2, text: "nodejs" },
-    ],
-    suggestions: [
-      { id: 1, text: "react" },
-      { id: 2, text: "adobe" },
-      { id: 3, text: "python" },
-    ],
-  });
+  // const [tagsState, setTagsState] = useState({
+  //   tags: [
+  //     { id: 1, text: "javascript" },
+  //     { id: 2, text: "nodejs" },
+  //   ],
+  //   suggestions: [
+  //     { id: 1, text: "react" },
+  //     { id: 2, text: "adobe" },
+  //     { id: 3, text: "python" },
+  //   ],
+  // });
 
-  const handleDelete = (i) => {
-    // const { tags } = tagsState;
-    setTagsState({
-      tags: tags.filter((tag, index) => index !== i),
-    });
-  };
+  // const handleDelete = (i) => {
+  //   // const { tags } = tagsState;
+  //   setTagsState({
+  //     tags: tags.filter((tag, index) => index !== i),
+  //   });
+  // };
 
-  const handleAddition = (tag) => {
-    let { tags } = tagsState;
-    setTagsState({ tags: [...tags, { id: tags.length + 1, text: tag }] });
-  };
+  // const handleAddition = (tag) => {
+  //   let { tags } = tagsState;
+  //   setTagsState({ tags: [...tags, { id: tags.length + 1, text: tag }] });
+  // };
 
-  const handleDrag = (tag, currPos, newPos) => {
-    const tags = [...tagsState.tags];
+  // const handleDrag = (tag, currPos, newPos) => {
+  //   const tags = [...tagsState.tags];
 
-    tags.splice(currPos, 1);
-    tags.splice(newPos, 0, tag);
+  //   tags.splice(currPos, 1);
+  //   tags.splice(newPos, 0, tag);
 
-    setTagsState({ tags });
-  };
+  //   setTagsState({ tags });
+  // };
 
-  const { tags, suggestions } = tagsState;
+  // const { tags, suggestions } = tagsState;
   // ----------------------------------------------------------------------------------------------------------------
-
   return (
     <div>
       <Container maxWidth="xl" className={classes.root}>
@@ -135,7 +128,7 @@ function CreateQuestion(props) {
               container
               style={{
                 padding: "2rem",
-                border: "1px solid #457b9d",
+                border: "1px solid #fff",
                 borderRadius: "10px",
               }}
               justify="center"
@@ -144,9 +137,9 @@ function CreateQuestion(props) {
                 <form>
                   <Typography variant="body1">Title</Typography>
                   <InputBase
-                    onChange={handleTextChange}
+                    onChange={handleTitleChange}
                     name="title"
-                    value={text.title}
+                    value={state.title}
                     style={{
                       width: "100%",
                       marginBottom: "2rem",
@@ -157,12 +150,12 @@ function CreateQuestion(props) {
                       "Example: How to trigger checkbox onChange event through function in React?"
                     }
                   />
+
                   <Typography variant="body1">Body</Typography>
                   <ReactQuill
-                    onEditorChange={handleTextChange}
                     name="content"
-                    onFilesChange={onFilesChange}
-                    value={text.content}
+                    value={state.content}
+                    onChange={handleContentChange}
                     placeholder={
                       "Explain your question in detail like you're explaining it to someone"
                     }
@@ -172,11 +165,11 @@ function CreateQuestion(props) {
                       border: "1px solid #6d6875",
                     }}
                   />
+
                   <Typography variant="body1" style={{ marginTop: "2rem" }}>
                     Tags
                   </Typography>
                   <InputBase
-                    onChange={handleTextChange}
                     name="tags"
                     style={{
                       width: "100%",
@@ -188,14 +181,14 @@ function CreateQuestion(props) {
                   />
 
                   {/* ---------------------------------- */}
-                  <ReactTags
+                  {/* <ReactTags
                     tags={tags}
                     suggestions={suggestions}
                     handleDelete={handleDelete}
                     handleAddition={handleAddition}
                     handleDrag={handleDrag}
                     delimiters={delimiters}
-                  />
+                  /> */}
                   {/* ----------------------------------- */}
                   <div style={{ textAlign: "right" }}>
                     <Link to="/postquestion" style={{ textDecoration: "none" }}>
@@ -224,7 +217,7 @@ CreateQuestion.modules = {
   toolbar: [
     [{ header: "1" }, { header: "2" }, { font: [] }],
     [{ size: [] }],
-    ["bold", "italic", "underline", "strike", "blockquote", "code-block"],
+    ["bold", "italic", "underline", "strike", "code-block"],
     [{ background: [] }, { color: [] }],
     [
       { list: "ordered" },
@@ -248,7 +241,6 @@ CreateQuestion.formats = [
   "italic",
   "underline",
   "strike",
-  "blockquote",
   "code-block",
   "background",
   "color",

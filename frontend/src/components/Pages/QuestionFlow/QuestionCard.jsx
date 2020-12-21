@@ -1,12 +1,10 @@
 import React from "react";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   Card,
   CardActionArea,
-  CardActions,
   CardContent,
   Typography,
-  CardMedia,
 } from "@material-ui/core";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
@@ -18,7 +16,7 @@ const useStyles = makeStyles({
   details: {
     display: "flex",
     flexDirection: "column",
-    borderRight: "solid 1px #fff",
+    // borderRight: "solid 1px #fff",
   },
   content: {
     flex: "1 0 auto",
@@ -46,19 +44,19 @@ export default function QuestionCard(props) {
                 {props.title}
               </Typography>
               <Typography variant="body1" color="textSecondary">
-                {props.tags}
+                {props.tags.toString()}
               </Typography>
-              {/* <Typography variant="body2" color="textSecondary" component="p">
-              {props.user}
-            </Typography> */}
+              <Typography variant="body2" color="textSecondary" component="p">
+                {props.username}
+              </Typography>
             </CardContent>
           </div>
         </CardActionArea>
         <CardContent className={classes.cover}>
           <ArrowUpwardIcon className={classes.icon} />
-          <Typography align="center">{props.upvote}</Typography>
+          <Typography align="center">{props.votes}</Typography>
           <QuestionAnswerIcon className={classes.icon} />
-          <Typography align="center">{props.comment}</Typography>
+          <Typography align="center">{props.comment.length}</Typography>
         </CardContent>
       </Card>
     </div>

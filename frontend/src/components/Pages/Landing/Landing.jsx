@@ -1,4 +1,5 @@
 import React from "react";
+// import axios from "axios";
 import { Link } from "react-router-dom";
 import { Container, Grid, Typography, Button, Hidden } from "@material-ui/core";
 import { Favorite, EmojiEmotions, Edit } from "@material-ui/icons";
@@ -23,9 +24,6 @@ const useStyles = makeStyles((theme) => ({
       padding: "0 4rem",
       fontSize: "16px",
     },
-  },
-  image: {
-    [theme.breakpoints.down("sm")]: {},
   },
   container: {
     margin: "2em 0 7em",
@@ -59,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Landing() {
   const classes = useStyles();
+
   return (
     <Container maxWidth="xl" className={classes.root}>
       {/* ----------------------------------- Section 1 ------------------------------------------------ */}
@@ -97,20 +96,24 @@ export default function Landing() {
               </Link>
             </Hidden>
           </Grid>
-          <Grid container lg={6} md={7} sm={12} justify="center">
-            <img
-              src="./img/background/hero.png"
-              alt="background"
-              style={{
-                padding: "3em auto 0",
-                maxWidth: "50em",
-                width: "100%",
-                height: "auto",
-              }}
-              className={classes.image}
-            />
+          {/* <Grid container justify="center"> */}
+          <Grid item lg={6} md={7} sm={12}>
+            <p style={{ textAlign: "center" }}>
+              <img
+                src="./img/background/hero.png"
+                alt="background"
+                style={{
+                  padding: "3em auto 0",
+                  maxWidth: "50em",
+                  width: "100%",
+                  height: "auto",
+                }}
+                className={classes.image}
+              />
+            </p>
           </Grid>
         </Grid>
+        {/* </Grid> */}
         <Hidden mdUp>
           <Grid container justify="center">
             <Typography

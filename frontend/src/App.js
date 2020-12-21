@@ -23,17 +23,36 @@ function App() {
         <ScrollToTop />
         <Navbar />
         <Switch>
+          {/* General */}
+          {/* <Route exact path="/" component={Landing} /> */}
+          {/* <Route path="/explore" component={Explore} /> */}
+          {/* Institute */}
+          {/* <Route path="/institute/:id" component={Institute} /> */}
+          {/* Courses */}
+          {/* <Route path="/institute/:id/course/:id" component={Course} /> */}
+          {/* Classroom */}
+          {/* <Route path="/institute/:id/course/:id/class/:id" component={Classroom} /> */}
+          {/* Question */}
+          {/* <Route path="/question" component={QuestionFlow} />
+          <Route path="/question/:id" component={IndividualQuestion} />
+          <Route path="/askquestion" component={CreateQuestion} /> */}
+          {/* <Route path="/postquestion" component={PostQuestion} /> */}
+          {/* User */}
+          {/* <Route path="/account/:name" component={Profile} />
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Signup} /> */}
+          {/* ------------------------------------------------------------------------------------------------------ */}
           <Route exact path="/" component={Landing} />
           <Route path="/explore" component={Explore} />
-          {/* Institute */}
+          Institute
           <Route path="/xccelerate" component={Institute} />
           <Route path="/brainstation" component={Institute} />
           <Route path="/flatiron" component={Institute} />
-          {/* Xccelerate Courses */}
+          Xccelerate Courses
           <Route path="/xccelerate-datascience" component={Course} />
           <Route path="/xccelerate-webdevelopment" component={Course} />
           <Route path="/xccelerate-uxdesign" component={Course} />
-          {/* BrainStation Courses */}
+          BrainStation Courses
           <Route path="/brainstation-data-science" component={Course} />
           <Route path="/brainstation-digital-leadership" component={Course} />
           <Route path="/brainstation-digital-marketing" component={Course} />
@@ -43,7 +62,7 @@ function App() {
             component={Course}
           />
           <Route path="/brainstation-web-development" component={Course} />
-          {/* Flatiron Courses */}
+          Flatiron Courses
           <Route path="/flatiron-cybersecurity-analytics" component={Course} />
           <Route path="/flatiron-datascience" component={Course} />
           <Route
@@ -51,14 +70,14 @@ function App() {
             component={Course}
           />
           <Route path="/flatiron-software-engineering" component={Course} />
-          {/* Other */}
-          <Route path="/questionflow" component={QuestionFlow} />
+          Other
+          <Route path="/question" component={QuestionFlow} />
           <Route path="/individualquestion" component={IndividualQuestion} />
           <Route path="/askquestion" component={CreateQuestion} />
           <Route path="/postquestion" component={PostQuestion} />
           <Route path="/profile" component={Profile} />
           <Route path="/login" component={Login} />
-          <Route path="/signup" component={Signup} />
+          <Route path="/register" component={Signup} />
         </Switch>
         <Copyright />
       </div>

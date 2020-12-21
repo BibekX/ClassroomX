@@ -14,10 +14,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import MenuItems from "./MenuItems";
-// import Popup from "../Popup/Popup";
 import { AuthButton } from "./AuthButton/AuthButton";
-// import Login from "../Login/Login";
-// import Signup from "../Signup/Signup";
 import BackToTop from "./BackToTop";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
@@ -113,14 +110,12 @@ export default function Navbar() {
           ) : (
             <div>
               <div className="inner">
-                {/* <Popup buttonName="Login" display={<Login />} /> */}
                 <Link to="/login">
                   <AuthButton>Login</AuthButton>
                 </Link>
               </div>
               <div className="inner">
-                {/* <Popup buttonName="Sign up" display={<Signup />} /> */}
-                <Link to="/signup">
+                <Link to="/register">
                   <AuthButton>Sign up</AuthButton>
                 </Link>
               </div>
@@ -162,7 +157,7 @@ export default function Navbar() {
       </FormGroup>
       <BackToTop>
         <Fab color="secondary" size="large" aria-label="scroll back to top">
-          <KeyboardArrowUp />
+          <KeyboardArrowUp fontSize="large" />
         </Fab>
       </BackToTop>
     </div>

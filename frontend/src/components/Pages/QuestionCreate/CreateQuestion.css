@@ -1,11 +1,15 @@
 /* Quill */
 
 .quill > .ql-container > .ql-editor.ql-blank::before{
-    /* font-size: 20px; */
+    font-size: 1rem;
     color: #84a59d;
     font-style: normal;
 }
 
+
+/* .ql-toolbar {
+    background-color: #fff;
+} */
 
 .ql-toolbar .ql-stroke {
     fill: none;
@@ -19,6 +23,10 @@
 
 .ql-toolbar .ql-picker {
     color: #fff;
+}
+
+.ql-toolbar .ql-picker-options {
+    background-color: #121212;
 }
 
 .ql-editor{
@@ -89,6 +97,6 @@
       font-weight: 600;
   }
   div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
-      /* background: #b7cfe0; */
+      background: #b7cfe0;
       cursor: pointer;
   }

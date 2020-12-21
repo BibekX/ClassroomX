@@ -1,13 +1,13 @@
-const user = [
+const teacher = [
   {
     id: 1,
-    nickname: "amen",
+    nickname: "toche",
     username: "amanda1",
     image: "./img/profile/1.jpg",
   },
   {
     id: 2,
-    nickname: "bobby",
+    nickname: "teachore",
     username: "bob2",
     image: "./img/profile/1.jpg",
   },
@@ -55,4 +55,4 @@ const user = [
   },
 ];
 
-export default user;
+export default teacher;

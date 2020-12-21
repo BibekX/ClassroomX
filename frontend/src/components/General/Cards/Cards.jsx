@@ -33,7 +33,7 @@ export default function Cards(props) {
             gutterBottom
             variant="h5"
             component="h2"
-            style={{ fontWeight: 700, fontSize: "2em" }}
+            style={{ fontWeight: 700, fontSize: "2.1em" }}
           >
             {props.title}
           </Typography>

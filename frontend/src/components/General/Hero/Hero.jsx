@@ -9,6 +9,7 @@ const useStyles = makeStyles({
     maxWidth: "40rem",
     width: "100%",
     height: "auto",
+    maxHeight: "30rem",
     border: "2px solid #00adb5",
   },
   heading_hero: {
@@ -44,6 +45,7 @@ export default function Hero(props) {
           className={classes.institute_link}
           href={props.url}
           target="_blank"
+          style={{ fontSize: "1rem" }}
         >
           {props.url}
         </Link>

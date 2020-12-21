@@ -8,7 +8,6 @@ import {
   InputBase,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import "./Profile.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,22 +24,26 @@ const useStyles = makeStyles((theme) => ({
 function Profile() {
   const classes = useStyles();
   const [file, setFile] = useState(null);
+  const [showImage, setShowImage] = useState(false);
 
   const handleChange = (event) => {
     event.target.files[0] &&
       setFile(URL.createObjectURL(event.target.files[0]));
+    setShowImage(true);
   };
   return (
     <Container className={classes.root}>
-      <Typography align="center" variant="h2">
+      <Typography
+        align="center"
+        variant="h2"
+        style={{ fontWeight: 500, fontSize: "5em" }}
+      >
         My Profile
       </Typography>
-      <Grid container justify="center" className="header">
-        <Avatar
-          src="./img/profile/1.jpg"
-          alt="Profile"
-          className={classes.large}
-        />
+      <Grid container justify="center" style={{ padding: "4em 0 1em" }}>
+        {showImage && (
+          <Avatar src={file} alt="Profile" className={classes.large} />
+        )}
       </Grid>
       <Grid container justify="center" className="upload-button">
         <Button variant="contained" component="label">

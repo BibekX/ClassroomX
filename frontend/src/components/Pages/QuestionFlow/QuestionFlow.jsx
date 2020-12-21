@@ -70,8 +70,9 @@ export default function QuestionFlow() {
                 <QuestionCard
                   title={info.title}
                   tags={info.tags}
-                  upvote={info.upvote}
+                  votes={info.votes}
                   comment={info.comment}
+                  username={info.username}
                 />
               </Link>
             </Grid>

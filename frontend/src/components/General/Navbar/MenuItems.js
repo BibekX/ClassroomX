@@ -11,7 +11,7 @@ const MenuItems = [
   },
   {
     title: "Question",
-    link: "/questionflow",
+    link: "/question",
     cName: "nav-links",
   },
   {
@@ -20,7 +20,7 @@ const MenuItems = [
     cName: "nav-links",
   },
   { title: "Login", link: "/login", cName: "nav-links-login" },
-  { title: "Sign up", link: "/signup", cName: "nav-links-signup" },
+  { title: "Sign up", link: "/register", cName: "nav-links-signup" },
 ];
 
 export default MenuItems;

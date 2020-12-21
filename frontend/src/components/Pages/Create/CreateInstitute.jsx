@@ -4,7 +4,11 @@ import { makeStyles } from "@material-ui/styles";
 import { useBorderedInputBaseStyles } from "@mui-treasury/styles/inputBase/bordered";
 
 const useStyles = makeStyles({
-  root: {},
+  title: {
+    marginTop: "1em",
+    fontWeight: 300,
+    fontSize: "2em",
+  },
 });
 
 export default function CreateInstitute() {
@@ -40,7 +44,9 @@ export default function CreateInstitute() {
         </Button>
       </div>
 
-      <Typography variant="h6">Institution Name</Typography>
+      <Typography variant="h6" className={classes.title}>
+        Institution Name
+      </Typography>
       <InputBase
         classes={styles}
         style={{
@@ -48,12 +54,14 @@ export default function CreateInstitute() {
           // color: "#fff",
           backgroundColor: "#343a40",
         }}
-        placeholder="max 35 characters"
+        placeholder="max characters: 35"
         required
         inputProps={{ maxLength: 35 }}
       />
 
-      <Typography variant="h6">Institution Description</Typography>
+      <Typography variant="h6" className={classes.title}>
+        Institution Description
+      </Typography>
       <InputBase
         classes={styles}
         style={{
@@ -65,10 +73,12 @@ export default function CreateInstitute() {
         rows={5}
         rowsMax={10}
         required
-        placeholder="max 180 characters"
+        placeholder="max characters: 180"
         inputProps={{ maxLength: 180 }}
       />
-      <Typography variant="h6">Website Link</Typography>
+      <Typography variant="h6" className={classes.title}>
+        Website Link
+      </Typography>
       <InputBase
         classes={styles}
         style={{
@@ -76,8 +86,6 @@ export default function CreateInstitute() {
           backgroundColor: "#343a40",
           color: "#2196f3",
         }}
-        required
-        type="url"
         inputProps={{ maxLength: 2048 }}
       />
     </div>

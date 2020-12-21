@@ -28,7 +28,7 @@ function PostQuestion() {
             key={index}
             id={index}
             title={noteItem.title}
-            // content={noteItem.content}
+            content={noteItem.content}
             onDelete={deleteNote}
           />
         );

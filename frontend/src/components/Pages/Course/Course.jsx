@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Container, Typography } from "@material-ui/core";
+import { Container, Typography, Grid } from "@material-ui/core";
 import Hero from "../../General/Hero/Hero";
 import Table from "./ClassTable/Table";
+import MembersList from "../Institute/MembersList/MembersList";
 import xccelerateCourse from "../../Data/Course/Xccelerate/Course";
 import brainStationCourse from "../../Data/Course/BrainStation/Course";
 import flatironCourse from "../../Data/Course/Flatiron School/Course";
 import { withRouter } from "react-router-dom";
+import ClassPopup from "./Create/ClassPopup";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -90,7 +92,7 @@ function Course(props) {
     <div className={classes.root}>
       <Container maxWidth="xl">
         {/* -------------------------------------------------- Section 1 ---------------------------------------------- */}
-        <div className="section-1 container">
+        <div className="section-1 container" style={{ marginBottom: "1em" }}>
           <Hero
             title={courseParent[data].title}
             content={courseParent[data].content}
@@ -100,6 +102,18 @@ function Course(props) {
             scroll="#classroom-table"
           />
         </div>
+        <Grid container>
+          <MembersList />
+          <Typography
+            variant="h3"
+            style={{
+              fontWeight: 500,
+              marginLeft: "0.5em",
+            }}
+          >
+            Add Members
+          </Typography>
+        </Grid>
         {/* -------------------------------------------------- Section 2 -------------------------------------------------- */}
         <div
           className="section-2 container"
@@ -112,6 +126,9 @@ function Course(props) {
           >
             Classrooms
           </Typography>
+          <Grid container justify="center">
+            <ClassPopup buttonName="Create" title="Create Your Class" />
+          </Grid>
 
           <Table />
         </div>

@@ -9,15 +9,15 @@ const useStyles = makeStyles((theme) => ({
   root: {
     [theme.breakpoints.up("xs")]: {
       padding: "0 2rem",
-      fontSize: "11px",
+      fontSize: "12px",
     },
     [theme.breakpoints.up("sm")]: {
       padding: "0 2rem",
-      fontSize: "12px",
+      fontSize: "14px",
     },
     [theme.breakpoints.up("md")]: {
       padding: "0 3rem",
-      fontSize: "14px",
+      fontSize: "15px",
     },
     [theme.breakpoints.up("lg")]: {
       padding: "0 4rem",
@@ -51,7 +51,7 @@ export default function Explore() {
         >
           Let's Get Started, Keanu
         </Typography>
-        <Grid container spacing={4} justify="center">
+        <Grid container spacing={5} justify="center">
           {/* ------------------------ Card -------------------------- */}
           {information.map((info) => (
             <Grid item md={4} sm={6} key={info.id}>

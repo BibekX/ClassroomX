@@ -87,6 +87,18 @@ function Institute(props) {
             image={instituteInfo[iData].image}
             scroll="#card-container"
           />
+          <Grid container>
+            <MembersList />
+            <Typography
+              variant="h3"
+              style={{
+                fontWeight: 500,
+                marginLeft: "0.5em",
+              }}
+            >
+              Add Users
+            </Typography>
+          </Grid>
         </div>
 
         {/* -------------------------------------------------- Section 2 -------------------------------------------------- */}
@@ -103,7 +115,7 @@ function Institute(props) {
             </Grid>
           </Grid>
           {/* ------------------------ Card -------------------------- */}
-          <Grid container padding={5} spacing={5} justify="center">
+          <Grid container spacing={5} justify="center">
             {courseData.map((info) => (
               <Grid item md={4} sm={6} key={info.id}>
                 <Cards
@@ -118,16 +130,7 @@ function Institute(props) {
           </Grid>
         </div>
         {/* -------------------------------------------------- Section 3 -------------------------------------------------- */}
-        <div className="section-3">
-          <Grid container id="card-container">
-            <Typography variant="h3" style={{ fontWeight: 500 }}>
-              Members
-            </Typography>
-          </Grid>
-          <Grid container>
-            <MembersList />
-          </Grid>
-        </div>
+        <div className="section-3"></div>
       </Container>
     </div>
   );

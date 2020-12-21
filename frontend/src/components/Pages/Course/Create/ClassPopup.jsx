@@ -7,7 +7,7 @@ import { Button, Dialog, IconButton, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { useGraphicBtnStyles } from "@mui-treasury/styles/button/graphic";
 import CloseIcon from "@material-ui/icons/Close";
-import CreateInstitute from "./CreateInstitute";
+import CreateClass from "./CreateClass";
 
 const styles = (theme) => ({
   root: {
@@ -64,7 +64,7 @@ const DialogActions = withStyles((theme) => ({
 
 // ------------------------------------------------------------------------------------------------------------------
 
-export default function InstitutePopup(props) {
+export default function ClassPopup(props) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -105,7 +105,7 @@ export default function InstitutePopup(props) {
         </DialogTitle>
         <form>
           <DialogContent dividers style={{ maxHeight: "65vh" }}>
-            <CreateInstitute />
+            <CreateClass />
           </DialogContent>
           <DialogActions>
             <Button
