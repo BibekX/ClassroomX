@@ -112,6 +112,24 @@ class PostAnswers {
             throw new Error(err);
         })
 
+        let questionsIDfinder = await this.knex
+        .select("questionsID")
+        .where('id', input)
+        .from("answers")
+        .catch((err) => {
+            throw new Error(err);
+        })
+
+        let query2 = await this.knex
+        .where("id", questionsIDfinder[0])
+        .update({
+            answered : true
+        })
+        .into("questions")
+        .catch((err) => {
+            throw new Error(err);
+        })
+
     }
 
     async upvoteAnswer(input) {

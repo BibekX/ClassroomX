@@ -49,7 +49,7 @@ class QuestionService {
         console.log("getting list of answers")
 
         let query = await this.knex
-            .select("text", "votes", "correct", "created_at", "username", "nickname", "picture", "type")
+            .select("text", "votes", "correct", "created_at", "username", "nickname", "picture")
             .from("answers")
             .innerJoin("users", "answers.usersID", "users.id")
             .where("questionsID", questionsID)
@@ -64,14 +64,14 @@ class QuestionService {
         console.log("getting list of answers to answers")
 
         let query = await this.knex
-            .select("text", "votes", "correct", "created_at", "username", "nickname", "picture", "type")
+            .select("text", "votes", "correct", "created_at", "username", "nickname", "picture")
             .from("atoa")
             .innerJoin("users", "atoa.usersID", "users.id")
             .where("answersID", x.answersID)
             .catch((err) => {
                 throw new Error(err);
             });
-        console.log("ist of answers to answers", query)
+        console.log("list of answers to answers", query)
         return query;
 
     }

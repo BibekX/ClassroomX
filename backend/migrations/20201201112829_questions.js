@@ -4,8 +4,6 @@ exports.up = function (knex) {
         table.increments("id").primary().unsigned();
         table.string("title");
         table.text("text");
-        table.string("type");
-        table.string("tags")
         table.integer("votes");
         table.string("privacy");
         table.boolean("classpin");
