@@ -137,26 +137,47 @@ class PostQuestions {
 
     async upvoteQuestion(input) {
         let query = await this.knex
-        .where('id', input)
-        .increment('votes', 1)
-        .into("questions")
-        .catch((err) => {
-            throw new Error(err);
-        })
+            .where('id', input.id)
+            .increment('votes', 1)
+            .into("questions")
+            .catch((err) => {
+                throw new Error(err);
+            })
+
+        let query2 = await this.knex
+            .select("upvotedlist")
+            .from("questions")
+            .where('id', input.id)
+            .catch((err) => {
+                throw new Error(err);
+            })
+
+        let updatedupvotedlist = [...query2[0], input.username];
+
+        let query3 = await this.knex
+            .where('id', input.id)
+            .update({
+                upvotedlist: updatedupvotedlist
+            })
+            .into("questions")
+            .catch((err) => {
+                throw new Error(err);
+            })
+
         console.log("question upvoted")
 
     }
 
     async pinQuestion(input) {
         let query = await this.knex
-        .where('id', input)
-        .update({
-            classpin : true
-        })
-        .into("questions")
-        .catch((err) => {
-            throw new Error(err);
-        })
+            .where('id', input)
+            .update({
+                classpin: true
+            })
+            .into("questions")
+            .catch((err) => {
+                throw new Error(err);
+            })
         console.log("question pinned")
 
     }
