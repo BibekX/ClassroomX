@@ -21,12 +21,16 @@ class ClassService {
     let listOfNotes = getListOfNotes(baseDetails[0].id);
     let listOfQuestions = getListOfQuestions(baseDetails[0].id);
 
+    let listofAllUsers = getListOfAllUsers();
+
+
     let resultObject = {
         baseDetails: baseDetails[0],
         listOfTeachers: listOfTeachers,
         listOfStudents: listOfStudents,
         listOfNotes: listOfNotes,
-        listOfQuestions: listOfQuestions
+        listOfQuestions: listOfQuestions,
+        listOfAllUsers : listofAllUsers
     }
 
     return resultObject;
@@ -90,6 +94,20 @@ class ClassService {
                 throw new Error(err);
             });
         console.log("List of Questions:", query)
+        return query;
+    }
+
+    async getListOfAllUsers() {
+        console.log("getting list of all users")
+
+        let query = await this.knex
+        .select("id", "username", "nickname", "picture")
+        .from("users")
+        .catch((err) => {
+            throw new Error(err);
+        });
+        console.log("List of All users collected")
+
         return query;
     }
 

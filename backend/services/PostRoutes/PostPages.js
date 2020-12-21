@@ -144,7 +144,6 @@ class PostPages {
             picture : input.body.picture,
             backgroundpicture : input.body.backgroundpicture,
             overview : input.body.overview,
-            announcements : input.body.announcements
         })
         .into("institutions")
         .catch((err) => {

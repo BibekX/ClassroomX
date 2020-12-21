@@ -63,13 +63,13 @@ class PostNotes {
         console.log("Modifying this Note", input)
 
         let query = await this.knex
-            .where('name', input.name)
+            .where('title', input.title)
             .update({
-                title : input.details.title,
-                type : input.details.type,
-                text : input.details.text,
-                privacy : input.details.privacy,
-                pinned : input.details.pinned,
+                title : input.title,
+                type : input.type,
+                text : input.text,
+                privacy : input.privacy,
+                pinned : input.pinned,
                 })
             .into("notes")
             .catch((err) => {

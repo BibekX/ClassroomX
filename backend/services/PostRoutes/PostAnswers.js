@@ -67,7 +67,7 @@ class PostAnswers {
 
         let query = await this.knex
         .insert({
-            text : input.body.text,
+            text : input.text,
             votes : 0,
             usersID : userID,
             answersID : input.parent
@@ -112,7 +112,50 @@ class PostAnswers {
             throw new Error(err);
         })
 
+        let questionsIDfinder = await this.knex
+        .select("questionsID")
+        .where('id', input)
+        .from("answers")
+        .catch((err) => {
+            throw new Error(err);
+        })
+
+        let query2 = await this.knex
+        .where("id", questionsIDfinder[0])
+        .update({
+            answered : true
+        })
+        .into("questions")
+        .catch((err) => {
+            throw new Error(err);
+        })
+
     }
+
+    async upvoteAnswer(input) {
+        let query = await this.knex
+        .where('id', input)
+        .increment('votes', 1)
+        .into("answers")
+        .catch((err) => {
+            throw new Error(err);
+        })
+        console.log("question upvoted")
+
+    }
+
+    async upvoteAtoa(input) {
+        let query = await this.knex
+        .where('id', input)
+        .increment('votes', 1)
+        .into("atoa")
+        .catch((err) => {
+            throw new Error(err);
+        })
+        console.log("question upvoted")
+
+    }
+
 
 
 }

@@ -28,6 +28,9 @@ class InstitutionService {
         let listOfClasses = listOfCourses.map(x => this.getListOfClasses(x))
         let listOfQuestions = listOfClasses.map(x => this.getListOfQuestions(x))
 
+        let listofAllUsers = getListOfAllUsers();
+        let listOfAllCourses = getListOfAllCourses();
+
         let resultObject = {
             baseDetails: baseDetails[0],
             listOfAdmins: listOfAdmins,
@@ -35,7 +38,9 @@ class InstitutionService {
             listOfStudents: listOfStudents,
             listOfCourses: listOfCourses,
             listOfClasses: listOfClasses,
-            listOfQuestions: listOfQuestions
+            listOfQuestions: listOfQuestions,
+            listOfAllUsers : listofAllUsers,
+            listOfAllCourses : listOfAllCourses
         }
 
         return resultObject;
@@ -133,6 +138,35 @@ class InstitutionService {
 
     }
 
+    async getListOfAllUsers() {
+        console.log("getting list of all users")
+
+        let query = await this.knex
+        .select("id", "username", "nickname", "picture")
+        .from("users")
+        .catch((err) => {
+            throw new Error(err);
+        });
+        console.log("List of All users collected")
+
+        return query;
+    }
+    
+    async getListOfAllCourses() {
+        console.log("getting list of all courses")
+       
+        let query = await this.knex
+        .select("*")
+        .from("courses")
+        .catch((err) => {
+            throw new Error(err);
+        });
+
+        console.log("List of All courses collected")
+
+        return query;
+
+    }
 
 }
 
