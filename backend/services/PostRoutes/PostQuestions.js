@@ -45,7 +45,6 @@ class PostQuestions {
             .insert({
                 title: input.details.title,
                 text: input.details.text,
-                type: input.details.type,
                 votes: 0,
                 privacy: input.details.privacy,
                 classpin: input.details.classpin,
@@ -121,7 +120,6 @@ class PostQuestions {
             .update({
                 title: input.title,
                 text: input.text,
-                type: input.type,
                 privacy: input.privacy,
                 classpin: input.classpin,
                 institutionpin: input.institutionpin
