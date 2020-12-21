@@ -7,6 +7,9 @@ const knexConfig = require("./knexfile").development;
 const knex = require("knex")(knexConfig);
 
 const app = express();
+const server = require("http").createServer(app);
+const io = require("socket.io")(server);
+
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -377,6 +380,20 @@ app.post("/upvoteQuestion", async (req, res) => {
         res.end();
     })
 })
+
+
+
+//Socket.io
+
+
+io.on('connection', (socket) => {
+    console.log('a user connected to the socket');
+    socket.on('disconnect', () => console.log('a user left us'));
+});
+
+  
+
+
 
 
 
