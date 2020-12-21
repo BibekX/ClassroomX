@@ -60,7 +60,9 @@ class PostQuestions {
                 throw new Error(err);
             });
 
-        input.details.map(async (tag) => {
+        let tags = input.details.tags;
+
+        tags.map(async (tag) => {
             let query1 = await this.knex
                 .select("*")
                 .from("tags")
@@ -115,14 +117,14 @@ class PostQuestions {
         console.log("Modifying this Question", input)
 
         let query = await this.knex
-            .where('name', input.name)
+            .where('title', input.title)
             .update({
-                title: input.details.title,
-                text: input.details.text,
-                type: input.details.type,
-                privacy: input.details.privacy,
-                classpin: input.details.classpin,
-                institutionpin: input.details.institutionpin
+                title: input.title,
+                text: input.text,
+                type: input.type,
+                privacy: input.privacy,
+                classpin: input.classpin,
+                institutionpin: input.institutionpin
             })
             .into("questions")
             .catch((err) => {
@@ -132,10 +134,34 @@ class PostQuestions {
 
 
 
-            console.log("Modification Finished")
+        console.log("Modification Finished")
     }
 
+    async upvoteQuestion(input) {
+        let query = await this.knex
+        .where('id', input)
+        .increment('votes', 1)
+        .into("questions")
+        .catch((err) => {
+            throw new Error(err);
+        })
+        console.log("question upvoted")
 
+    }
+
+    async pinQuestion(input) {
+        let query = await this.knex
+        .where('id', input)
+        .update({
+            classpin : true
+        })
+        .into("questions")
+        .catch((err) => {
+            throw new Error(err);
+        })
+        console.log("question pinned")
+
+    }
 
 }
 
