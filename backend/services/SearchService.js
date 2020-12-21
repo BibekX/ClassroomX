@@ -89,7 +89,6 @@ class SearchService {
                         type: "question",
                         id: searchQuery[i].id,
                         title: searchQuery[i].title,
-                        type: searchQuery[i].type,
                         tags: searchQuery[i].tags,
                         votes: searchQuery[i].votes,
                         answered: searchQuery[i].answered,
@@ -199,14 +198,13 @@ class SearchService {
 
     async getSearchInQuestions(searchQuery) {
         let query = await this.knex
-            .select("questions.id as id", "questions.title as title", "questions.type as type", "questions.votes as votes", "questions.answered as answered", "questions.created_at as created_at", "users.name as userName", "class.name as className", "tags.name as tagName")
+            .select("questions.id as id", "questions.title as title", "questions.votes as votes", "questions.answered as answered", "questions.created_at as created_at", "users.name as userName", "class.name as className", "tags.name as tagName")
             .from("questions")
             .join("users", "questions.userID", "users.id")
             .join("classes", "questions.classesID", "classes.id")
             .join("questionstags", "questions.id", "questionstags.questionsID")
             .join("tags", "questionstags.tagsID", "tags.id")
             .where("title", `%${searchQuery}%`)
-            .orWhere("type", `%${searchQuery}%`)
             .orWhere("tagName", `%${searchQuery}%`)
 
         let resultArray = [];

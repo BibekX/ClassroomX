@@ -5,6 +5,7 @@ exports.up = function (knex) {
         table.string("title");
         table.text("text");
         table.integer("votes");
+        table.text("upvotedlist");
         table.string("privacy");
         table.boolean("classpin");
         table.boolean("institutionpin");

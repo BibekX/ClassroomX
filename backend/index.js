@@ -257,13 +257,10 @@ app.post("/newNote", async (req, res) => {
         })
 })
 
-app.post("/modifyNote/:note", async (req, res) => {
+app.post("/modifyNote", async (req, res) => {
     console.log("Modifying this Note")
     return postNotes
-    .modifyNote({
-        name : req.params.note,
-        body : req.body
-    })
+    .modifyNote(req.body)
     .then(()=>{
         res.redirect("back");
         res.end()
@@ -287,20 +284,25 @@ app.post("/newQuestion", async (req, res) => {
         })
 })
 
-app.post("/modifyQuestion/:question", async (req, res) => {
+app.post("/modifyQuestion", async (req, res) => {
     console.log(`Modifying This Question`)
-    return postPages
-        .modifyQuestion({
-            name: req.params.question,
-            body: req.body
-        })
+    return postQuestions
+        .modifyQuestion(req.body)
         .then(() => {
             res.redirect('back');
             res.end();
         })
 })
 
-app.post("/upvoteQuestion/:question")
+app.post("/upvoteQuestion", async (req, res) => {
+    console.log('upvoting question')
+    return postQuestions
+    .upvoteQuestion(req.body)
+    .then(() => {
+        res.redirect('back');
+        res.end();
+    })
+})
 
 
 
@@ -317,20 +319,17 @@ app.post("/newAnswer", async (req, res) => {
         })
 })
 
-app.post("/modifyAnswer/:answer", async (req, res) => {
+app.post("/modifyAnswer", async (req, res) => {
     console.log(`Modifying This Answer`)
     return postAnswers
-        .modifyAnswer({
-            name: req.params.answer,
-            body: req.body
-        })
+        .modifyAnswer(req.body)
         .then(() => {
             res.redirect('back');
             res.end();
         })
 })
 
-app.post("answerQuestion/:question", async (req, res) => {
+app.post("answerQuestion", async (req, res) => {
     console.log("This answer is now correct:", req.body)
     return postAnswers
         .answerQuestion(req.body)
@@ -349,20 +348,35 @@ app.post("/newAtoa", async (req, res) => {
         })
 })
 
-app.post("modifyAtoa/:atoa", async (req, res) => {
+app.post("modifyAtoa", async (req, res) => {
     console.log(`Modifying This Atoa`)
     return postAnswers
-        .modifyAtoa({
-            name: req.params.atoa,
-            body: req.body
-        })
+        .modifyAtoa(req.body)
         .then(() => {
             res.redirect('back');
             res.end();
         })
 })
 
+app.post("/upvoteQuestion", async (req, res) => {
+    console.log('upvoting answer')
+    return postAnswers
+    .upvoteAnswer(req.body)
+    .then(() => {
+        res.redirect('back');
+        res.end();
+    })
+})
 
+app.post("/upvoteQuestion", async (req, res) => {
+    console.log('upvoting answer to answer')
+    return postAnswers
+    .upvoteAtoa(req.body)
+    .then(() => {
+        res.redirect('back');
+        res.end();
+    })
+})
 
 
 

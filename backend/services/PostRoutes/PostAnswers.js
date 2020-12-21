@@ -140,7 +140,30 @@ class PostAnswers {
         .catch((err) => {
             throw new Error(err);
         })
-        console.log("question upvoted")
+
+        let query2 = await this.knex
+            .select("upvotedlist")
+            .from("answers")
+            .where('id', input.id)
+            .catch((err) => {
+                throw new Error(err);
+            })
+
+        let updatedupvotedlist = [...query2[0], input.username];
+
+        let query3 = await this.knex
+            .where('id', input.id)
+            .update({
+                upvotedlist: updatedupvotedlist
+            })
+            .into("answers")
+            .catch((err) => {
+                throw new Error(err);
+            })
+
+
+
+        console.log("answer upvoted")
 
     }
 
@@ -152,11 +175,33 @@ class PostAnswers {
         .catch((err) => {
             throw new Error(err);
         })
-        console.log("question upvoted")
+
+        let query2 = await this.knex
+            .select("upvotedlist")
+            .from("atoa")
+            .where('id', input.id)
+            .catch((err) => {
+                throw new Error(err);
+            })
+
+        let updatedupvotedlist = [...query2[0], input.username];
+
+        let query3 = await this.knex
+            .where('id', input.id)
+            .update({
+                upvotedlist: updatedupvotedlist
+            })
+            .into("atoa")
+            .catch((err) => {
+                throw new Error(err);
+            })
+
+
+
+
+        console.log("answer to answer upvoted")
 
     }
-
-
 
 }
 
