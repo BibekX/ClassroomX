@@ -22,33 +22,33 @@ app.use(morgan("combined"));
 const LandingService = require("./services/LandingService");
 const landingService = new LandingService(knex);
 
-app.get("/", (req, res) => {
-    let institutions = landingService.getInstitutions();
-    res.render("index", {
-        institutions: institutions
-    })
+app.get("/", async (req, res) => {
+    let institutions = await landingService.getInstitutions();
+    let data = await JSON.stringify(institutions)
+    res.json({ institutions: data })
+        .catch((err) => res.status(500).json(err));
 })
 
 //Institution Mainpage - in this case :institution is the specific institution's name in the database
 const InstitutionService = require("./services/InstitutionService");
 const institutionService = new InstitutionService(knex);
 
-app.get('/institution/:institution', (req, res) => {
-    let institutionDetails = institutionService.getInstitutionDetails(req.params.institution);
-    res.render("institution", {
-        institutionDetails: institutionDetails
-    })
+app.get('/institution/:institution', async (req, res) => {
+    let institutionDetails = await institutionService.getInstitutionDetails(req.params.institution);
+    let data = await JSON.stringify(institutionDetails)
+    res.json({ institutionDetails: data })
+        .catch((err) => res.status(500).json(err));
 })
 
 //Course Mainpage - as above :course is the specific course's name in the database
 const CourseService = require("./services/CourseService");
 const courseService = new CourseService(knex);
 
-app.get('/course/:course', (req, res) => {
-    let courseDetails = courseService.getCourseDetails(req.params.course);
-    res.render("course", {
-        courseDetails: courseDetails
-    })
+app.get('/course/:course', async (req, res) => {
+    let courseDetails = await courseService.getCourseDetails(req.params.course);
+    let data = await JSON.stringify(courseDetails);
+    res.json({ courseDetails: data })
+        .catch((err) => res.status(500).json(err));
 })
 
 
@@ -56,11 +56,11 @@ app.get('/course/:course', (req, res) => {
 const ClassService = require("./services/ClassService");
 const classService = new ClassService(knex);
 
-app.get('/class/:class', (req, res) => {
-    let classDetails = classService.getClassDetails(req.params.class);
-    res.render("class", {
-        classDetails: classDetails
-    })
+app.get('/class/:class', async (req, res) => {
+    let classDetails = await classService.getClassDetails(req.params.class);
+    let data = await JSON.stringify(classDetails);
+    res.json({ classDetails: data })
+        .catch((err) => res.status(500).json(err));
 })
 
 
@@ -68,11 +68,11 @@ app.get('/class/:class', (req, res) => {
 const AccountService = require("./services/AccountService")
 const accountService = new AccountService(knex);
 
-app.get('/account/:name', (req, res) => {
-    let accountDetails = accountService.getAccountDetails(req.params.name);
-    res.render("account", {
-        accountDetails: accountDetails
-    })
+app.get('/account/:name', async (req, res) => {
+    let accountDetails = await accountService.getAccountDetails(req.params.name);
+    let data = await JSON.stringify(accountDetails);
+    res.json({ accountDetails: data })
+        .catch((err) => res.status(500).json(err));
 })
 
 
@@ -80,11 +80,11 @@ app.get('/account/:name', (req, res) => {
 const QuestionService = require("./services/QuestionService")
 const questionService = new QuestionService(knex);
 
-app.get('/question/:question', (req, res) => {
-    let questionDetails = questionService.getQuestionDetails(req.params.question);
-    res.render("question", {
-        questionDetails: questionDetails
-    })
+app.get('/question/:question', async (req, res) => {
+    let questionDetails = await questionService.getQuestionDetails(req.params.question);
+    let data = await JSON.stringify(questionDetails);
+    res.json({ questionDetails: data })
+        .catch((err) => res.status(500).json(err));
 })
 
 
@@ -93,13 +93,11 @@ app.get('/question/:question', (req, res) => {
 const SearchService = require("./services/SearchService");
 const searchService = new SearchService(knex);
 
-app.get('/search', (req, res) => {
-    res.render("search")
-})
-
-app.post('/search', (req, res) => {
-    let searchDetails = searchService.getSearchDetails(req.query.search)
-    res.json(searchDetails)
+app.get('/search', async (req, res) => {
+    let searchDetails = await searchService.getSearchDetails(req.query.search);
+    let data = await JSON.stringify(searchDetails);
+    res.json(data)
+        .catch((err) => res.status(500).json(err));
 })
 
 
@@ -125,12 +123,11 @@ app.post("/login")
 const PostAccounts = require("./services/PostRoutes/PostAccounts");
 const postAccounts = new PostAccounts(knex);
 
-app.post("/modifyuser/:user", (req, res) => {
+app.post("/modifyuser", (req, res) => {
     console.log("Post = ", req.body)
     return postAccounts
         .modifyUser(req.body)
         .then(() => {
-            res.redirect('back');
             res.end()
         })
         .catch((err) => res.status(500).json(err));
@@ -142,7 +139,6 @@ app.post("/instNewUser", (req, res) => {
     return postAccounts
         .addInstUser(req.body)
         .then(() => {
-            res.redirect('back');
             res.end()
         })
 })
@@ -152,7 +148,6 @@ app.post("/courseNewUser", (req, res) => {
     return postAccounts
         .addCourseUser(req.body)
         .then(() => {
-            res.redirect('back');
             res.end()
         })
 })
@@ -162,7 +157,6 @@ app.post("/classNewUser", (req, res) => {
     return postAccounts
         .addClassUser(req.body)
         .then(() => {
-            res.redirect('back');
             res.end()
         })
 })
@@ -178,7 +172,6 @@ app.post("/newInst", async (req, res) => {
     return postPages
         .newInst(req.body)
         .then(() => {
-            res.redirect('back');
             res.end()
         })
 })
@@ -188,7 +181,6 @@ app.post("/newCourse", async (req, res) => {
     return postPages
         .newCourse(req.body)
         .then(() => {
-            res.redirect('back');
             res.end()
         })
 })
@@ -198,7 +190,7 @@ app.post("/newClass", async (req, res) => {
     return postPages
         .newClass(req.body)
         .then(() => {
-            res.redirect('back');
+            // res.redirect('back');
             res.end();
         })
 })
@@ -213,7 +205,6 @@ app.post("/modifyInst/:institution", async (req, res) => {
             body: req.body
         })
         .then(() => {
-            res.redirect('back');
             res.end();
         })
 })
@@ -226,7 +217,6 @@ app.post("/modifyCourse/:course", async (req, res) => {
             body: req.body
         })
         .then(() => {
-            res.redirect('back');
             res.end();
         })
 })
@@ -239,7 +229,6 @@ app.post("/modifyClass/:class", async (req, res) => {
             body: req.body
         })
         .then(() => {
-            res.redirect('back');
             res.end();
         })
 })
@@ -263,11 +252,10 @@ app.post("/newNote", async (req, res) => {
 app.post("/modifyNote", async (req, res) => {
     console.log("Modifying this Note")
     return postNotes
-    .modifyNote(req.body)
-    .then(()=>{
-        res.redirect("back");
-        res.end()
-    })
+        .modifyNote(req.body)
+        .then(() => {
+            res.end()
+        })
 })
 
 
@@ -292,7 +280,6 @@ app.post("/modifyQuestion", async (req, res) => {
     return postQuestions
         .modifyQuestion(req.body)
         .then(() => {
-            res.redirect('back');
             res.end();
         })
 })
@@ -300,11 +287,10 @@ app.post("/modifyQuestion", async (req, res) => {
 app.post("/upvoteQuestion", async (req, res) => {
     console.log('upvoting question')
     return postQuestions
-    .upvoteQuestion(req.body)
-    .then(() => {
-        res.redirect('back');
-        res.end();
-    })
+        .upvoteQuestion(req.body)
+        .then(() => {
+            res.end();
+        })
 })
 
 
@@ -327,7 +313,6 @@ app.post("/modifyAnswer", async (req, res) => {
     return postAnswers
         .modifyAnswer(req.body)
         .then(() => {
-            res.redirect('back');
             res.end();
         })
 })
@@ -356,7 +341,6 @@ app.post("modifyAtoa", async (req, res) => {
     return postAnswers
         .modifyAtoa(req.body)
         .then(() => {
-            res.redirect('back');
             res.end();
         })
 })
@@ -364,21 +348,19 @@ app.post("modifyAtoa", async (req, res) => {
 app.post("/upvoteQuestion", async (req, res) => {
     console.log('upvoting answer')
     return postAnswers
-    .upvoteAnswer(req.body)
-    .then(() => {
-        res.redirect('back');
-        res.end();
-    })
+        .upvoteAnswer(req.body)
+        .then(() => {
+            res.end();
+        })
 })
 
 app.post("/upvoteQuestion", async (req, res) => {
     console.log('upvoting answer to answer')
     return postAnswers
-    .upvoteAtoa(req.body)
-    .then(() => {
-        res.redirect('back');
-        res.end();
-    })
+        .upvoteAtoa(req.body)
+        .then(() => {
+            res.end();
+        })
 })
 
 
@@ -391,7 +373,7 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => console.log('a user left us'));
 });
 
-  
+
 
 
 
