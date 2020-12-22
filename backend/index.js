@@ -7,8 +7,17 @@ const knexConfig = require("./knexfile").development;
 const knex = require("knex")(knexConfig);
 
 const app = express();
-const server = require("http").createServer(app);
-const io = require("socket.io")(server);
+
+//This stuff for socket.io
+const http = require("http");
+const server = http.createServer(app);
+app.use(cors())
+const io = require('socket.io')(server, {
+    cors: {
+        origin: "http://localhost:8080",
+        methods: ["GET", "POST"]
+    }
+});
 
 
 app.use(cors());
@@ -249,10 +258,10 @@ app.post("/newNote", async (req, res) => {
         })
 })
 
-app.post("/modifyNote", async (req, res) => {
-    console.log("Modifying this Note")
+app.post("/saveNote", async (req, res) => {
+    console.log("Saving this note")
     return postNotes
-        .modifyNote(req.body)
+        .saveNote(req.body)
         .then(() => {
             res.end()
         })
@@ -365,20 +374,20 @@ app.post("/upvoteQuestion", async (req, res) => {
 
 
 
-//Socket.io
-
-
+//Socket.io section for real-time notes section
 io.on('connection', (socket) => {
-    console.log('a user connected to the socket');
-    socket.on('disconnect', () => console.log('a user left us'));
+    console.log("client connected");
+    socket.on('newUpdate', (state) => {
+        console.log("New Update", state);
+        socket.broadcast.emit("notesUpdated", JSON.stringify(state));
+
+    });
 });
 
+const port = 8080
+
+server.listen(port, () => {
+    console.log("App Listening on Port", port)
+})
 
 
-
-
-
-
-app.listen(8080, () => {
-    console.log("Application listening to port 8080");
-});

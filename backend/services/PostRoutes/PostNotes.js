@@ -59,27 +59,21 @@ class PostNotes {
         console.log("Note submitted")
     }
 
-    async modifyNote(input) {
-        console.log("Modifying this Note", input)
+    async saveNote(input) {
+        console.log("Saving this Note", input)
 
         let query = await this.knex
-            .where('title', input.title)
+            .where('id', input.id)
             .update({
                 title : input.title,
                 type : input.type,
                 text : input.text,
-                privacy : input.privacy,
-                pinned : input.pinned,
                 })
             .into("notes")
             .catch((err) => {
                 throw new Error(err);
             })
-
-
-
-
-            console.log("Modification Finished")
+            console.log("Saving Finished")
 
     }
 

@@ -12,6 +12,8 @@ import ReactQuill from "react-quill";
 import "quill/dist/quill.snow.css";
 import "./CreateQuestion.css";
 import { Link } from "react-router-dom";
+
+import { Notebox } from "../Class/Notebox";
 // -------------------------------------------------------
 // import { WithContext as ReactTags } from "react-tag-input";
 
@@ -204,7 +206,7 @@ function CreateQuestion(props) {
                     </Link>
                   </div>
                 </form>
-                test
+                <Notebox />
               </div>
             </Grid>
           </Grid>
