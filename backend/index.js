@@ -14,6 +14,10 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan("combined"));
 
+// JWT auth
+const bcrypt = require('./auth/bcrypt');
+const config = require('./auth/config');
+const jwt = require("jwt-simple");
 
 // Landing Service
 const LandingService = require("./services/LandingService");
@@ -103,20 +107,98 @@ app.post('/search', (req, res) => {
 
 //POST routes:
 
-
 // Post - Need JWT details to figure out how to make the login and register work properly, skip over this for now.
-const NewUsers = require("./services/PostRoutes/NewUsers");
-const newUsers = new NewUsers(knex);
 
-app.post("/register", (req, res) => {
-    console.log("Post = ", req.body)
-    return newUsers
-        .register(req.body)
-        .then("Login")
-        .catch((err) => res.status(500).json(err));
-})
-app.post("/login")
+// const NewUsers = require("./services/PostRoutes/NewUsers");
+// const newUsers = new NewUsers(knex);
 
+// app.post("/register", (req, res) => {
+//     console.log("Post = ", req.body)
+//     return newUsers
+//         .register(req.body)
+//         .then("Login")
+//         .catch((err) => res.status(500).json(err));
+// })
+// app.post("/login")
+
+// POST - Register Route ('/api/signup/user')
+
+app.post("/api/signup/user", async function (req, res) {
+    console.log("POST = ", req.body)
+
+    if (req.body.username && req.body.password && req.body.email) {
+      const username = req.body.username;
+      const email = req.body.email;
+      const password = req.body.password;
+  
+      const users = await knex("users").where({ username: username });
+      if (users.length > 0) {
+        res.sendStatus(401);
+      }
+
+      const hash = await bcrypt.hashPassword(password);
+      // create new user
+      const newUser = {
+        username: username,
+        email: email,
+        password: hash,
+        type: req.body.institute
+      };
+  
+      let user = await knex("users")
+        .insert(newUser)
+        .catch((err) => console.log(err))
+    }
+});
+
+// POST - Login Route ('/api/login')
+
+app.post("/api/login", async function (req, res) {
+    console.log(req.body.username);
+    if (req.body.username && req.body.password) {
+      const username = req.body.username;
+      const password = req.body.password;
+      let type = "";
+  
+      // Read from database to check if user exists
+      const users = await knex("users").where({ username });
+  
+      if (users.length === 0) {
+        res.sendStatus(401);
+      }
+      const user = users[0];
+      const result = await bcrypt.checkPassword(password, user.password); // QUERY "users".password table?
+  
+      // validation check on user type
+      if (user.user === true) {
+        type = "student";
+      } else if (user.teacher === true) {
+        type = "teacher";
+      } else if (user.admin === true) {
+        type = "admin";
+      }
+  
+      if (result) {
+        const PAYLOAD = {
+          id: user.id,
+        };
+        const token = jwt.encode(PAYLOAD, config.jwtSecret);
+        res.json({
+          token,
+          id: user.id,
+          type: type,
+          username: username,
+        });
+        console.log("login success" + PAYLOAD)
+      } else {
+        console.log('first LOGIN 401 check')
+        res.sendStatus(401);
+      }
+    } else {
+        console.log('Second LOGIN 401 check')
+        res.sendStatus(401);
+    }
+  });
 
 //Route for changing user details - Not sure how auth would happen, need to figure that out later for all POST routes
 const PostAccounts = require("./services/PostRoutes/PostAccounts");

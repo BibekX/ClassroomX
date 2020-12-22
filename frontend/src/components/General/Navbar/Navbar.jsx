@@ -50,8 +50,9 @@ export default function Navbar() {
   };
 
   const handlelogout = () => {
-    setAuth(false);
-    setAnchorEl(null);
+    // setAuth(false);
+    // setAnchorEl(null);
+    localStorage.removeItem("user");
   };
 
   const handleClick = () => setClicked(!clicked);

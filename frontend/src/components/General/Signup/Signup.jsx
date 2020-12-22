@@ -9,12 +9,15 @@ import {
   Select,
   FormControl,
   InputLabel,
+  FormHelperText,
   Typography,
   Container,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
+
+import AuthService from "../../../services/auth.service";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -43,13 +46,62 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp() {
+
+const SignUp = (props) => {
+
   const classes = useStyles();
 
   const [institute, setInstitute] = useState("");
   const handleChange = (event) => {
     setInstitute(event.target.value);
   };
+
+  // Set Hooks for user Registration
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [successful, setSuccessful] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const onChangeUsername = (e) => {
+    const username = e.target.value;
+    setUsername(username);
+  };
+
+  const onChangeEmail = (e) => {
+    const email = e.target.value;
+    setEmail(email);
+  };
+
+  const onChangePassword = (e) => {
+    const password = e.target.value;
+    setPassword(password);
+  };
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+
+    console.log(institute) // check
+    setMessage("");
+    setSuccessful(false);
+
+    AuthService.register(username, email, password, institute).then(
+      (response) => {
+        setMessage(response.data.message);
+        setSuccessful(true);
+      },
+      (error) => { 
+        const resMessage = 
+          ( error.response &&
+            error.response.data &&
+            error.response.data.message
+          ) || error.message || error.toString();
+        
+        setMessage(resMessage);
+        setSuccessful(false);
+      }
+    );
+};
 
   return (
     <Container component="main" maxWidth="xs">
@@ -79,8 +131,9 @@ export default function SignUp() {
           </Select>
           {/* <FormHelperText>Required</FormHelperText> */}
         </FormControl>
-        <form className={classes.form}>
+        <form className={classes.form} onSubmit={handleRegister}>
           <Grid container spacing={2}>
+
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -89,10 +142,13 @@ export default function SignUp() {
                 id="username"
                 label="Username"
                 name="username"
-                type=""
+                value={username}
+                onChange={onChangeUsername}
+                type="text"
                 autoComplete="uname"
               />
             </Grid>
+
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -101,10 +157,14 @@ export default function SignUp() {
                 id="email"
                 label="Email Address"
                 name="email"
-                type="email"
+                type="text"
+                value={email}
+                onChange={onChangeEmail}
+                // validations={[required, validEmail]}
                 autoComplete="email"
               />
             </Grid>
+
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -113,6 +173,9 @@ export default function SignUp() {
                 name="password"
                 label="Password"
                 type="password"
+                value={password}
+                onChange={onChangePassword}
+                // validations={[required, vpassword]}
                 id="password"
                 autoComplete="current-password"
               />
@@ -146,3 +209,5 @@ export default function SignUp() {
     </Container>
   );
 }
+
+export default SignUp;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Avatar,
   Button,
@@ -12,6 +12,11 @@ import {
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
+
+import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from 'react-router-dom';
+import { login } from "../../../store/actions/auth";
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -33,8 +38,46 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login() {
+const Login = (props) => {
   const classes = useStyles();
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const { isLoggedIn } = useSelector(state => state.auth);
+  const { message } = useSelector(state => state.message);
+
+  const dispatch = useDispatch();
+
+  const onChangeUsername = (e) => {
+    const username = e.target.value;
+    setUsername(username);
+  };
+
+  const onChangePassword = (e) => {
+    const password = e.target.value;
+    setPassword(password);
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    setLoading(true);
+
+    dispatch(login(username, password))
+      .then(() => {
+        props.history.push("/profile");
+        window.location.reload();
+      })
+      .catch(() => {
+        setLoading(false);
+      });      
+  };
+
+  if (isLoggedIn) {
+    return <Redirect to="/profile" />;
+  } 
 
   return (
     <Container component="main" maxWidth="xs">
@@ -46,17 +89,21 @@ export default function Login() {
         <Typography component="h1" variant="h5">
           Login
         </Typography>
-        <form className={classes.form}>
-          <TextField
+        {/* FORM INPUT */}
+        <form className={classes.form} onSubmit={handleLogin} >
+        <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            id="email"
-            type="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id="username"
+            type="text"
+            label="Username"
+            name="username"
+            value={username}
+            onChange={onChangeUsername}
+            // validations={[required]}
+            autoComplete="username"
             autoFocus
           />
           <TextField
@@ -65,6 +112,9 @@ export default function Login() {
             required
             fullWidth
             name="password"
+            value={password}
+            onChange={onChangePassword}
+            // validations={[required]}
             label="Password"
             type="password"
             id="password"
@@ -80,6 +130,7 @@ export default function Login() {
           >
             Login
           </Button>
+
           <Grid container>
             <Grid item xs></Grid>
             <Grid item>
@@ -94,3 +145,5 @@ export default function Login() {
     </Container>
   );
 }
+
+export default Login;
