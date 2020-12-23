@@ -143,19 +143,19 @@ exports.seed = function (knex) {
     // Classes Seeds
     .then(function () {
       return knex('classes').insert([
-        { title: "Cohort 1", status: "Complete", startdate: "Mar 23", enddate: "Aug 04", coursesID: 1 },
-        { title: "Cohort 2", status: "Complete", startdate: "Aug 17", enddate: "Dec 10", coursesID: 1 },
-        { title: "Cohort 3", status: "Complete", startdate: "Jan 04", enddate: "May 01", coursesID: 1 },
-        { title: "Cohort 4", status: "Complete", startdate: "May 02", enddate: "Jul 29", coursesID: 1 },
-        { title: "Cohort 5", status: "Complete", startdate: "Aug 17", enddate: "Dec 10", coursesID: 1 },
-        { title: "Cohort 6", status: "Complete", startdate: "Jan 17", enddate: "May 10", coursesID: 1 },
-        { title: "Cohort 7", status: "Complete", startdate: "May 23", enddate: "October 04", coursesID: 1 },
-        { title: "Cohort 8", status: "Complete", startdate: "Mar 23", enddate: "Aug 04", coursesID: 1 },
-        { title: "Cohort 9", status: "Complete", startdate: "Aug 17", enddate: "Dec 10", coursesID: 1 },
-        { title: "Cohort 10", status: "Complete", startdate: "Jan 04", enddate: "May 01", coursesID: 1 },
-        { title: "Cohort 11", status: "Complete", startdate: "May 02", enddate: "Jul 29", coursesID: 1 },
-        { title: "Cohort 12", status: "Complete", startdate: "Aug 17", enddate: "Dec 10", coursesID: 1 },
-        { title: "Cohort 13", status: "Active", startdate: "Jan 17", enddate: "May 10", coursesID: 1 },
+        { name: "Cohort 1", status: "Complete", startdate: "Mar 23", enddate: "Aug 04", coursesID: 1 },
+        { name: "Cohort 2", status: "Complete", startdate: "Aug 17", enddate: "Dec 10", coursesID: 1 },
+        { name: "Cohort 3", status: "Complete", startdate: "Jan 04", enddate: "May 01", coursesID: 1 },
+        { name: "Cohort 4", status: "Complete", startdate: "May 02", enddate: "Jul 29", coursesID: 1 },
+        { name: "Cohort 5", status: "Complete", startdate: "Aug 17", enddate: "Dec 10", coursesID: 1 },
+        { name: "Cohort 6", status: "Complete", startdate: "Jan 17", enddate: "May 10", coursesID: 1 },
+        { name: "Cohort 7", status: "Complete", startdate: "May 23", enddate: "October 04", coursesID: 1 },
+        { name: "Cohort 8", status: "Complete", startdate: "Mar 23", enddate: "Aug 04", coursesID: 1 },
+        { name: "Cohort 9", status: "Complete", startdate: "Aug 17", enddate: "Dec 10", coursesID: 1 },
+        { name: "Cohort 10", status: "Complete", startdate: "Jan 04", enddate: "May 01", coursesID: 1 },
+        { name: "Cohort 11", status: "Complete", startdate: "May 02", enddate: "Jul 29", coursesID: 1 },
+        { name: "Cohort 12", status: "Complete", startdate: "Aug 17", enddate: "Dec 10", coursesID: 1 },
+        { name: "Cohort 13", status: "Active", startdate: "Jan 17", enddate: "May 10", coursesID: 1 },
       ])
     })
     // Notes Seeds
