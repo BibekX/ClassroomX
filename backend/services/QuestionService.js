@@ -1,82 +1,101 @@
 class QuestionService {
-    constructor(knex) {
-        this.knex = knex;
-    }
+  constructor(knex) {
+    this.knex = knex;
+  }
 
-    async getQuestionDetails(questionID) {
-        console.log(`getting question details for question number ${questionID}`)
+  async getQuestionDetails(questionID) {
+    console.log(`getting question details for question number ${questionID}`);
 
-        let baseDetails = await this.knex
-            .select("*")
-            .from("questions")
-            .where("id", questionID)
-            .catch((err) => {
-                throw new Error(err);
-            })
+    let baseDetails = await this.knex
+      .select("*")
+      .from("questions")
+      .where("id", questionID)
+      .catch((err) => {
+        throw new Error(err);
+      });
 
-        console.log("Question details here", baseDetails[0])
+    console.log("Question details here", baseDetails[0]);
 
-        let userDetails = getUserDetails(baseDetails[0].usersID)
-        let listOfAnswers = getListOfAnswers(questionID)
-        let answersToAnswers = listOfAnswers.map(x => this.getListOfAtoa(x))
+    let userDetails = await this.getUserDetails(baseDetails[0].usersID);
+    let listOfAnswers = await this.getListOfAnswers(questionID);
 
-        let resultObject = {
-            baseDetails: baseDetails[0],
-            userDetails: userDetails,
-            listOfAnswers: listOfAnswers,
-            answersToAnswers: answersToAnswers
-        }
+    let answersPromises = listOfAnswers.map((x) => this.getListOfAtoa(x));
 
-        return resultObject;
-    }
+    let answersToAnswers = await Promise.all(answersPromises).catch((e) =>
+      console.error(e)
+    );
 
-    async getUserDetails(usersID) {
-        console.log("getting user details")
+    let resultObject = {
+      baseDetails: baseDetails[0],
+      userDetails: userDetails,
+      listOfAnswers: listOfAnswers,
+      answersToAnswers: answersToAnswers,
+    };
 
-        let query = await this.knex
-            .select("username", "nickname", "picture", "type")
-            .from("users")
-            .where("id", usersID)
-            .catch((err) => {
-                throw new Error(err);
-            });
+    return resultObject;
+  }
 
-        console.log("user details", query)
-        return query;
-    }
+  async getUserDetails(usersID) {
+    console.log("getting user details");
 
-    async getListOfAnswers(questionsID) {
-        console.log("getting list of answers")
+    let query = await this.knex
+      .select("username", "nickname", "picture", "type")
+      .from("users")
+      .where("id", usersID)
+      .catch((err) => {
+        throw new Error(err);
+      });
 
-        let query = await this.knex
-            .select("text", "votes", "correct", "created_at", "username", "nickname", "picture")
-            .from("answers")
-            .innerJoin("users", "answers.usersID", "users.id")
-            .where("questionsID", questionsID)
-            .catch((err) => {
-                throw new Error(err);
-            });
-        console.log("list of answers", query)
-        return query;
-    }
+    console.log("user details", query);
+    return query;
+  }
 
-    async getListOfAtoa(x) {
-        console.log("getting list of answers to answers")
+  async getListOfAnswers(questionsID) {
+    console.log("getting list of answers");
 
-        let query = await this.knex
-            .select("text", "votes", "correct", "created_at", "username", "nickname", "picture")
-            .from("atoa")
-            .innerJoin("users", "atoa.usersID", "users.id")
-            .where("answersID", x.answersID)
-            .catch((err) => {
-                throw new Error(err);
-            });
-        console.log("list of answers to answers", query)
-        return query;
+    let query = await this.knex
+      .select(
+        "answers.id as answersID",
+        "answers.text",
+        "answers.votes",
+        "answers.correct",
+        "answers.created_at",
+        "users.username",
+        "users.nickname",
+        "users.picture"
+      )
+      .from("answers")
+      .innerJoin("users", "answers.usersID", "users.id")
+      .where("questionsID", questionsID)
+      .catch((err) => {
+        throw new Error(err);
+      });
+    console.log("list of answers", query);
+    return query;
+  }
 
-    }
+  async getListOfAtoa(x) {
+    console.log("getting list of answers to answers");
 
-
+    let query = await this.knex
+      .select(
+        "atoa.text",
+        "atoa.votes",
+        "atoa.correct",
+        "atoa.created_at",
+        "users.username",
+        "users.nickname",
+        "users.picture"
+      )
+      .from("atoa")
+      .innerJoin("users", "atoa.usersID", "users.id")
+      .where("answersID", x.answersID)
+      .catch((err) => {
+        throw new Error(err);
+      });
+    console.log("list of answers to answers", query);
+    return query;
+  }
 }
 
-module.exports = QuestionService; 
+module.exports = QuestionService;

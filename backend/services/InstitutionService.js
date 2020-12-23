@@ -3,171 +3,185 @@
 //Need a checker for services on all pages with editable content - to send back the type of user to the frontend so that we can check the editing priviliges of the specific user
 
 class InstitutionService {
-    constructor(knex) {
-        this.knex = knex;
-    }
+  constructor(knex) {
+    this.knex = knex;
+  }
 
-    async getInstitutionDetails(institutionName) {
-        console.log(`getting details for ${institutionName}`)
+  async getInstitutionDetails(institutionID) {
+    console.log("getting name for institution:", institutionID);
 
-        let baseDetails = await this.knex
-            .select("*")
-            .from("institutions")
-            .where("name", institutionName)
-            .catch((err) => {
-                throw new Error(err);
-            });
+    let institutionNameFinder = await this.knex
+      .select("name")
+      .from("institutions")
+      .where("id", institutionID)
+      .catch((err) => {
+        throw new Error(err);
+      });
 
-        console.log("Institution Details Here", baseDetails[0])
+    console.log("Name of Institution is", institutionNameFinder[0].name);
 
-        let listOfAdmins = getListOfAdmins(baseDetails[0].id);
-        let listOfTeachers = getListOfTeachers(baseDetails[0].id);
-        let listOfStudents = getListOfStudents(baseDetails[0].id);
-        let listOfCourses = getListOfCourses(baseDetails[0].id);
+    let institutionName = institutionNameFinder[0].name;
 
-        let listOfClasses = listOfCourses.map(x => this.getListOfClasses(x))
-        let listOfQuestions = listOfClasses.map(x => this.getListOfQuestions(x))
+    console.log(`getting details for ${institutionName}`);
 
-        let listofAllUsers = getListOfAllUsers();
-        let listOfAllCourses = getListOfAllCourses();
+    let baseDetails = await this.knex
+      .select("*")
+      .from("institutions")
+      .where("name", institutionName)
+      .catch((err) => {
+        throw new Error(err);
+      });
 
-        let resultObject = {
-            baseDetails: baseDetails[0],
-            listOfAdmins: listOfAdmins,
-            listOfTeachers: listOfTeachers,
-            listOfStudents: listOfStudents,
-            listOfCourses: listOfCourses,
-            listOfClasses: listOfClasses,
-            listOfQuestions: listOfQuestions,
-            listOfAllUsers : listofAllUsers,
-            listOfAllCourses : listOfAllCourses
-        }
+    console.log("Institution Details Here", baseDetails[0]);
 
-        return resultObject;
-    }
+    let listOfAdmins = await this.getListOfAdmins(baseDetails[0].id);
+    let listOfTeachers = await this.getListOfTeachers(baseDetails[0].id);
+    let listOfStudents = await this.getListOfStudents(baseDetails[0].id);
+    let listOfCourses = await this.getListOfCourses(baseDetails[0].id);
+    const classesPromises = listOfCourses.map((course) =>
+      this.getListOfClasses(course)
+    );
+    const listOfClasses = await Promise.all(classesPromises).catch((e) =>
+      console.error(e)
+    );
 
-    async getListOfAdmins(institutionID) {
-        console.log("Getting List of Admins")
+    // let listOfQuestions = listOfClasses.map(
+    //   async (x) => await this.getListOfQuestions(x)
+    // );
 
-        let query = await this.knex
-            .select("usersID", "username", "picture")
-            .from("admins")
-            .innerJoin("users", "admins.usersID", "users.id")
-            .where("institutionsID", institutionID)
-            .catch((err) => {
-                throw new Error(err);
-            });
-        console.log("List of Admins:", query)
-        return query;
-    }
+    let listofAllUsers = await this.getListOfAllUsers();
+    let listOfAllCourses = await this.getListOfAllCourses();
 
-    async getListOfTeachers(institutionID) {
-        console.log("Getting List of Teachers")
+    let resultObject = {
+      baseDetails: baseDetails[0],
+      listOfAdmins: listOfAdmins,
+      listOfTeachers: listOfTeachers,
+      listOfStudents: listOfStudents,
+      listOfCourses: listOfCourses,
+      listOfClasses: listOfClasses,
+      // listOfQuestions: listOfQuestions,
+      listOfAllUsers: listofAllUsers,
+      listOfAllCourses: listOfAllCourses,
+    };
 
-        let query = await this.knex
-            .select("usersID", "username", "picture")
-            .from("teachersinstitutions")
-            .innerJoin("users", "teachersinstitutions.usersID", "users.id")
-            .where("institutionsID", institutionID)
-            .catch((err) => {
-                throw new Error(err);
-            });
-        console.log("List of Teachers:", query)
-        return query;
+    return resultObject;
+  }
 
-    }
+  async getListOfAdmins(institutionID) {
+    console.log("Getting List of Admins");
 
-    async getListOfStudents(institutionID) {
-        console.log("Getting List of Students")
+    let query = await this.knex
+      .select("admins.usersID", "users.username", "users.picture")
+      .from("admins")
+      .innerJoin("users", "admins.usersID", "users.id")
+      .where("institutionsID", institutionID)
+      .catch((err) => {
+        throw new Error(err);
+      });
+    console.log("List of Admins:", query);
+    return query;
+  }
 
-        let query = await this.knex
-            .select("usersID", "username", "picture")
-            .from("studentsinstitutions")
-            .innerJoin("users", "studentsinstitutions.usersID", "users.id")
-            .where("institutionsID", institutionID)
-            .catch((err) => {
-                throw new Error(err);
-            });
-        console.log("List of Students:", query)
-        return query;
+  async getListOfTeachers(institutionID) {
+    console.log("Getting List of Teachers");
 
-    }
+    let query = await this.knex
+      .select("teachersinstitutions.usersID", "users.username", "users.picture")
+      .from("teachersinstitutions")
+      .innerJoin("users", "teachersinstitutions.usersID", "users.id")
+      .where("institutionsID", institutionID)
+      .catch((err) => {
+        throw new Error(err);
+      });
+    console.log("List of Teachers:", query);
+    return query;
+  }
 
-    async getListOfCourses(institutionID) {
-        console.log("Getting List of Courses")
+  async getListOfStudents(institutionID) {
+    console.log("Getting List of Students");
 
-        let query = await this.knex
-            .select("*")
-            .from("courses")
-            .where("institutionsID", institutionID)
-            .catch((err) => {
-                throw new Error(err);
-            });
-        console.log("List of Courses:", query)
-        return query;
+    let query = await this.knex
+      .select("studentsinstitutions.usersID", "users.username", "users.picture")
+      .from("studentsinstitutions")
+      .innerJoin("users", "studentsinstitutions.usersID", "users.id")
+      .where("institutionsID", institutionID)
+      .catch((err) => {
+        throw new Error(err);
+      });
+    console.log("List of Students:", query);
+    return query;
+  }
 
-    }
+  async getListOfCourses(institutionID) {
+    console.log("Getting List of Courses");
 
-    async getListOfClasses(course) {
-        console.log("Getting List of Classes")
+    let query = await this.knex
+      .select("*")
+      .from("courses")
+      .where("institutionsID", institutionID)
+      .catch((err) => {
+        throw new Error(err);
+      });
+    console.log("List of Courses:", query);
+    return query;
+  }
 
-        let query = await this.knex
-            .select("*")
-            .from("classes")
-            .where("coursesID", course.id)
-            .catch((err) => {
-                throw new Error(err);
-            });
-        console.log(`Classes in ${course.name}:`, query)
-        return query;
+  async getListOfClasses(course) {
+    console.log("Getting List of Classes");
 
-    }
+    let query = await this.knex
+      .select("*")
+      .from("classes")
+      .where("coursesID", course.id)
+      .catch((err) => {
+        throw new Error(err);
+      });
+    console.log(`Classes in ${course.name}:`, query);
+    return query;
+  }
 
-    async getListOfQuestions(y) {
-        console.log("Getting List of Questions")
+  async getListOfQuestions(y) {
+    console.log("Getting List of Questions");
 
-        let query = await this.knex
-            .select("*")
-            .from("questions")
-            .where("classesID", y.id)
-            .catch((err) => {
-                throw new Error(err);
-            });
-        console.log(`Classes in ${y.name}:`, query)
-        return query;
+    let query = await this.knex
+      .select("*")
+      .from("questions")
+      .where("classesID", y.id)
+      .catch((err) => {
+        throw new Error(err);
+      });
+    console.log(`Classes in ${y.name}:`, query);
+    return query;
+  }
 
-    }
+  async getListOfAllUsers() {
+    console.log("getting list of all users");
 
-    async getListOfAllUsers() {
-        console.log("getting list of all users")
+    let query = await this.knex
+      .select("id", "username", "nickname", "picture")
+      .from("users")
+      .catch((err) => {
+        throw new Error(err);
+      });
+    console.log("List of All users collected");
 
-        let query = await this.knex
-        .select("id", "username", "nickname", "picture")
-        .from("users")
-        .catch((err) => {
-            throw new Error(err);
-        });
-        console.log("List of All users collected")
+    return query;
+  }
 
-        return query;
-    }
-    
-    async getListOfAllCourses() {
-        console.log("getting list of all courses")
-       
-        let query = await this.knex
-        .select("*")
-        .from("courses")
-        .catch((err) => {
-            throw new Error(err);
-        });
+  async getListOfAllCourses() {
+    console.log("getting list of all courses");
 
-        console.log("List of All courses collected")
+    let query = await this.knex
+      .select("*")
+      .from("courses")
+      .catch((err) => {
+        throw new Error(err);
+      });
 
-        return query;
+    console.log("List of All courses collected");
 
-    }
-
+    return query;
+  }
 }
 
 module.exports = InstitutionService;
