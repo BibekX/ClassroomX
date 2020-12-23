@@ -3,7 +3,28 @@ class AccountService {
         this.knex = knex;
     }
 
-    async getAccountDetails(accName) {
+    async getAccountDetails(accID) {
+
+
+        console.log("getting name for user:", accID)
+
+        let nameFinder = await this.knex
+            .select("name")
+            .from("users")
+            .where("id", accID)
+            .catch((err) => {
+                throw new Error(err);
+            });
+
+        console.log("Name of user is", nameFinder[0])
+
+        let accName = nameFinder[0];
+
+
+
+
+
+
         console.log(`getting account details for ${accName}`);
 
         let baseDetails = await this.knex
@@ -16,12 +37,12 @@ class AccountService {
 
         console.log("account details here", baseDetails[0])
 
-        let listOfCourses = getListOfCourses(baseDetails[0].id);
-        let listOfClasses = getListOfClasses(baseDetails[0].id);
-        let listOfNotes = getListOfNotes(baseDetails[0].id);
-        let listOfQuestions = getListOfQuestions(baseDetails[0].id);
-        let listOfAnswers = getListOfAnswers(baseDetails[0].id);
-        let listOfAtoa = getListOfAtoa(baseDetails[0].id);
+        let listOfCourses = await this.getListOfCourses(baseDetails[0].id);
+        let listOfClasses = await this.getListOfClasses(baseDetails[0].id);
+        let listOfNotes = await this.getListOfNotes(baseDetails[0].id);
+        let listOfQuestions = await this.getListOfQuestions(baseDetails[0].id);
+        let listOfAnswers = await this.getListOfAnswers(baseDetails[0].id);
+        let listOfAtoa = await this.getListOfAtoa(baseDetails[0].id);
 
 
         let resultObject = {

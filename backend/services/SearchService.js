@@ -8,7 +8,7 @@ class SearchService {
         console.log(`Getting Search Details`)
 
         if (search === undefined) {
-            let searchQuery = getSearchDefault();
+            let searchQuery = await this.getSearchDefault();
 
             let searchResults = [{
                 noSearch: false,
@@ -43,7 +43,7 @@ class SearchService {
 
             // Code for searching in each table in the database
             if (search.SearchInUsers === true) {
-                let searchQuery = getSearchInUsers(input.query)
+                let searchQuery = await this.getSearchInUsers(input.query)
 
                 //Gotta standardize the search results, so put them in a new object with these standard parameters which can be properly parsed in the frontend.
                 for (let i = 0; i < searchQuery.length; i++) {
@@ -59,7 +59,7 @@ class SearchService {
             }
 
             if (search.SearchInCourses === true) {
-                let searchQuery = getSearchInCourses(input.query)
+                let searchQuery = await this.getSearchInCourses(input.query)
 
                 for (let i = 0; i < searchQuery.length; i++) {
                     searchResults.push({
@@ -75,7 +75,7 @@ class SearchService {
             }
 
             if (search.SearchInClasses === true) {
-                let searchQuery = getSearchInClasses(input.query)
+                let searchQuery = await this.getSearchInClasses(input.query)
 
                 for (let i = 0; i < searchQuery.length; i++) {
                     searchResults.push({
@@ -90,7 +90,7 @@ class SearchService {
             }
 
             if (search.SearchInNotes === true) {
-                let searchQuery = getSearchInNotes(input.query)
+                let searchQuery = await this.getSearchInNotes(input.query)
 
                 for (let i = 0; i < searchQuery.length; i++) {
                     searchResults.push({
@@ -107,7 +107,7 @@ class SearchService {
             }
 
             if (search.SearchInQuestions === true) {
-                let searchQuery = getSearchInQuestions(input.query)
+                let searchQuery = await this.getSearchInQuestions(input.query)
 
                 for (let i = 0; i < searchQuery.length; i++) {
                     searchResults.push({
@@ -126,7 +126,7 @@ class SearchService {
             }
 
             if (search.SearchInAnswers === true) {
-                let searchQuery = getSearchInAnswers(input.query)
+                let searchQuery = await this.getSearchInAnswers(input.query)
 
                 for (let i = 0; i < searchQuery.length; i++) {
                     searchResults.push({
@@ -141,7 +141,7 @@ class SearchService {
                     })
                 }
 
-                let searchQuery2 = getSearchInAtoa(input.query)
+                let searchQuery2 = await this.getSearchInAtoa(input.query)
 
                 for (let i = 0; i < searchQuery2.length; i++) {
                     searchResults.push({
