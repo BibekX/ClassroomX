@@ -23,7 +23,6 @@ const MenuItems = [
     link: "/chatroom",
     cName: "nav-links",
   },
-  
   { title: "Login", link: "/login", cName: "nav-links-login" },
   { title: "Sign up", link: "/register", cName: "nav-links-signup" },
 ];

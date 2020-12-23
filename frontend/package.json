@@ -15,10 +15,6 @@
     "auth0-js": "^9.14.0",
     "axios": "^0.21.0",
     "cors": "^2.8.5",
-<<<<<<< HEAD
-=======
-    "express": "^4.17.1",
->>>>>>> 17c8ee0694c5598546feb17ff04ceef99adb7231
     "firebase": "^8.2.1",
     "fs": "^0.0.1-security",
     "history": "^5.0.0",
