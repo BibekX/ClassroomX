@@ -15,7 +15,7 @@ class CourseService {
                 throw new Error(err);
             });
 
-        console.log("Name of course is", nameFinder[0])
+        console.log("Name of course is", nameFinder[0].name)
 
         let courseName = nameFinder[0];
 

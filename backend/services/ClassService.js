@@ -17,7 +17,7 @@ class ClassService {
 
         console.log("Name of class is", nameFinder[0])
 
-        let className = nameFinder[0];
+        let className = nameFinder[0].name;
 
 
 
