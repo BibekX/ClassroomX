@@ -235,9 +235,6 @@ app.post("/modifyClass", async (req, res) => {
         })
 })
 
-
-
-
 //New Note
 const PostNotes = require("./services/PostRoutes/PostNotes");
 const postNotes = new PostNotes(knex);

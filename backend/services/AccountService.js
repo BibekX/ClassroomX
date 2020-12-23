@@ -18,7 +18,7 @@ class AccountService {
 
         console.log("Name of user is", nameFinder[0])
 
-        let accName = nameFinder[0];
+        let accName = nameFinder[0].name;
 
 
 
