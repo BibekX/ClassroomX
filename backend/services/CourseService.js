@@ -3,7 +3,22 @@ class CourseService {
         this.knex = knex;
     }
 
-    async getCourseDetails(courseName) {
+    async getCourseDetails(courseID) {
+
+        console.log("getting name for course:", courseID)
+
+        let nameFinder = await this.knex
+            .select("name")
+            .from("courses")
+            .where("id", courseID)
+            .catch((err) => {
+                throw new Error(err);
+            });
+
+        console.log("Name of course is", nameFinder[0])
+
+        let courseName = nameFinder[0];
+
         console.log(`getting details for ${courseName}`)
 
         let baseDetails = await this.knex
@@ -16,14 +31,14 @@ class CourseService {
 
         console.log("Course Details Here", baseDetails[0])
 
-        let listOfTeachers = getListOfTeachers(baseDetails[0].id);
-        let listOfStudents = getListOfStudents(baseDetails[0].id);
-        let listOfClasses = getListOfClasses(baseDetails[0].id);
+        let listOfTeachers = await this.getListOfTeachers(baseDetails[0].id);
+        let listOfStudents = await this.getListOfStudents(baseDetails[0].id);
+        let listOfClasses = await this.getListOfClasses(baseDetails[0].id);
 
-        let listOfQuestions = listofClasses.map(x => this.getListofQuestions(x))
+        // let listOfQuestions = listofClasses.map(x => this.getListofQuestions(x))
 
-        let listofAllUsers = getListOfAllUsers();
-        let listOfAllClasses = getListOfAllClasses();
+        let listofAllUsers = await this.getListOfAllUsers();
+        let listOfAllClasses = await this.getListOfAllClasses();
 
 
         let resultObject = {
@@ -31,7 +46,7 @@ class CourseService {
             listOfTeachers: listOfTeachers,
             listOfStudents: listOfStudents,
             listOfClasses: listOfClasses,
-            listOfQuestions: listOfQuestions,
+            // listOfQuestions: listOfQuestions,
             listOfAllUsers : listofAllUsers,
             listOfAllClasses : listOfAllClasses
 

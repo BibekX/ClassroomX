@@ -4,6 +4,7 @@ class QuestionService {
     }
 
     async getQuestionDetails(questionID) {
+
         console.log(`getting question details for question number ${questionID}`)
 
         let baseDetails = await this.knex
@@ -16,9 +17,9 @@ class QuestionService {
 
         console.log("Question details here", baseDetails[0])
 
-        let userDetails = getUserDetails(baseDetails[0].usersID)
-        let listOfAnswers = getListOfAnswers(questionID)
-        let answersToAnswers = listOfAnswers.map(x => this.getListOfAtoa(x))
+        let userDetails = await this.getUserDetails(baseDetails[0].usersID)
+        let listOfAnswers = await this.getListOfAnswers(questionID)
+        let answersToAnswers = listOfAnswers.map(x => await this.getListOfAtoa(x))
 
         let resultObject = {
             baseDetails: baseDetails[0],
