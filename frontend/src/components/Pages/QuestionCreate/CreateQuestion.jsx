@@ -206,7 +206,6 @@ function CreateQuestion(props) {
                     </Link>
                   </div>
                 </form>
-                <Notebox />
               </div>
             </Grid>
           </Grid>

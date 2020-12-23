@@ -2,6 +2,7 @@ import React from 'react';
 import "./ClassContent.css";
 import NoteCard from "../../Cards/NoteCard";
 // import Grid from "@material-ui/core/Grid";
+import {Notebox} from "../../../Pages/Class/Notebox"
 
 function ClassContent() {
     return (
@@ -10,15 +11,7 @@ function ClassContent() {
                 <h3> My Notes </h3>  
             </div>
             <div className="notes__container">
-                <NoteCard />
-                <NoteCard />
-                <NoteCard />  
-                <NoteCard />
-                <NoteCard />
-                <NoteCard />  
-                <NoteCard />
-                <NoteCard />
-                <NoteCard />  
+                <Notebox/>
             </div>
             
         </div>         

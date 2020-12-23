@@ -14,6 +14,7 @@
 
 .sidebar__memberList {
   flex: 1;
+  padding-top: 10px;
 }
 
 .sidebar__profile {
