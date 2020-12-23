@@ -59,7 +59,7 @@ class ClassService {
         console.log("Getting List of Teachers")
 
         let query = await this.knex
-            .select("usersID", "username", "picture")
+            .select("teachersclasses.usersID", "users.username", "users.picture")
             .from("teachersclasses")
             .innerJoin("users", "teachersclasses.usersID", "users.id")
             .where("classesID", classID)
@@ -80,7 +80,7 @@ class ClassService {
         console.log("Getting List of Students")
 
         let query = await this.knex
-            .select("usersID", "username", "picture")
+            .select("studentsclasses.usersID", "users.username", "users.picture")
             .from("studentsclasses")
             .innerJoin("users", "studentsclasses.usersID", "users.id")
             .where("classesID", classID)

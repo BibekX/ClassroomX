@@ -5,6 +5,7 @@ exports.up = function (knex) {
         table.string("name");
         table.string("picture");
         table.text("overview");
+        table.string("url")
         table.integer("institutionsID").unsigned().references("id").inTable("institutions");
     });
 };

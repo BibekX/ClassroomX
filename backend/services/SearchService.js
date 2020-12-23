@@ -239,7 +239,7 @@ class SearchService {
         for (let i = 0; i < query.length; i++) {
             if (prevLink === undefined) {
                 let tagQuery = await this.knex
-                    .select("tag.name")
+                    .select("tags.name")
                     .from("tags")
                     .join("questionstags", "tags.id", "questionstags.tagsID")
                     .where("questionstags.questionsID", `${query[i].id}`)
@@ -252,7 +252,7 @@ class SearchService {
                 console.log("question matches, skipping over")
             } else {
                 let tagQuery = await this.knex
-                    .select("tag.name")
+                    .select("tags.name")
                     .from("tags")
                     .join("questionstags", "tags.id", "questionstags.tagsID")
                     .where("questionstags.questionsID", `${query[i].id}`)
@@ -288,7 +288,7 @@ class SearchService {
         for (let i = 0; i < query.length; i++) {
             if (prevLink === undefined) {
                 let tagQuery = await this.knex
-                    .select("tag.name")
+                    .select("tags.name")
                     .from("tags")
                     .join("questionstags", "tags.id", "questionstags.tagsID")
                     .where("questionstags.questionsID", `${query[i].id}`)
@@ -301,7 +301,7 @@ class SearchService {
                 console.log("question matches, skipping over")
             } else {
                 let tagQuery = await this.knex
-                    .select("tag.name")
+                    .select("tags.name")
                     .from("tags")
                     .join("questionstags", "tags.id", "questionstags.tagsID")
                     .where("questionstags.questionsID", `${query[i].id}`)
