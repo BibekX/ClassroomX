@@ -50,7 +50,7 @@ class QuestionService {
         console.log("getting list of answers")
 
         let query = await this.knex
-            .select("text", "votes", "correct", "created_at", "username", "nickname", "picture")
+            .select("answers.text", "answers.votes", "answers.correct", "answers.created_at", "users.username", "users.nickname", "users.picture")
             .from("answers")
             .innerJoin("users", "answers.usersID", "users.id")
             .where("questionsID", questionsID)
@@ -65,7 +65,7 @@ class QuestionService {
         console.log("getting list of answers to answers")
 
         let query = await this.knex
-            .select("text", "votes", "correct", "created_at", "username", "nickname", "picture")
+            .select("atoa.text", "atoa.votes", "atoa.correct", "atoa.created_at", "users.username", "users.nickname", "users.picture")
             .from("atoa")
             .innerJoin("users", "atoa.usersID", "users.id")
             .where("answersID", x.answersID)
