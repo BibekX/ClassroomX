@@ -8,5 +8,3 @@ class NewUsers {
 module.exports = NewUsers;
 
 
-
-
