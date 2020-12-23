@@ -4,9 +4,34 @@ class SearchService {
         this.knex = knex;
     }
 
-    async getSearchDetails(input) {
+    async getSearchDetails(search) {
         console.log(`Getting Search Details`)
-        const search = JSON.parse(input)
+
+        if (search === undefined) {
+            let searchQuery = getSearchDefault();
+
+            let searchResults = [{
+                noSearch: false,
+            }]
+
+            for (let i = 0; i < searchQuery.length; i++) {
+                searchResults.push({
+                    type: "question",
+                    id: searchQuery[i].id,
+                    title: searchQuery[i].title,
+                    tags: searchQuery[i].tags,
+                    votes: searchQuery[i].votes,
+                    answered: searchQuery[i].answered,
+                    created: searchQuery[i].created_at,
+                    user: searchQuery[i].userName,
+                    class: searchQuery[i].className
+                })
+            }
+
+            return searchResults;
+        }
+
+
 
         if (search.length > 0) {
 
@@ -247,14 +272,63 @@ class SearchService {
 
     }
 
+    async getSearchDefault(searchQuery) {
+        let query = await this.knex
+            .select("questions.id as id", "questions.title as title", "questions.votes as votes", "questions.answered as answered", "questions.created_at as created_at", "users.name as userName", "class.name as className", "tags.name as tagName")
+            .from("questions")
+            .join("users", "questions.userID", "users.id")
+            .join("classes", "questions.classesID", "classes.id")
+            .join("questionstags", "questions.id", "questionstags.questionsID")
+            .join("tags", "questionstags.tagsID", "tags.id")
+
+        let resultArray = [];
+        console.log(query)
+        let prevLink;
+
+        for (let i = 0; i < query.length; i++) {
+            if (prevLink === undefined) {
+                let tagQuery = await this.knex
+                    .select("tag.name")
+                    .from("tags")
+                    .join("questionstags", "tags.id", "questionstags.tagsID")
+                    .where("questionstags.questionsID", `${query[i].id}`)
+
+                resultArray.push({
+                    ...query[i],
+                    tags: tagQuery
+                });
+            } else if (prevLink.title === query[i].title) {
+                console.log("question matches, skipping over")
+            } else {
+                let tagQuery = await this.knex
+                    .select("tag.name")
+                    .from("tags")
+                    .join("questionstags", "tags.id", "questionstags.tagsID")
+                    .where("questionstags.questionsID", `${query[i].id}`)
+
+                resultArray.push({
+                    ...query[i],
+                    tags: tagQuery
+                });
+
+            }
+            prevLink = query[i]
+        }
+
+        console.log(resultArray)
+
+        return resultArray;
+
+    }
+
     async getSearchInAnswers(searchQuery) {
 
         let query = await this.knex
-        .select("answers.id as id", "answers.text as text", "answers.votes as votes", "answers.correct as correct", "answers.created_at as created_at", "users.username as username", "questions.title as parentname")
-        .from("answers")
-        .join("users", "answers.usersID", "users.id")
-        .join("questions", "answers.questionsID", "questions.id")
-        .where("text", "ilike", `%${searchQuery}%`)
+            .select("answers.id as id", "answers.text as text", "answers.votes as votes", "answers.correct as correct", "answers.created_at as created_at", "users.username as username", "questions.title as parentname")
+            .from("answers")
+            .join("users", "answers.usersID", "users.id")
+            .join("questions", "answers.questionsID", "questions.id")
+            .where("text", "ilike", `%${searchQuery}%`)
 
         return query;
     }
@@ -262,12 +336,12 @@ class SearchService {
     async getSearchInAtoa(searchQuery) {
 
         let query = await this.knex
-        .select("atoa.id as id", "atoa.text as text", "atoa.votes as votes", "atoa.correct as correct", "atoa.created_at as created_at", "users.name as username", "answers.id as answerlink", "questions.name as parentname")
-        .from("atoa")
-        .join("users", "atoa.usersID", "users.id")
-        .join("answers", "atoa.answersID", "answers.id")
-        .join("questions", "answers.questionsID", "questions.id")
-        .where("text", "ilike", `%${searchQuery}%`)
+            .select("atoa.id as id", "atoa.text as text", "atoa.votes as votes", "atoa.correct as correct", "atoa.created_at as created_at", "users.name as username", "answers.id as answerlink", "questions.name as parentname")
+            .from("atoa")
+            .join("users", "atoa.usersID", "users.id")
+            .join("answers", "atoa.answersID", "answers.id")
+            .join("questions", "answers.questionsID", "questions.id")
+            .where("text", "ilike", `%${searchQuery}%`)
 
         return query;
 

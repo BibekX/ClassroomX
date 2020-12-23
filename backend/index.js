@@ -128,6 +128,8 @@ app.post("/register", (req, res) => {
 app.post("/login")
 
 
+//Changed all POST routes, so that they'd require ID instead of name - removed all ID finders on everything. Also converted everything to not needing to be logged in - User is automatically set as userID 1 - called 'test'
+
 //Route for changing user details - Not sure how auth would happen, need to figure that out later for all POST routes
 const PostAccounts = require("./services/PostRoutes/PostAccounts");
 const postAccounts = new PostAccounts(knex);
@@ -177,7 +179,7 @@ const PostPages = require("./services/PostRoutes/PostPages");
 const postPages = new PostPages(knex);
 
 app.post("/newInst", async (req, res) => {
-    console.log("New Institution:", req.body.newName)
+    console.log("New Institution:", req.body.name)
     return postPages
         .newInst(req.body)
         .then(() => {
@@ -206,37 +208,28 @@ app.post("/newClass", async (req, res) => {
 
 
 
-app.post("/modifyInst/:institution", async (req, res) => {
+app.post("/modifyInst", async (req, res) => {
     console.log(`Modifying This Institution`)
     return postPages
-        .modifyInst({
-            name: req.params.institution,
-            body: req.body
-        })
+        .modifyInst(req.body)
         .then(() => {
             res.end();
         })
 })
 
-app.post("/modifyCourse/:course", async (req, res) => {
+app.post("/modifyCourse", async (req, res) => {
     console.log(`Modifying This Course`)
     return postPages
-        .modifyCourse({
-            name: req.params.course,
-            body: req.body
-        })
+        .modifyCourse(req.body)
         .then(() => {
             res.end();
         })
 })
 
-app.post("/modifyClass/:class", async (req, res) => {
+app.post("/modifyClass", async (req, res) => {
     console.log(`Modifying This Class`)
     return postPages
-        .modifyClass({
-            name: req.params.class,
-            body: req.body
-        })
+        .modifyClass(req.body)
         .then(() => {
             res.end();
         })
@@ -250,7 +243,7 @@ const PostNotes = require("./services/PostRoutes/PostNotes");
 const postNotes = new PostNotes(knex);
 
 app.post("/newNote", async (req, res) => {
-    console.log("New Note:", req.body.details.title)
+    console.log("New Note:", req.body)
     return postNotes
         .newNote(req.body)
         .then(() => {
@@ -276,7 +269,7 @@ const PostQuestions = require("./services/PostRoutes/PostQuestions");
 const postQuestions = new PostQuestions(knex);
 
 app.post("/newQuestion", async (req, res) => {
-    console.log("New Question:", req.body.details.title)
+    console.log("New Question:", req.body)
     return postQuestions
         .newQuestion(req.body)
         .then(() => {
@@ -380,7 +373,6 @@ io.on('connection', (socket) => {
     socket.on('newUpdate', (state) => {
         console.log("New Update", state);
         socket.broadcast.emit("notesUpdated", JSON.stringify(state));
-
     });
 });
 

@@ -1,57 +1,97 @@
+/*
+
+newQuestion: 
+{
+    userID : auto set to 1
+    classID : ID of class that is the parent of this question
+    title : 
+    text :
+    privacy : true or false
+    classpin : true or false
+    institutionpin : true or false
+    tags : array of tags
+}
+
+modifyQuestion : FOR NOW TAGS CAN'T BE MODIFIED
+{
+    title :
+    text :
+    privacy :
+    classpin : 
+    institutionpin :
+}
+
+upvoteQuestion :
+{
+    questionID : ID of the question being upvoted
+    userID : ID of the user doing the upvoting, auto set to 1
+}
+
+pinQuestion :
+{
+    questionID : ID of the question being pinned/unpinned
+}
+*/
+
+
+
 class PostQuestions {
     constructor(knex) {
         this.knex = knex;
     }
 
-    async getUserID(input) {
-        let userID = await this.knex
-            .select("id")
-            .from("users")
-            .where("username", input)
-            .catch((err) => {
-                throw new Error(err);
-            })
-        if (userID === undefined) {
-            throw new Error("User not found");
-        } else {
-            return userID[0];
-        }
-    }
+    // async getUserID(input) {
+    //     let userID = await this.knex
+    //         .select("id")
+    //         .from("users")
+    //         .where("username", input)
+    //         .catch((err) => {
+    //             throw new Error(err);
+    //         })
+    //     if (userID === undefined) {
+    //         throw new Error("User not found");
+    //     } else {
+    //         return userID[0];
+    //     }
+    // }
 
-    async getClassID(input) {
-        let classID = await this.knex
-            .select("id")
-            .from("classes")
-            .where("name", input)
-            .catch((err) => {
-                throw new Error(err);
-            })
-        if (classID === undefined) {
-            throw new Error("Class not found");
-        } else {
-            return classID[0];
-        }
+    // async getClassID(input) {
+    //     let classID = await this.knex
+    //         .select("id")
+    //         .from("classes")
+    //         .where("name", input)
+    //         .catch((err) => {
+    //             throw new Error(err);
+    //         })
+    //     if (classID === undefined) {
+    //         throw new Error("Class not found");
+    //     } else {
+    //         return classID[0];
+    //     }
 
-    }
+    // }
 
     // New Questions are posted with an object, parameters: username : username, classname : classname, details : all other details including title and actual text of question
 
     async newQuestion(input) {
-        let userID = await getUserID(input.username)
-        let classID = await getClassID(input.classname)
-        console.log("New Question", input)
+        // let userID = await getUserID(input.username)
+        // let classID = await getClassID(input.classname)
+
+        input.userID = 1;
+
+        console.log("New Question", input);
 
         let query = await this.knex
             .insert({
-                title: input.details.title,
-                text: input.details.text,
+                title: input.title,
+                text: input.text,
                 votes: 0,
-                privacy: input.details.privacy,
-                classpin: input.details.classpin,
-                institutionpin: input.details.institutionpin,
+                privacy: input.privacy,
+                classpin: input.classpin,
+                institutionpin: input.institutionpin,
                 answered: false,
-                usersID: userID,
-                classesID: classID
+                usersID: input.userID,
+                classesID: input.classID
             })
             .into("questions")
             .returning("id")
@@ -59,7 +99,7 @@ class PostQuestions {
                 throw new Error(err);
             });
 
-        let tags = input.details.tags;
+        let tags = input.tags;
 
         tags.map(async (tag) => {
             let query1 = await this.knex
@@ -136,8 +176,12 @@ class PostQuestions {
     }
 
     async upvoteQuestion(input) {
+
+        input.userID = 1;
+        input.username = "test";
+
         let query = await this.knex
-            .where('id', input.id)
+            .where('id', input.questionID)
             .increment('votes', 1)
             .into("questions")
             .catch((err) => {
@@ -147,7 +191,7 @@ class PostQuestions {
         let query2 = await this.knex
             .select("upvotedlist")
             .from("questions")
-            .where('id', input.id)
+            .where('id', input.questionID)
             .catch((err) => {
                 throw new Error(err);
             })
@@ -155,7 +199,7 @@ class PostQuestions {
         let updatedupvotedlist = [...query2[0], input.username];
 
         let query3 = await this.knex
-            .where('id', input.id)
+            .where('id', input.questionID)
             .update({
                 upvotedlist: updatedupvotedlist
             })
@@ -169,10 +213,18 @@ class PostQuestions {
     }
 
     async pinQuestion(input) {
+        let finder = await this.knex
+            .select("classpin")
+            .from("questions")
+            .where("id", questionID)
+            .catch((err) => {
+                throw new Error(err);
+            })
+
         let query = await this.knex
-            .where('id', input)
+            .where('id', input.questionID)
             .update({
-                classpin: true
+                classpin: !finder[0].classpin
             })
             .into("questions")
             .catch((err) => {
