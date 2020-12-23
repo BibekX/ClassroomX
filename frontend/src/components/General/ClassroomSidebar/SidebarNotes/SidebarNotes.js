@@ -8,7 +8,7 @@ function SidebarNotes({ id, notes }) {
         <div className="sidebarNotes">
             <h4>
                 <span className="sidebarNote__hash">#</span>
-                Placeholder for Labeled Notes
+                Here's the Notebox
             </h4>
                  
         </div>

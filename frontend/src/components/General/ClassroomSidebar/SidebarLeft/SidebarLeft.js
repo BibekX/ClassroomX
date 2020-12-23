@@ -30,9 +30,6 @@ function SidebarLeft() {
                 {/* sidebar__ChannelsList reference */}
                 <div className="sidebar__notesList" >             
                     <SidebarNotes /> 
-                    <SidebarNotes />     
-                    <SidebarNotes />            
-                    <SidebarNotes />  
                 </div>
             </div> 
 
