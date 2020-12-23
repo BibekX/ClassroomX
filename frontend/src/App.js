@@ -16,6 +16,9 @@ import Signup from "./components/General/Signup/Signup";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 
+import Classroom from "./components/Pages/Classroom/Classroom";
+import Chatroom from "./components/Pages/Chatroom/Chatroom";
+
 function App() {
   return (
     <Router>
@@ -78,6 +81,8 @@ function App() {
           <Route path="/profile" component={Profile} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Signup} />
+          <Route path="/myclass" component={Classroom} />
+          <Route path="/chatroom" component={Chatroom} />
         </Switch>
         <Copyright />
       </div>
