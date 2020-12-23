@@ -39,12 +39,13 @@ class Notebox extends Component {
 
     }
 
-    onChangeField(field, e) {
+    async onChangeField(field, e) {
         let state = { text: e }
-        this.setState(state, () => {
-            this.state.socket.emit("newUpdate", state)
+        this.setState(state, async () => {
+            await this.state.socket.emit("newUpdate", state)
         })
     }
+
 
     render() {
         return (
