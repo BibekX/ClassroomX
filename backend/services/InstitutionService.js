@@ -19,9 +19,9 @@ class InstitutionService {
                 throw new Error(err);
             });
 
-        console.log("Name of Institution is", institutionNameFinder[0])
+        console.log("Name of Institution is", institutionNameFinder[0].name)
 
-        let institutionName = institutionNameFinder[0];
+        let institutionName = institutionNameFinder[0].name;
 
         console.log(`getting details for ${institutionName}`)
 

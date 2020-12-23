@@ -20,7 +20,6 @@ class QuestionService {
         let userDetails = await this.getUserDetails(baseDetails[0].usersID)
         let listOfAnswers = await this.getListOfAnswers(questionID)
 
-
         let answersPromises = listOfAnswers.map(x => this.getListOfAtoa(x))
 
         let answersToAnswers = await Promise.all(answersPromises).catch((e) => console.error(e));
