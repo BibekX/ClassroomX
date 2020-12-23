@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container, Grid, Typography } from "@material-ui/core";
 import Cards from "../../General/Cards/Cards";
 import Hero from "../../General/Hero/Hero";
-import xccelerateCourse from "../../Data/Course/Xccelerate/Course";
-import brainStationCourse from "../../Data/Course/BrainStation/Course";
-import flatironCourse from "../../Data/Course/Flatiron School/Course";
 import MembersList from "./MembersList/MembersList";
-import instituteInfo from "../../Data/Institute/Institute";
 import { withRouter } from "react-router-dom";
+import axios from "axios";
+import UserListPop from "../Tabs/UserListPop";
+import CoursePopup from "./Create/CoursePopup";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,32 +46,33 @@ const useStyles = makeStyles((theme) => ({
 
 function Institute(props) {
   const classes = useStyles();
-  // const [edit, setEdit] = useState({
-  //   title: "",
-  //   content: "",
-  //   url: "",
-  //   image: "",
-  // });
-  // const styles = useRowGutterStyles({ size: "1rem" });
-  // const [component, setComponent] = useState({});
+  const { institutionID } = props.match.params;
+  const [institution, setInstitution] = useState({});
+  const [student, setStudent] = useState([]);
+  const [teacher, setTeacher] = useState([]);
+  const [admin, setAdmin] = useState([]);
+  const [courses, setCourses] = useState([]);
 
-  const iData =
-    props.location.pathname === "/xccelerate"
-      ? 0
-      : props.location.pathname === "/brainstation"
-      ? 1
-      : props.location.pathname === "/flatiron"
-      ? 2
-      : null;
+  useEffect(() => {
+    console.log(institutionID);
+    axios
+      .get(`http://localhost:8080/institution/${institutionID}`)
+      .then(({ data }) => {
+        console.log(data);
+        setInstitution(data.baseDetails);
+        setAdmin(data.listOfAdmins);
+        setStudent(data.listOfStudents);
+        setTeacher(data.listOfTeachers);
+        setCourses(data.listOfCourses);
+      })
+      .catch((err) => console.error(err));
+  }, [institutionID]);
 
-  const courseData =
-    props.location.pathname === "/xccelerate"
-      ? xccelerateCourse
-      : props.location.pathname === "/brainstation"
-      ? brainStationCourse
-      : props.location.pathname === "/flatiron"
-      ? flatironCourse
-      : null;
+  const editClick = () =>
+    setInstitution({
+      ...institution,
+      picture: "https://i.imgur.com/Uvp8koV.jpg",
+    });
 
   return (
     <div className={classes.root}>
@@ -80,15 +80,32 @@ function Institute(props) {
         {/* -------------------------------------------------- Section 1 -------------------------------------------------- */}
         <div className="section-1">
           <Hero
-            title={instituteInfo[iData].title}
-            content={instituteInfo[iData].content}
-            url={instituteInfo[iData].url}
+            name={institution.name}
+            overview={institution.overview}
+            picture={institution.picture}
             buttonTitle="Get Started"
-            image={instituteInfo[iData].image}
             scroll="#card-container"
+            handleEditClick={editClick}
           />
+          <Grid container style={{ margin: "1em 0" }}>
+            <UserListPop students={student} teachers={teacher} admins={admin} />
+            <Typography
+              variant="h3"
+              style={{
+                fontWeight: 500,
+                marginLeft: "0.5em",
+              }}
+            >
+              Members
+            </Typography>
+          </Grid>
+
           <Grid container>
-            <MembersList />
+            <MembersList
+              user={student}
+              username={student.username}
+              picture={student.picture}
+            />
             <Typography
               variant="h3"
               style={{
@@ -111,20 +128,18 @@ function Institute(props) {
             <Grid item>
               <Typography variant="h3" className={classes.hero2_title}>
                 ― Courses To Get You Started ―
+                <Grid container justify="center">
+                  <CoursePopup buttonName="Create" title="Create Your Course" institutionID={institutionID} />
+                </Grid>
               </Typography>
+              <Grid item></Grid>
             </Grid>
           </Grid>
           {/* ------------------------ Card -------------------------- */}
           <Grid container spacing={5} justify="center">
-            {courseData.map((info) => (
+            {courses.map((info) => (
               <Grid item md={4} sm={6} key={info.id}>
-                <Cards
-                  id={info.id}
-                  title={info.title}
-                  content={info.content}
-                  image={info.image}
-                  link={info.link}
-                />
+                <Cards {...info} title="course" />
               </Grid>
             ))}
           </Grid>

@@ -1,9 +1,6 @@
-/* #customized-dialog-title {
-    background: #121212
-} */
 
 .MuiDialog-paperWidthSm {
-    width: 22rem
+    min-width: 22rem
 }
 
 .MuiDialog-container {

@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import information from "../../Data/Institute/Institute";
 import Cards from "../../General/Cards/Cards";
-import InstitutePopup from "../Create/InstitutePopup";
+import InstitutePopup from "./Create/InstitutePopup";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,6 +34,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Explore() {
   const classes = useStyles();
+  const [institutions, setInstitutions] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/explore")
+      .then(({ data }) => setInstitutions(data))
+      .catch((err) => console.error(err));
+  }, []);
+
   return (
     <Container
       maxWidth="xl"
@@ -45,22 +54,19 @@ export default function Explore() {
           Institutions
         </Typography>
         <InstitutePopup buttonName="Create" title="Create Your Institute" />
+        <Grid container justify="center">
         <Typography
           variant="h3"
           style={{ fontWeight: 300, padding: "1.5em 0 1em" }}
         >
-          Let's Get Started, Keanu
+         ― Let's Get Started ―
         </Typography>
+        </Grid>
+        {/* ------------------------ Card -------------------------- */}
         <Grid container spacing={5} justify="center">
-          {/* ------------------------ Card -------------------------- */}
-          {information.map((info) => (
+          {institutions.map((info) => (
             <Grid item md={4} sm={6} key={info.id}>
-              <Cards
-                title={info.title}
-                content={info.content}
-                image={info.image}
-                link={info.link}
-              />
+              <Cards {...info} title="institution" />
             </Grid>
           ))}
         </Grid>

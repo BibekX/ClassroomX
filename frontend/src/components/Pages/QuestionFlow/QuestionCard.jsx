@@ -16,7 +16,6 @@ const useStyles = makeStyles({
   details: {
     display: "flex",
     flexDirection: "column",
-    // borderRight: "solid 1px #fff",
   },
   content: {
     flex: "1 0 auto",
@@ -41,13 +40,13 @@ export default function QuestionCard(props) {
           <div className={classes.details}>
             <CardContent className={classes.content}>
               <Typography gutterBottom variant="h5" component="h2">
-                {props.title}
+                {props.title} 
               </Typography>
               <Typography variant="body1" color="textSecondary">
                 {props.tags.toString()}
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
-                {props.username}
+                {props.user}
               </Typography>
             </CardContent>
           </div>
@@ -56,7 +55,7 @@ export default function QuestionCard(props) {
           <ArrowUpwardIcon className={classes.icon} />
           <Typography align="center">{props.votes}</Typography>
           <QuestionAnswerIcon className={classes.icon} />
-          <Typography align="center">{props.comment.length}</Typography>
+          <Typography align="center">{props.answers.length}</Typography>
         </CardContent>
       </Card>
     </div>

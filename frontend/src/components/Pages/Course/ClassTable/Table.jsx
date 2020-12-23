@@ -21,7 +21,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import FirstPageIcon from "@material-ui/icons/FirstPage";
 import LastPageIcon from "@material-ui/icons/LastPage";
 import { useBorderedInputBaseStyles } from "@mui-treasury/styles/inputBase/bordered";
-import tableInfo from "../../../Data/Classroom/Xccelerate/FTSE/Classroom";
+import { Link } from "react-router-dom";
 
 const useStyles1 = makeStyles((theme) => ({
   root: {
@@ -100,33 +100,33 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(name, status, schedule, select) {
-  return { name, status, schedule, select };
+function createData(name, status, start, end, select) {
+  return { name, status, start, end, select };
 }
 
-const rows = tableInfo
-  .map((info) => createData(info.title, info.status, info.schedule))
-  .reverse();
 const useStyles2 = makeStyles({
   table: {
     minWidth: 100,
-    // background: "#30e3ca",
   },
 });
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
-    // backgroundColor: "#59405c",
-    // color: theme.palette.common.white,
     color: "inherit",
   },
 }))(TableCell);
 
-export default function ClassroomTable() {
+export default function ClassroomTable(props) {
   const classes = useStyles2();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const rows = props.classData
+    .map((info) =>
+      createData(info.name, info.status, info.startdate, info.enddate)
+    )
+    .reverse();
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
@@ -176,8 +176,8 @@ export default function ClassroomTable() {
               <TableHead>
                 <TableRow>
                   <StyledTableCell>Name</StyledTableCell>
-                  <StyledTableCell align="right">Status</StyledTableCell>
-                  <StyledTableCell align="right">Schedule</StyledTableCell>
+                  <StyledTableCell align="center">Start Date</StyledTableCell>
+                  <StyledTableCell align="center">End Date</StyledTableCell>
                   <StyledTableCell align="right"></StyledTableCell>
                 </TableRow>
               </TableHead>
@@ -192,15 +192,18 @@ export default function ClassroomTable() {
                   (row) =>
                     row.name.toLowerCase().includes(filter) && (
                       <TableRow key={row.name}>
+                        {console.log(row)}
                         <TableCell component="th" scope="row">
                           {row.name}
                         </TableCell>
-                        <TableCell align="right">{row.status}</TableCell>
-                        <TableCell align="right">{row.schedule}</TableCell>
+                        <TableCell align="center">{row.start}</TableCell>
+                        <TableCell align="center">{row.end}</TableCell>
                         <TableCell align="right">
-                          <Button variant="contained" color="primary">
-                            Select
-                          </Button>
+                          <Link to={`/myclass`}>
+                            <Button variant="contained" color="primary">
+                              Select
+                            </Button>
+                          </Link>
                         </TableCell>
                       </TableRow>
                     )

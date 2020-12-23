@@ -11,12 +11,16 @@ const MenuItems = [
   },
   {
     title: "Question",
-    link: "/question",
+    link: "/questionflow",
     cName: "nav-links",
   },
   {
     title: "My Class",
-    link: "/",
+    link: "/myclass",
+    cName: "nav-links",
+  },
+  {
+    link: "/chatroom",
     cName: "nav-links",
   },
   { title: "Login", link: "/login", cName: "nav-links-login" },

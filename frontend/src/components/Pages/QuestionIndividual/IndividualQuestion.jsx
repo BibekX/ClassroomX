@@ -10,9 +10,10 @@ import {
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import { makeStyles } from "@material-ui/styles";
 import Pagination from "@material-ui/lab/Pagination";
-import QuestionInfo from "../../Data/Question/Question";
+// import QuestionInfo from "../../Data/Question/Question";
+import axios from "axios";
 
-export default function IndividualQuestion() {
+export default function IndividualQuestion(props) {
   const useStyles = makeStyles((theme) => ({
     root: {
       [theme.breakpoints.up("xs")]: {
@@ -54,12 +55,16 @@ export default function IndividualQuestion() {
     },
   }));
   //   -----------------------------------------------------------------------------------------------------
+  const { questionID } = props.match.params;
+  const [question, setQuestion] = useState([])
+  const [answers, setAnswers] = useState([])
+  const [user, setUser] = useState([])
   const itemsPerPage = 3;
   const [page, setPage] = useState(1);
   const [noOfPages] = useState(
-    Math.ceil(QuestionInfo[0].comment.length / itemsPerPage)
+    Math.ceil(answers.length / itemsPerPage)
   );
-  const [newPage, setNewPage] = useState(QuestionInfo[0].comment);
+  const [newPage, setNewPage] = useState(answers);
   const handlePageChange = (event, value) => {
     setPage(value);
   };
@@ -70,7 +75,18 @@ export default function IndividualQuestion() {
 
   const classes = useStyles();
 
-  useEffect(() => console.log(), [newPage]);
+  // useEffect(() => console.log(), [newPage]);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/question/${questionID}`)
+      .then(({ data }) => {
+        console.log("This is my data", data)
+        setQuestion(data.baseDetails);
+        setUser(data.userDetails);
+        setAnswers(data.listOfAnswers);
+      })
+      .catch((err) => console.error(err));
+  }, [questionID]);
 
   //   ----------------------------------------------------------------------------------------------------
   return (
@@ -88,36 +104,36 @@ export default function IndividualQuestion() {
             <ArrowUpwardIcon fontSize="large" className={classes.icon} />
           </CardActionArea>
           <Typography variant="h6" align="center">
-            {QuestionInfo[0].votes}
+            {question.votes}
           </Typography>
         </CardContent>
         <div className={classes.details}>
           <Grid container>
             <Grid item>
-              <Typography variant="h3">{QuestionInfo[0].title}</Typography>
+              <Typography variant="h3">{question.title}</Typography>
             </Grid>
             <Grid item>
               <Typography variant="body1" style={{ margin: "1em auto" }}>
-                {QuestionInfo[0].content}
+                {question.text}
               </Typography>
             </Grid>
-            <Grid item>
-              <Typography variant="body1">{QuestionInfo[0].tags}</Typography>
-            </Grid>
+            {/* <Grid item>
+              <Typography variant="body1">{question.tags}</Typography>
+            </Grid> */}
           </Grid>
-          <Grid container>
+          {/* <Grid container>
             <Typography variant="body1" color="primary">
-              {QuestionInfo[0].username}
+              {question.username}
             </Typography>
-          </Grid>
+          </Grid> */}
         </div>
       </Card>
       <hr style={{ margin: "2em auto" }} />
       <Grid container justify="space-between" style={{ marginBottom: "3em" }}>
         <Grid container>
           <Typography variant="h6">
-            {QuestionInfo[0].comment.length}{" "}
-            {QuestionInfo[0].comment.length > 1 ? "Comments" : "Comment"}
+            {answers.length}{" "}
+            {answers.length > 1 ? "answers" : "answer"}
           </Typography>
         </Grid>
         <Grid container justify="flex-end" style={{ display: "inline-flex" }}>
@@ -127,14 +143,14 @@ export default function IndividualQuestion() {
           <Button variant="outlined">Top</Button>
         </Grid>
       </Grid>
-      {/* --------------------------------------- Comment ---------------------------------------------- */}
+      {/* --------------------------------------- answer ---------------------------------------------- */}
 
       <Grid container justify="center" style={{ marginTop: "1em" }} spacing={4}>
-        {QuestionInfo[0].comment
+        {answers
           .slice((page - 1) * itemsPerPage, page * itemsPerPage)
-          .map((comment) => {
+          .map((answer) => {
             return (
-              <Grid item key={comment.id}>
+              <Grid item key={answer.id}>
                 <Card className={classes.card}>
                   <CardContent className={classes.cover}>
                     <CardActionArea>
@@ -144,7 +160,7 @@ export default function IndividualQuestion() {
                       />
                     </CardActionArea>
                     <Typography variant="h6" align="center">
-                      {comment.votes}
+                      {answer.votes}
                     </Typography>
                   </CardContent>
                   <div className={classes.details}>
@@ -154,14 +170,14 @@ export default function IndividualQuestion() {
                           variant="body1"
                           style={{ margin: "1em auto" }}
                         >
-                          {comment.content}
+                          {answer.text}
                         </Typography>
                       </Grid>
-                      <Grid item>
+                      {/* <Grid item>
                         <Typography variant="subtitle1" color="primary">
-                          {comment.username}
+                          {answer.username}
                         </Typography>
-                      </Grid>
+                      </Grid> */}
                     </Grid>
                   </div>
                 </Card>

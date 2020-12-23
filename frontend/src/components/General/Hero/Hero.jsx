@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Typography, Link, Button } from "@material-ui/core";
+import { Grid, Typography, Button } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 
 const useStyles = makeStyles({
@@ -32,23 +32,15 @@ export default function Hero(props) {
     <Grid container justify="center">
       <Grid item md={6} sm={12}>
         <Typography variant="h2" className={classes.heading_hero}>
-          {props.title}
+          {props.name}
         </Typography>
         <Typography
           variant="body1"
           className={classes.hero1_body}
           align="justify"
         >
-          {props.content}
+          {props.overview}
         </Typography>
-        <Link
-          className={classes.institute_link}
-          href={props.url}
-          target="_blank"
-          style={{ fontSize: "1rem" }}
-        >
-          {props.url}
-        </Link>
         <Grid container spacing="3">
           <Grid item>
             <Button variant="contained" color="primary" href={props.scroll}>
@@ -56,7 +48,7 @@ export default function Hero(props) {
             </Button>
           </Grid>
           <Grid item>
-            <Button variant="contained" color="primary">
+            <Button variant="contained" color="primary" onClick={props.handleEditClick}>
               Edit {<EditIcon fontSize="small" />}
             </Button>
           </Grid>
@@ -64,7 +56,7 @@ export default function Hero(props) {
       </Grid>
       <Grid item md={6} sm={12}>
         <img
-          src={props.image}
+          src={props.picture}
           alt="background"
           className={classes.hero_image}
         />

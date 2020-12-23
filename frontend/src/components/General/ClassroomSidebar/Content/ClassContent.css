@@ -1,0 +1,24 @@
+.content__container {
+  display: flex;
+  flex-direction: column;
+  background-color: #3b3a3a;
+  justify-content: space-between;
+  flex: 0.7;
+  max-height: 100vh;
+  border-radius: 25px;
+}
+
+.content__header > h3 {
+  margin: 10px;
+  font-size: large;
+  justify-content: center;
+}
+
+.notes__container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 10px;
+  max-height: 95vh;
+  overflow: auto;
+}

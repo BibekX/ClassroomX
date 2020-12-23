@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { List, ListItem, ListItemAvatar, Avatar } from "@material-ui/core";
-import { Info, InfoTitle, InfoSubtitle } from "@mui-treasury/components/info";
+import { Info, InfoTitle } from "@mui-treasury/components/info";
 import { useChatzInfoStyles } from "@mui-treasury/styles/info/chatz";
 
 const useStyles = makeStyles((theme) => ({
@@ -18,11 +18,10 @@ export default function UserCard(props) {
     <List className={classes.root}>
       <ListItem>
         <ListItemAvatar>
-          <Avatar src={props.image} alt="profile" />
+          <Avatar src={props.picture} alt="profile" />
         </ListItemAvatar>
         <Info useStyles={useChatzInfoStyles}>
-          <InfoTitle style={{ color: "#fff" }}>{props.nickname}</InfoTitle>
-          <InfoSubtitle>@{props.username}</InfoSubtitle>
+          <InfoTitle>@{props.username}</InfoTitle>
         </Info>
       </ListItem>
     </List>

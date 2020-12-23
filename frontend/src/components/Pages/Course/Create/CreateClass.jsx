@@ -48,7 +48,6 @@ export default function CreateClass() {
             classes={styles}
             style={{
               width: "100%",
-              // color: "#fff",
               backgroundColor: "#343a40",
             }}
             required
@@ -63,7 +62,6 @@ export default function CreateClass() {
             classes={styles}
             style={{
               width: "100%",
-              // color: "#fff",
               backgroundColor: "#343a40",
             }}
             required

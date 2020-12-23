@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import { Close, KeyboardArrowUp } from "@material-ui/icons";
 import MenuIcon from "@material-ui/icons/Menu";
 import {
-  Switch,
-  FormControlLabel,
-  FormGroup,
   MenuItem,
   Popover,
   IconButton,
@@ -33,13 +30,9 @@ const useStyles = makeStyles((theme) => ({
 export default function Navbar() {
   const classes = useStyles();
   const [clicked, setClicked] = useState(false);
-  const [auth, setAuth] = React.useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [auth, setAuth] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-
-  const handleChange = (event) => {
-    setAuth(event.target.checked);
-  };
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -60,7 +53,7 @@ export default function Navbar() {
     <div>
       <nav className="NavbarItems">
         <Link to="/">
-          <img className="navbar-logo" src="./img/logo/final.png" alt="logo" />
+          <img className="navbar-logo" src="/img/logo/final.png" alt="logo" />
         </Link>
         <div className="user-profile">
           {auth ? (
@@ -144,17 +137,7 @@ export default function Navbar() {
       </nav>
 
       <Toolbar id="back-to-top-anchor" />
-      <FormGroup>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={auth}
-              onChange={handleChange}
-              aria-label="login switch"
-            />
-          }
-        />
-      </FormGroup>
+
       <BackToTop>
         <Fab color="secondary" size="large" aria-label="scroll back to top">
           <KeyboardArrowUp fontSize="large" />

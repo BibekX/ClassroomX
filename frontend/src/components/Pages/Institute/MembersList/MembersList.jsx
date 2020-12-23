@@ -13,7 +13,6 @@ import { useBorderedInputBaseStyles } from "@mui-treasury/styles/inputBase/borde
 import { useSizedIconButtonStyles } from "@mui-treasury/styles/iconButton/sized";
 import "./MembersList.css";
 import UserCard from "../UserCard/UserCard";
-import Information from "../../../Data/Users/User";
 // ----------------------------------------------------------------------------------------------------------------
 const styles = (theme) => ({
   root: {
@@ -92,6 +91,13 @@ export default function MembersList(props) {
         className={classes.action}
         onClick={handleClickOpen}
         classes={iconBtnStyles}
+        style={{
+          marginTop: "6px",
+          transition: "0.2s",
+          "&:hover": {
+            transform: "scale(1.05)",
+          },
+        }}
       >
         <Add fontSize="large" />
       </IconButton>
@@ -121,17 +127,12 @@ export default function MembersList(props) {
           id="customized-dialog-title"
           className={classes.container}
         >
-          <Typography></Typography>
-          {Information.map(
+          {props.user.map(
             (info) =>
               info.username.toLowerCase().includes(filter) && (
-                <Grid container key={info.id}>
+                <Grid container key={info.usersID}>
                   <Grid item xs={10}>
-                    <UserCard
-                      image={info.image}
-                      nickname={info.nickname}
-                      username={info.username}
-                    />
+                    <UserCard picture={info.picture} username={info.username} />
                   </Grid>
                   <Grid item xs={2} style={{ paddingTop: "1.3rem" }}>
                     <IconButton

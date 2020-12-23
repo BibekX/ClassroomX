@@ -7,8 +7,6 @@ const useStyles = makeStyles({
   root: {
     maxWidth: "22rem",
     height: "100%",
-    // backgroundColor: "#05120d",
-    // color: "#fff",
     border: "2px solid #00adb5",
     textAlign: "center",
     transition: "0.2s",
@@ -20,14 +18,13 @@ const useStyles = makeStyles({
 
 export default function Cards(props) {
   const classes = useStyles();
-
   return (
     <Card className={classes.root}>
       <Link
-        to={props.link}
+        to={`/${props.title}/${props.id}`}
         style={{ textDecoration: "none", color: "inherit" }}
       >
-        <CardMedia component="img" height="210" image={props.image} />
+        <CardMedia component="img" height="210" image={props.picture} />
         <CardContent>
           <Typography
             gutterBottom
@@ -35,10 +32,10 @@ export default function Cards(props) {
             component="h2"
             style={{ fontWeight: 700, fontSize: "2.1em" }}
           >
-            {props.title}
+            {props.name}
           </Typography>
           <Typography variant="body2" component="p">
-            {props.content}
+            {props.overview}
           </Typography>
         </CardContent>
       </Link>

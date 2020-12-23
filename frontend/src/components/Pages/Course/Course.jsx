@@ -1,14 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container, Typography, Grid } from "@material-ui/core";
 import Hero from "../../General/Hero/Hero";
 import Table from "./ClassTable/Table";
 import MembersList from "../Institute/MembersList/MembersList";
-import xccelerateCourse from "../../Data/Course/Xccelerate/Course";
-import brainStationCourse from "../../Data/Course/BrainStation/Course";
-import flatironCourse from "../../Data/Course/Flatiron School/Course";
+import axios from "axios";
 import { withRouter } from "react-router-dom";
 import ClassPopup from "./Create/ClassPopup";
+import UserListPop from "../Tabs/UserListPop";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,50 +42,28 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Course(props) {
-  const data =
-    props.location.pathname === "/xccelerate-datascience" ||
-    props.location.pathname === "/brainstation-data-science" ||
-    props.location.pathname === "/flatiron-cybersecurity-analytics"
-      ? 0
-      : props.location.pathname === "/xccelerate-webdevelopment" ||
-        props.location.pathname === "/brainstation-digital-leadership" ||
-        props.location.pathname === "/flatiron-cybersecurity-engineering"
-      ? 1
-      : props.location.pathname === "/xccelerate-uxdesign" ||
-        props.location.pathname === "/brainstation-digital-marketing" ||
-        props.location.pathname === "/flatiron-datascience"
-      ? 2
-      : props.location.pathname === "/brainstation-product-management" ||
-        props.location.pathname === "/flatiron-software-engineering"
-      ? 3
-      : props.location.pathname === "/brainstation-use-experience-design"
-      ? 4
-      : props.location.pathname === "/brainstation-web-development"
-      ? 5
-      : null;
+  const { courseID } = props.match.params;
+  const [student, setStudent] = useState([]);
+  const [teacher, setTeacher] = useState([]);
+  const [allusers, setAllUsers] = useState([]);
+  const [course, setCourse] = useState({});
 
-  const courseParent =
-    props.location.pathname === "/xccelerate-datascience" ||
-    props.location.pathname === "/xccelerate-webdevelopment" ||
-    props.location.pathname === "/xccelerate-uxdesign"
-      ? xccelerateCourse
-      : props.location.pathname === "/brainstation-data-science" ||
-        props.location.pathname === "/brainstation-digital-leadership" ||
-        props.location.pathname === "/brainstation-digital-marketing" ||
-        props.location.pathname === "/brainstation-product-management" ||
-        props.location.pathname === "/brainstation-use-experience-design" ||
-        props.location.pathname === "/brainstation-web-development"
-      ? brainStationCourse
-      : props.location.pathname === "/flatiron-cybersecurity-analytics" ||
-        props.location.pathname === "/flatiron-datascience" ||
-        props.location.pathname === "/flatiron-cybersecurity-engineering" ||
-        props.location.pathname === "/flatiron-software-engineering"
-      ? flatironCourse
-      : null;
-  // const [courseHero, setCourseHero] = useState({
-  //   title: { courseHeroInfo },
-  // });
-  console.log(props.location.pathname);
+  const [tableData, setTableData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/course/${courseID}`)
+      .then(({ data }) => {
+        setCourse(data.baseDetails);
+        setAllUsers(data.listOfAllUsers);
+        setStudent(data.listOfStudents);
+        setTeacher(data.listOfTeachers);
+        setTableData(data.listOfClasses);
+        console.log(data);
+      })
+      .catch((err) => console.error(err));
+  }, [courseID]);
+
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -94,16 +71,31 @@ function Course(props) {
         {/* -------------------------------------------------- Section 1 ---------------------------------------------- */}
         <div className="section-1 container" style={{ marginBottom: "1em" }}>
           <Hero
-            title={courseParent[data].title}
-            content={courseParent[data].content}
-            url={courseParent[data].url}
+            name={course.name}
+            overview={course.overview}
             buttonTitle="Get Started"
-            image={courseParent[data].image}
+            picture={course.picture}
             scroll="#classroom-table"
           />
         </div>
         <Grid container>
-          <MembersList />
+          <Grid container style={{ marginBottom: "2em" }}>
+            <UserListPop students={student} teachers={teacher} admins={[]} />
+            <Typography
+              variant="h3"
+              style={{
+                fontWeight: 500,
+                marginLeft: "0.5em",
+              }}
+            >
+              Members
+            </Typography>
+          </Grid>
+          <MembersList
+            user={allusers}
+            username={allusers.username}
+            picture={allusers.picture}
+          />
           <Typography
             variant="h3"
             style={{
@@ -127,10 +119,10 @@ function Course(props) {
             Classrooms
           </Typography>
           <Grid container justify="center">
-            <ClassPopup buttonName="Create" title="Create Your Class" />
+            <ClassPopup buttonName="Create" title="Create Your Class" courseID={courseID} />
           </Grid>
 
-          <Table />
+          <Table classData={tableData} />
         </div>
       </Container>
     </div>
