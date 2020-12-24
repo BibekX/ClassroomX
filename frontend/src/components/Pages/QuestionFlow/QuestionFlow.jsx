@@ -44,11 +44,11 @@ export default function QuestionFlow() {
   const classes = useStyles();
   const styles = useBorderedInputBaseStyles();
 
-  const [checked, setChecked] = useState(false);
+  // const [checked, setChecked] = useState(false);
 
-  const handleChecked = () => {
-    setChecked(!checked);
-  };
+  // const handleChecked = () => {
+  //   setChecked(!checked);
+  // };
 
   const [question, setQuestion] = useState([]);
   const [users, setUsers] = useState([]);
@@ -56,9 +56,11 @@ export default function QuestionFlow() {
   useEffect(() => {
     axios
       .get("http://localhost:8080/search")
-      .then(({data}) => {
+      .then(({ data }) => {
         console.log("This is my data ", data);
-        setQuestion(data.baseDetails[0]);
+        let info = data.splice(1);
+        setQuestion(info);
+        console.log(question);
         setUsers(data.userDetails);
       })
       .catch((err) => console.error(err));
@@ -105,23 +107,27 @@ export default function QuestionFlow() {
             </Button>
           </Link>
         </Grid>
-        <Grid container spacing={4} style={{ marginTop: "3em" }}>
-          {question.map((info) => (
-            <Grid item xs={12} key={info.id}>
-              <Link
-                to={`/question/${info.id}`}
-                style={{ textDecoration: "none" }}
-              >
-                <QuestionCard
-                  title={info.title}
-                  tags={info.tags}
-                  votes={info.votes}
-                  // comment={info.comment}
-                  user={info.users}
-                />
-              </Link>
-            </Grid>
-          ))}
+        <Grid container spacing={4} justify="center" style={{ marginTop: "3em" }}>
+          {question && question.length > 0
+            ? question
+                .map((info) => (
+                  <Grid item xs={10} key={info.id}>
+                    <Link
+                      to={`/question/${info.id}`}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <QuestionCard
+                        title={info.title}
+                        tags={info.tags}
+                        votes={info.votes}
+                        // comment={info.answers.length}
+                        user={info.users}
+                      />
+                    </Link>
+                  </Grid>
+                ))
+                .reverse()
+            : "no data?"}
         </Grid>
       </Container>
     </div>

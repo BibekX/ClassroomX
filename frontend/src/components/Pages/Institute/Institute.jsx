@@ -71,7 +71,9 @@ function Institute(props) {
   const editClick = () =>
     setInstitution({
       ...institution,
-      picture: "https://i.imgur.com/Uvp8koV.jpg",
+      name: props.name,
+      overview: props.overview,
+      picture: props.picture,
     });
 
   return (

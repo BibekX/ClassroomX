@@ -42,9 +42,9 @@ export default function QuestionCard(props) {
               <Typography gutterBottom variant="h5" component="h2">
                 {props.title} 
               </Typography>
-              <Typography variant="body1" color="textSecondary">
-                {props.tags.toString()}
-              </Typography>
+              {/* <Typography variant="body1" color="textSecondary">
+                {props.tags}
+              </Typography> */}
               <Typography variant="body2" color="textSecondary" component="p">
                 {props.user}
               </Typography>
@@ -55,7 +55,7 @@ export default function QuestionCard(props) {
           <ArrowUpwardIcon className={classes.icon} />
           <Typography align="center">{props.votes}</Typography>
           <QuestionAnswerIcon className={classes.icon} />
-          <Typography align="center">{props.answers.length}</Typography>
+          {/* <Typography align="center">{props.answers}</Typography> */}
         </CardContent>
       </Card>
     </div>

@@ -48,9 +48,9 @@ export default function Hero(props) {
             </Button>
           </Grid>
           <Grid item>
-            <Button variant="contained" color="primary" onClick={props.handleEditClick}>
+            {/* <Button variant="contained" color="primary" onClick={props.handleEditClick}>
               Edit {<EditIcon fontSize="small" />}
-            </Button>
+            </Button> */}
           </Grid>
         </Grid>
       </Grid>

@@ -8,23 +8,14 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import ReactQuill from "react-quill";
-// import { useQuill } from "react-quilljs  ";
 import "quill/dist/quill.snow.css";
 import "./CreateQuestion.css";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
-import { Notebox } from "../Class/Notebox";
-// -------------------------------------------------------
-// import { WithContext as ReactTags } from "react-tag-input";
+// ---------------------------------------------------------------------------------------------
 
-// const KeyCodes = {
-//   comma: 188,
-//   enter: 13,
-// };
-// const delimiters = [KeyCodes.comma, KeyCodes.enter];
-// --------------------------------------------------------
-
-function CreateQuestion(props) {
+function CreateQuestion() {
   const useStyles = makeStyles((theme) => ({
     root: {
       [theme.breakpoints.up("xs")]: {
@@ -48,9 +39,17 @@ function CreateQuestion(props) {
 
   const classes = useStyles();
 
-  const [state, setState] = useState({ title: "", content: "" });
+  const [state, setState] = useState({
+    title: "",
+    // classname: "test",
+    text: "",
+    tags: [],
+    type: "question",
+  });
 
-  function handleTitleChange(event) {
+  const { title, text } = state;
+
+  function handleInputChange(event) {
     const { name, value } = event.target;
     setState((prevValue) => {
       return { ...prevValue, [name]: value };
@@ -59,54 +58,28 @@ function CreateQuestion(props) {
 
   function handleContentChange(value) {
     setState((prevValue) => {
-      return { ...prevValue, content: value };
+      return { ...prevValue, text: value };
     });
   }
 
-  function submitPost() {
-    props.onAdd(state);
-    setState({
-      title: "",
-      content: "",
-    });
-  }
+  // function submitPost() {
+  //   setState({
+  //     title: "",
+  //     text: "",
+  //     tags: "".split(","),
+  //     type: "question",
+  //   });
+  // }
+
+  const submitHandler = (event) => {
+    axios
+      .post("http://localhost:8080/newQuestion", state)
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error));
+  };
 
   // -------------------------------------------- Tags ----------------------------------------------------------
 
-  // const [tagsState, setTagsState] = useState({
-  //   tags: [
-  //     { id: 1, text: "javascript" },
-  //     { id: 2, text: "nodejs" },
-  //   ],
-  //   suggestions: [
-  //     { id: 1, text: "react" },
-  //     { id: 2, text: "adobe" },
-  //     { id: 3, text: "python" },
-  //   ],
-  // });
-
-  // const handleDelete = (i) => {
-  //   // const { tags } = tagsState;
-  //   setTagsState({
-  //     tags: tags.filter((tag, index) => index !== i),
-  //   });
-  // };
-
-  // const handleAddition = (tag) => {
-  //   let { tags } = tagsState;
-  //   setTagsState({ tags: [...tags, { id: tags.length + 1, text: tag }] });
-  // };
-
-  // const handleDrag = (tag, currPos, newPos) => {
-  //   const tags = [...tagsState.tags];
-
-  //   tags.splice(currPos, 1);
-  //   tags.splice(newPos, 0, tag);
-
-  //   setTagsState({ tags });
-  // };
-
-  // const { tags, suggestions } = tagsState;
   // ----------------------------------------------------------------------------------------------------------------
   return (
     <div>
@@ -136,12 +109,12 @@ function CreateQuestion(props) {
               justify="center"
             >
               <div className="question-container">
-                <form>
+                <form onSubmit={submitHandler}>
                   <Typography variant="body1">Title</Typography>
                   <InputBase
-                    onChange={handleTitleChange}
+                    onChange={handleInputChange}
                     name="title"
-                    value={state.title}
+                    value={title}
                     style={{
                       width: "100%",
                       marginBottom: "2rem",
@@ -155,8 +128,8 @@ function CreateQuestion(props) {
 
                   <Typography variant="body1">Body</Typography>
                   <ReactQuill
-                    name="content"
-                    value={state.content}
+                  name="text"
+                    value={text}
                     onChange={handleContentChange}
                     placeholder={
                       "Explain your question in detail like you're explaining it to someone"
@@ -168,11 +141,13 @@ function CreateQuestion(props) {
                     }}
                   />
 
-                  <Typography variant="body1" style={{ marginTop: "2rem" }}>
+                  {/* <Typography variant="body1" style={{ marginTop: "2rem" }}>
                     Tags
                   </Typography>
                   <InputBase
-                    name="tags"
+                  name="tags"
+                  onChange={handleInputChange}
+                  value={tags}
                     style={{
                       width: "100%",
                       marginBottom: "3rem",
@@ -180,33 +155,25 @@ function CreateQuestion(props) {
                       paddingLeft: "10px",
                     }}
                     placeholder={"Example: javascript, nodejs, express"}
-                  />
+                  /> */}
 
                   {/* ---------------------------------- */}
-                  {/* <ReactTags
-                    tags={tags}
-                    suggestions={suggestions}
-                    handleDelete={handleDelete}
-                    handleAddition={handleAddition}
-                    handleDrag={handleDrag}
-                    delimiters={delimiters}
-                  /> */}
+
                   {/* ----------------------------------- */}
                   <div style={{ textAlign: "right" }}>
-                    <Link to="/postquestion" style={{ textDecoration: "none" }}>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        size="large"
-                        style={{ marginTop: "2rem" }}
-                        onClick={submitPost}
-                      >
-                        Post
-                      </Button>
+                    <Link to="/questionflow" style={{ textDecoration: "none" }}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      size="large"
+                      style={{ marginTop: "2rem" }}
+                      type="submit"
+                    >
+                      Post
+                    </Button>
                     </Link>
                   </div>
                 </form>
-                <Notebox />
               </div>
             </Grid>
           </Grid>

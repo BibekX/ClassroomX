@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Navbar() {
   const classes = useStyles();
   const [clicked, setClicked] = useState(false);
-  const [auth, setAuth] = useState(false);
+  const [auth, setAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 

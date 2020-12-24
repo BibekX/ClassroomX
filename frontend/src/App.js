@@ -7,7 +7,6 @@ import Institute from "./components/Pages/Institute/Institute";
 import Course from "./components/Pages/Course/Course";
 import QuestionFlow from "./components/Pages/QuestionFlow/QuestionFlow";
 import CreateQuestion from "./components/Pages/QuestionCreate/CreateQuestion";
-import PostQuestion from "./components/Pages/QuestionCreate/PostQuestion";
 import IndividualQuestion from "./components/Pages/QuestionIndividual/IndividualQuestion";
 import Profile from "./components/Pages/Profile/Profile";
 import Copyright from "./components/General/Copyright/Copyright";
@@ -36,7 +35,6 @@ function App() {
           <Route path="/questionflow" component={QuestionFlow} />
           <Route path="/question/:questionID" component={IndividualQuestion} />
           <Route path="/askquestion" component={CreateQuestion} />
-          <Route path="/postquestion" component={PostQuestion} />
           <Route path="/profile" component={Profile} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Signup} />
