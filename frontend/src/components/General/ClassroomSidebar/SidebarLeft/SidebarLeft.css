@@ -41,6 +41,21 @@
   color: #fff;
 }
 
+.sidebar__notesList {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 10px;
+  max-height: 50vh;
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.sidebar__notesList::-webkit-scrollbar {
+  display: none;
+}
+
 /* Information Section */
 .sidebar__questions,
 .sidebar__info {

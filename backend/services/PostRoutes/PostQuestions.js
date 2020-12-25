@@ -99,54 +99,54 @@ class PostQuestions {
                 throw new Error(err);
             });
 
-        let tags = input.tags;
+        // let tags = input.tags;
 
-        tags.map(async (tag) => {
-            let query1 = await this.knex
-                .select("*")
-                .from("tags")
-                .where("name", "=", tag.name)
-                .then(async (data) => {
-                    console.log(data, tag.name);
-                    return data;
-                })
-                .catch((err) => {
-                    throw new Error(err);
-                });
+        // tags.map(async (tag) => {
+        //     let query1 = await this.knex
+        //         .select("*")
+        //         .from("tags")
+        //         .where("name", "=", tag.name)
+        //         .then(async (data) => {
+        //             console.log(data, tag.name);
+        //             return data;
+        //         })
+        //         .catch((err) => {
+        //             throw new Error(err);
+        //         });
 
-            if (query1[0] === undefined) {
-                await this.knex
-                    .insert({
-                        name: tag.name,
-                    })
-                    .into("tags")
-                    .returning("id")
-                    .then(async (data) => {
-                        await this.knex
-                            .insert({
-                                questionsID: query[0],
-                                tagsID: data[0],
-                            })
-                            .into("questionstags")
-                            .returning("id")
-                            .catch((err) => {
-                                throw new Error(err);
-                            });
-                    });
-            } else {
-                await this.knex
-                    .insert({
-                        questionsID: query[0],
-                        tagsID: query1[0].id,
-                    })
-                    .into("questionstags")
-                    .returning("id")
-                    .catch((err) => {
-                        throw new Error(err);
-                    });
-            }
+        //     if (query1[0] === undefined) {
+        //         await this.knex
+        //             .insert({
+        //                 name: tag.name,
+        //             })
+        //             .into("tags")
+        //             .returning("id")
+        //             .then(async (data) => {
+        //                 await this.knex
+        //                     .insert({
+        //                         questionsID: query[0],
+        //                         tagsID: data[0],
+        //                     })
+        //                     .into("questionstags")
+        //                     .returning("id")
+        //                     .catch((err) => {
+        //                         throw new Error(err);
+        //                     });
+        //             });
+        //     } else {
+        //         await this.knex
+        //             .insert({
+        //                 questionsID: query[0],
+        //                 tagsID: query1[0].id,
+        //             })
+        //             .into("questionstags")
+        //             .returning("id")
+        //             .catch((err) => {
+        //                 throw new Error(err);
+        //             });
+        //     }
 
-        })
+        // })
 
         console.log("Question submitted")
     }

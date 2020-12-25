@@ -4,6 +4,7 @@ import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import AddIcon from "@material-ui/icons/Add";
 import QuestionAnswerSharpIcon from '@material-ui/icons/QuestionAnswerSharp';
 
+import NoteCard from "../../Cards/NoteCard";
 import "./SidebarLeft.css";
 import SidebarNotes from "../SidebarNotes/SidebarNotes";
 
@@ -29,10 +30,11 @@ function SidebarLeft() {
 
                 {/* sidebar__ChannelsList reference */}
                 <div className="sidebar__notesList" >             
-                    <SidebarNotes /> 
-                    <SidebarNotes />     
-                    <SidebarNotes />            
-                    <SidebarNotes />  
+                    <NoteCard />
+                    <NoteCard />
+                    <NoteCard />
+                    <NoteCard />
+                    <NoteCard />
                 </div>
             </div> 
 

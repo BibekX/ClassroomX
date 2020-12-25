@@ -1,16 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Container,
-  Typography,
-  InputBase,
-  Grid,
-  Button,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-} from "@material-ui/core";
-import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
-import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import { Container, Typography, InputBase, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import { useBorderedInputBaseStyles } from "@mui-treasury/styles/inputBase/bordered";
@@ -44,22 +33,32 @@ export default function QuestionFlow() {
   const classes = useStyles();
   const styles = useBorderedInputBaseStyles();
 
-  // const [checked, setChecked] = useState(false);
-
-  // const handleChecked = () => {
-  //   setChecked(!checked);
-  // };
-
   const [question, setQuestion] = useState([]);
   const [users, setUsers] = useState([]);
 
+  const [filter, setFilter] = useState("");
+
+  const handleSearchChange = (e) => {
+    setFilter(e.target.value.toLowerCase());
+    // setRowsPerPage(-1);
+    // e.target.value === "" && setRowsPerPage(5);
+  };
+
   useEffect(() => {
+    // let dummy = JSON.stringify({
+    //   SearchInUsers : false,
+    //   SearchInCourses : false,
+    //   SearchInClasses : false,
+    //   SearchInNotes : false,
+    //   SearchInQuestions : true,
+    //   SearchInAnswers : false,
+    // });
     axios
-      .get("http://localhost:8080/search")
+      .get(`http://localhost:8080/search`)
       .then(({ data }) => {
         console.log("This is my data ", data);
-        let info = data.splice(1);
-        setQuestion(info);
+        let info = data.splice(0, 1);
+        setQuestion(data);
         console.log(question);
         setUsers(data.userDetails);
       })
@@ -84,48 +83,45 @@ export default function QuestionFlow() {
             }}
             placeholder={"Search Questions"}
             startAdornment={<SearchIcon />}
+            onChange={handleSearchChange}
           />
         </Grid>
+        <Grid container justify="center"></Grid>
         <Grid container justify="center">
-          {/* <FormGroup row>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={checked}
-                  onChange={handleChecked}
-                  name="checked"
-                />
-              }
-              label="Secondary"
-            />
-          </FormGroup> */}
-        </Grid>
-        <Grid container justify="center">
-          <Link to="/askquestion" style={{ textDecoration: "none" }}>
+          {/* <Link to="/askquestion" style={{ textDecoration: "none" }}>
             <Button variant="contained" color="primary">
               Ask Question
             </Button>
-          </Link>
+          </Link> */}
         </Grid>
-        <Grid container spacing={4} justify="center" style={{ marginTop: "3em" }}>
+        <Grid
+          container
+          spacing={4}
+          justify="center"
+          style={{ marginTop: "3em" }}
+        >
           {question && question.length > 0
             ? question
-                .map((info) => (
-                  <Grid item xs={10} key={info.id}>
-                    <Link
-                      to={`/question/${info.id}`}
-                      style={{ textDecoration: "none" }}
-                    >
-                      <QuestionCard
-                        title={info.title}
-                        tags={info.tags}
-                        votes={info.votes}
-                        // comment={info.answers.length}
-                        user={info.users}
-                      />
-                    </Link>
-                  </Grid>
-                ))
+                .map(
+                  (info) =>
+                  info.title &&
+                    info.title.toLowerCase().includes(filter) && (
+                      <Grid item xs={10} key={info.id}>
+                        <Link
+                          to={`/question/${info.id}`}
+                          style={{ textDecoration: "none" }}
+                        >
+                          <QuestionCard
+                            title={info.title}
+                            tags={info.tags}
+                            votes={info.votes}
+                            // comment={info.answers.length}
+                            user={info.users}
+                          />
+                        </Link>
+                      </Grid>
+                    )
+                )
                 .reverse()
             : "no data?"}
         </Grid>

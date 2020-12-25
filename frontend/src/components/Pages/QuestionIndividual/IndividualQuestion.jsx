@@ -10,8 +10,8 @@ import {
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import { makeStyles } from "@material-ui/styles";
 import Pagination from "@material-ui/lab/Pagination";
-// import QuestionInfo from "../../Data/Question/Question";
 import axios from "axios";
+import UserComment from "./UserComment";
 
 export default function IndividualQuestion(props) {
   const useStyles = makeStyles((theme) => ({
@@ -61,14 +61,18 @@ export default function IndividualQuestion(props) {
   const [user, setUser] = useState([]);
   const itemsPerPage = 3;
   const [page, setPage] = useState(1);
+  const [voteColor, setVoteColor] = useState("");
   const [noOfPages] = useState(Math.ceil(answers.length / itemsPerPage));
   const handlePageChange = (event, value) => {
     setPage(value);
   };
 
-  const count = 10
+  const count = 10;
   const [vote, setVote] = useState(count);
-  const handleVote = () => setVote(count + 1);
+  const handleVote = () => {
+    setVote(count + 1);
+    setVoteColor("#abff4f");
+  };
 
   const classes = useStyles();
 
@@ -101,6 +105,7 @@ export default function IndividualQuestion(props) {
               onClick={handleVote}
               fontSize="large"
               className={classes.icon}
+              style={{ color: voteColor }}
             />
           </CardActionArea>
           <Typography variant="h6" align="center">
@@ -190,6 +195,7 @@ export default function IndividualQuestion(props) {
             style={{ margin: "2em auto 1em" }}
           />
         </Grid>
+        <UserComment />
       </Grid>
       {/* -------------------------------------------------------------------------------------------- */}
     </div>
