@@ -1,5 +1,4 @@
 import React from "react";
-// import axios from "axios";
 import { Link } from "react-router-dom";
 import { Container, Grid, Typography, Button, Hidden } from "@material-ui/core";
 import { Favorite, EmojiEmotions, Edit } from "@material-ui/icons";
@@ -58,12 +57,6 @@ const useStyles = makeStyles((theme) => ({
 export default function Landing() {
   const classes = useStyles();
 
-  // useEffect(()=>{
-  //   fetch(`http://localhost:8080`)
-  //   .then(response => response.json())
-  //   .then(data => console.log(data))
-  // }, [])
-
   return (
     <Container maxWidth="xl" className={classes.root}>
       {/* ----------------------------------- Section 1 ------------------------------------------------ */}
@@ -85,7 +78,6 @@ export default function Landing() {
             <Hidden smDown>
               <Typography
                 variant="body1"
-                // align="justify"
                 style={{ width: "85%", margin: "2em 0" }}
                 className={classes.mainBody}
               >
@@ -102,7 +94,6 @@ export default function Landing() {
               </Link>
             </Hidden>
           </Grid>
-          {/* <Grid container justify="center"> */}
           <Grid item lg={6} md={7} sm={12}>
             <p style={{ textAlign: "center" }}>
               <img
@@ -119,14 +110,12 @@ export default function Landing() {
             </p>
           </Grid>
         </Grid>
-        {/* </Grid> */}
         <Hidden mdUp>
           <Grid container justify="center">
             <Typography
               variant="body1"
               style={{ width: "85%", margin: "2em 0" }}
               align="center"
-              // className={classes.mainBody}
             >
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua ipsum

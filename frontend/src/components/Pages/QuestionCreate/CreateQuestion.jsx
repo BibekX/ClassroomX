@@ -10,7 +10,6 @@ import { makeStyles } from "@material-ui/styles";
 // import ReactQuill from "react-quill";
 import "quill/dist/quill.snow.css";
 import "./CreateQuestion.css";
-import { Link } from "react-router-dom";
 import axios from "axios";
 
 // ---------------------------------------------------------------------------------------------
@@ -43,10 +42,32 @@ export default function CreateQuestion() {
     title: "",
     classname: "test",
     text: "",
+    tags: [],
     type: "question",
   });
 
-  const { title, text } = state;
+  // --------------------------------- Tags -------------------------------------------------------
+  // const removeTag = (i) => {
+  //   const newTags = [...tags];
+  //   newTags.splice(i, 1);
+  //   setState(newTags);
+  // };
+
+  // const inputKeyDown = (e) => {
+  //   const val = e.target.value;
+  //   if (e.key === "Enter" && val) {
+  //     if (tags.find((tag) => tag.toLowerCase() === val.toLowerCase())) {
+  //       return;
+  //     }
+  //     setState({ tags: [...tags, val] });
+  //     tagInput.value = null;
+  //   } else if (e.key === "Backspace" && !val) {
+  //     removeTag(tags.length - 1);
+  //   }
+  // };
+  // ----------------------------------------------------------------------------------------------
+
+  const { title, text, tags } = state;
 
   function handleInputChange(event) {
     const { name, value } = event.target;
@@ -55,8 +76,8 @@ export default function CreateQuestion() {
     });
   }
 
-  const submitHandler = (event) => {
-    console.log("submitHandler")
+  const submitHandler = () => {
+    console.log("submitHandler");
     axios
       .post("http://localhost:8080/newQuestion", state)
       .then((response) => console.log(response))
@@ -127,19 +148,56 @@ export default function CreateQuestion() {
                     }
                   />
 
+                  {/* ------------------- Tags --------------- */}
+                  {/* <div className="input-tag">
+                    <ul className="input-tag__tags">
+                      {tags.map((tag, i) => (
+                        <li key={tag}>
+                          {tag}
+                          <button type="button" onClick={() => removeTag(i)}>
+                            +
+                          </button>
+                        </li>
+                      ))}
+                      <li className="input-tag__tags__input">
+                        <input
+                          type="text"
+                          onKeyDown={inputKeyDown}
+                          ref={(c) => {
+                            tagInput = c;
+                          }}
+                        />
+                      </li>
+                    </ul>
+                  </div> */}
+                  {/* ---------------------------------------- */}
+
+                  <Typography variant="h5">Tags</Typography>
+                  <InputBase
+                    onChange={handleInputChange}
+                    name="tags"
+                    value={tags}
+                    style={{
+                      width: "100%",
+                      marginBottom: "2rem",
+                      border: "3px solid #fff",
+                      paddingLeft: "10px",
+                    }}
+                    multiline
+                    placeholder={"Example: javascript, node.js"}
+                  />
+
                   {/* ----------------------------------- */}
                   <div style={{ textAlign: "right" }}>
-                    {/* <Link to="/questionflow" style={{ textDecoration: "none" }}> */}
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        size="large"
-                        style={{ marginTop: "2rem" }}
-                        type="submit"
-                      >
-                        Post
-                      </Button>
-                    {/* </Link> */}
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      size="large"
+                      style={{ marginTop: "2rem" }}
+                      type="submit"
+                    >
+                      Post
+                    </Button>
                   </div>
                 </form>
               </div>

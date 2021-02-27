@@ -58,7 +58,7 @@ export default function Explore() {
         <Grid container justify="center">
         <Typography
           variant="h3"
-          style={{ fontWeight: 300, padding: "1.5em 0 1em" }}
+          style={{ fontWeight: 500, padding: "1.5em 0 1em" }}
         >
          ― Let's Get Started ―
         </Typography>

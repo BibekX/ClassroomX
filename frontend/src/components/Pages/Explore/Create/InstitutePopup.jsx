@@ -17,9 +17,6 @@ import { useBorderedInputBaseStyles } from "@mui-treasury/styles/inputBase/borde
 import axios from "axios";
 
 const styles = (theme) => ({
-  root: {
-    margin: 0,
-  },
   closeButton: {
     position: "absolute",
     right: theme.spacing(1),
@@ -28,7 +25,7 @@ const styles = (theme) => ({
   },
 });
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   createButton: {
     background: "linear-gradient(to top, #638ef0, #82e7fe)",
     "& > *": {
@@ -40,13 +37,13 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "2em",
     },
   },
-}));
+});
 
 const DialogTitle = withStyles(styles)((props) => {
   const { children, classes, onClose, ...other } = props;
 
   return (
-    <MuiDialogTitle disableTypography className={classes.root} {...other}>
+    <MuiDialogTitle disableTypography {...other}>
       <Typography variant="h6">{children}</Typography>
       {onClose ? (
         <IconButton
@@ -103,7 +100,7 @@ export default function InstitutePopup(props) {
   const btnStyles = useGraphicBtnStyles();
 
   // -------------------------------------------- AXIOS ------------------------------------------------
-  const submitHandler = (event) => {
+  const submitHandler = () => {
     console.log(formData);
     axios
       .post("http://localhost:8080/newInst", formData)
